@@ -1,0 +1,10 @@
+{% extends 'home_page/layout.html' %}
+
+{% block body %}
+
+    <h2>Hi, {{ request.user.username }}</h2>
+
+    <a href="{% url 'home_page:index' %}">Home</a>
+    <a href="{% url 'home_page:delete_account' %}">Delete Account</a>
+
+{% endblock %}

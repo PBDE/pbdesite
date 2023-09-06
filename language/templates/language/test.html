@@ -1,0 +1,44 @@
+{% extends "language/layout.html" %}
+
+{% block body %}
+
+    <h3>Test Your Vocabulary</h3>
+
+    {% if not no_vocabulary %}
+
+        {% if is_translation_to_known %}
+            <p>Translate the word below to English</p>
+            <p>{{ question_article }} {{ question_noun }}</p>
+        {% else %}
+            <p>Translate the word below to German</p>
+            <p>{{ question_noun }}</p>
+        {% endif %}
+
+        {% if add_check_answer_button %}
+            <form action="{% url 'language:test' %}" method="POST">
+                {% csrf_token %}
+                {{ answer_form }}
+                <input type="submit" value="Check Answer">
+            </form>
+        {% else %}
+            <form action="{% url 'language:test' %}" method="POST">
+                {{ answer_form }}
+            </form>
+            <form action="{% url 'language:test' %}" method="GET">
+                <input type="submit" value="Next Question">
+            </form>
+        {% endif %}
+
+    {% endif %}
+
+    {% if response_message %}
+        <p>{{ response_message }}</p>
+    {% endif %}
+
+    {% if guest_user %}
+        <p>Guest user</p>
+    {% endif %}
+
+    <a href="{% url 'language:index' %}">Return</a>
+    
+{% endblock %}

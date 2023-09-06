@@ -1,0 +1,23 @@
+{% extends "home_page/layout.html" %}
+
+{% block body %}
+
+    {% if delete_account %}
+
+        Account deleted confirmation
+
+        <a href="{% url 'home_page:index' %}">Home</a>
+
+    {% else %}
+
+        Are you sure you want to delete your account?
+
+        <form action="{% url 'home_page:delete_account' %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Confirm">
+        </form>
+        <a href="{% url 'home_page:account' user=user %}">Cancel</a>
+
+    {% endif %}
+
+{% endblock %}
