@@ -19,7 +19,11 @@ def register(request):
                                             new_user_form.cleaned_data["password1"])
             if user:
                 login(request, user)
-                return HttpResponseRedirect(reverse("home_page:account"))
+                return HttpResponseRedirect(reverse(
+                    "home_page:account", 
+                    args=[new_user_form.cleaned_data["username"]]
+                    )
+                )
         else:
             return render(request, "home_page/register.html", {
                 "form": new_user_form

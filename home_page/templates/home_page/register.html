@@ -7,13 +7,14 @@
     <form action="{% url 'home_page:register' %}" method="POST">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Register">
+        <input type="submit" value="Register" id="register-btn">
     </form>
 
     {% if forms.errors %}
         {{ forms.errors }}
     {% endif %}
 
+    <a href="{% url 'home_page:register' %}">Register</a>
     <a href="{% url 'home_page:index' %}">Home</a>
 
 {% endblock %}
