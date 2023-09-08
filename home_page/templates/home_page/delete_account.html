@@ -4,17 +4,15 @@
 
     {% if delete_account %}
 
-        Account deleted confirmation
-
+        <p id="account-deleted-msg">Account deleted</p>
         <a href="{% url 'home_page:index' %}">Home</a>
 
     {% else %}
 
-        Are you sure you want to delete your account?
-
+        <p id="confirm-delete-msg">Are you sure you want to delete your account?</p>
         <form action="{% url 'home_page:delete_account' %}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="Confirm">
+            <input type="submit" value="Confirm" id="confirm-delete-btn">
         </form>
         <a href="{% url 'home_page:account' user=user %}">Cancel</a>
 

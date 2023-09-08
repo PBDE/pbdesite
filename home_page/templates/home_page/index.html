@@ -5,7 +5,6 @@
     {% if user.is_authenticated %}
 
         <a href="{% url 'home_page:account' user=user %}">Account</a>
-        <a href="{% url 'home_page:logout' %}">Logout</a>
 
     {% else %}
 
