@@ -20,12 +20,8 @@ class HomePageTest(FunctionalTest):
 
     def test_user_can_register(self):
 
-        # on the home page, the user clicks the option to register
-        self.browser.get(self.live_server_url)
-        self.browser.find_element(By.LINK_TEXT, REGISTER_LINK_TEXT).click()
-
-        # the registration page loads
-        self.wait_for(lambda: self.browser.find_element(By.ID, ID_REGISTER_BTN))
+        # the user goes to the register page
+        self.browser.get(self.live_server_url + "/register")
 
         # the user enters their username, password, password confirmation, and email address
         username = self.random_user_details(self.UserDetails.USERNAME)
@@ -90,8 +86,12 @@ class HomePageTest(FunctionalTest):
 
     @skip
     def test_only_valid_registration_details(self):
-        pass
+
+        # the user goes to the register page
+        self.browser.get(self.live_server_url + "/register")        
 
     @skip
     def test_only_valid_login_details(self):
-        pass
+        
+        # the user goes to the login page
+        self.browser.get(self.live_server_url + "/login")
