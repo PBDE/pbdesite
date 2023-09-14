@@ -67,8 +67,6 @@ def logout_view(request):
 
 def user_view(request, user):
 
-    print("User:", user)
-
     if request.user.is_authenticated and user == request.user.username:
         return render(request, f"home_page/account.html")
     elif User.objects.filter(username=user).exists():
