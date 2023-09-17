@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+
 from .home_page_forms import LoginForm, CreateUser
 
 
@@ -25,6 +26,7 @@ def register(request):
                     )
                 )
         else:
+            print("User form errors:", new_user_form.errors) # REMOVE THIS
             return render(request, "home_page/register.html", {
                 "form": new_user_form
             })
@@ -34,6 +36,8 @@ def register(request):
 
 
 def login_view(request):
+
+    print("User authenticated:", request.user.is_authenticated) # REMOVE THIS
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home_page:account', kwargs={"user": request.user.username}))
     if request.method == "POST":
