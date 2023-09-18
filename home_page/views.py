@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 
-from .home_page_forms import LoginForm, CreateUser
+from .forms import LoginForm, CreateUser
 
 
 def index(request):
@@ -36,8 +36,6 @@ def register(request):
 
 
 def login_view(request):
-
-    print("User authenticated:", request.user.is_authenticated) # REMOVE THIS
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home_page:account', kwargs={"user": request.user.username}))
     if request.method == "POST":
@@ -70,7 +68,6 @@ def logout_view(request):
 
 
 def user_view(request, user):
-
     if request.user.is_authenticated and user == request.user.username:
         return render(request, f"home_page/account.html")
     elif User.objects.filter(username=user).exists():

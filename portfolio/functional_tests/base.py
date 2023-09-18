@@ -53,6 +53,8 @@ class FunctionalTest(StaticLiveServerTestCase):
             # if there is a . or _ in the first position, remove it
             if user_detail[0] in [".", "_"]:
                 user_detail = user_detail[1:]
+            if user_detail[-1] in [".", "_"]:
+                user_detail = user_detail[0:-1]
             user_detail += "@example.com"
 
         return user_detail

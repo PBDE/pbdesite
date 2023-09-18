@@ -1,11 +1,22 @@
-from django.test import TestCase, RequestFactory, Client
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
 from django.urls import reverse
 from unittest import skip
 
-from ..home_page_forms import CreateUser, LoginForm
+from ..forms import CreateUser, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
+
+def create_user_data():
+    functional_test = FunctionalTest()
+    username = functional_test.random_user_details(functional_test.UserDetails.USERNAME)
+    password = functional_test.random_user_details(functional_test.UserDetails.PASSWORD)
+    email = functional_test.random_user_details(functional_test.UserDetails.EMAIL)
+    user_data = {"username": username, 
+            "password1": password, 
+            "password2": password, 
+            "email": email}
+    print(user_data)
+    return user_data
 
 class IndexViewTest(TestCase):
 
@@ -25,32 +36,16 @@ class RegisterViewTest(TestCase):
         self.assertIsInstance(response.context["form"], CreateUser)
 
     def test_new_user_saved_after_valid_post(self):
-        functional_test = FunctionalTest()
-        username = functional_test.random_user_details(functional_test.UserDetails.USERNAME)
-        password = functional_test.random_user_details(functional_test.UserDetails.PASSWORD)
-        email = functional_test.random_user_details(functional_test.UserDetails.EMAIL)
-        data = {"username": username, 
-                "password1": password, 
-                "password2": password, 
-                "email": email}
-        print(data)
-        self.client.post("/register", data=data)
+        user_data = create_user_data()
+        self.client.post("/register", data=user_data)
         self.assertEqual(User.objects.count(), 1)
         new_user = User.objects.first()
-        self.assertEqual(new_user.username, username)
+        self.assertEqual(new_user.username, user_data["username"])
 
     def test_redirects_with_login_after_valid_post(self):
-        functional_test = FunctionalTest()
-        username = functional_test.random_user_details(functional_test.UserDetails.USERNAME)
-        password = functional_test.random_user_details(functional_test.UserDetails.PASSWORD)
-        email = functional_test.random_user_details(functional_test.UserDetails.EMAIL)
-        data = {"username": username, 
-                "password1": password, 
-                "password2": password, 
-                "email": email}
-        print(data)
-        response = self.client.post("/register", data=data)
-        self.assertRedirects(response, f"/{username}")
+        user_data = create_user_data()
+        response = self.client.post("/register", data=user_data)
+        self.assertRedirects(response, f"/{user_data['username']}")
 
     @skip
     def test_invalid_input_not_saved(self):
@@ -71,31 +66,13 @@ class RegisterViewTest(TestCase):
 
 class LoginViewTest(TestCase):
     
-    @skip
     def test_authenticated_user_redirected(self):
-        
-        functional_test = FunctionalTest()
-        username = functional_test.random_user_details(functional_test.UserDetails.USERNAME)
-        password = functional_test.random_user_details(functional_test.UserDetails.PASSWORD)
-        email = functional_test.random_user_details(functional_test.UserDetails.EMAIL)
-        data = {"username": username, 
-                "password1": password, 
-                "password2": password, 
-                "email": email}
-        print(data)
-
-        request_factory = RequestFactory()
-        request = request_factory.get(reverse("home_page:login"))
-
-        user = User.objects.create_user(username, email, password)
-        user = authenticate(request, username=username, password=password)
-
-        # client = Client()
-        # client.login(username=username, password=password)
-        request.user = user
-        # request.user.is_authenticated = True
-        response = self.client.get(reverse("home_page:login"))
-        self.assertRedirects(response, f"/{username}")
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        client = Client()
+        client.login(username=user_data["username"], password=user_data["password1"])
+        response = client.get(reverse("home_page:login"))
+        self.assertRedirects(response, f"/{user_data['username']}")
 
     def test_login_template_returned(self):
         response = self.client.get("/login")
@@ -105,13 +82,26 @@ class LoginViewTest(TestCase):
         response = self.client.get("/login")
         self.assertIsInstance(response.context["form"], LoginForm)
 
-    @skip
     def test_user_is_logged_in(self):
-        pass
+        
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], 
+                                 user_data["email"], 
+                                 user_data["password1"])
+        response = self.client.post("/login", 
+                                    data={"username": user_data["username"], 
+                                          "password": user_data["password1"]}, 
+                                    follow=True)
+        print("Response:", response.context["user"])
+        self.assertTrue(response.context["user"].is_authenticated)
 
-    @skip
     def test_user_is_rediredted_after_login(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        response = self.client.post("/login", 
+                                    data={"username": user_data["username"], 
+                                          "password": user_data["password1"]})
+        self.assertRedirects(response, f"/{user_data['username']}")
 
     @skip
     def test_invalid_login_returns_login_template(self):
@@ -124,34 +114,56 @@ class LoginViewTest(TestCase):
 
 class LogoutViewTest(TestCase):
 
-    @skip
-    def test_user_is_logged_out_and_redirected(self):
-        pass
+    def test_user_is_redirected(self):
+        response = self.client.get("/logout")
+        self.assertRedirects(response, "/")
+    
+    def test_user_is_logged_out(self):
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        client = Client()
+        client.login(username=user_data["username"], password=user_data["password1"])
+        response = client.get("/logout", follow=True)
+        self.assertFalse(response.context["user"].is_authenticated)
 
 
 class UserViewTest(TestCase):
     
-    @skip
     def test_account_template_returned_for_authenticated_user(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+        response = self.client.get(f"/{user_data['username']}")
+        self.assertTemplateUsed(response, "home_page/account.html")
 
-    @skip
     def test_existing_user_redirects_to_login(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        response = self.client.get(f"/{user_data['username']}")
+        self.assertRedirects(response, "/login")
 
-    @skip
     def test_new_user_redirects_to_home_page(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        not_registerd_user_data = create_user_data()
+        response = self.client.get(f"/{not_registerd_user_data['username']}")
+        self.assertRedirects(response, "/")
 
 
 class DeleteUserView(TestCase):
     
-    @skip
     def test_non_authenticated_user_redirected(self):
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        response = self.client.get("/delete")
+        self.assertRedirects(response, "/login")
+
+    @skip
+    def test_user_deleted(self):
         pass
 
     @skip
-    def test_user_deleted_and_redirected(self):
+    def test_user_redirected_after_account_deleted(self):
         pass
 
     @skip
