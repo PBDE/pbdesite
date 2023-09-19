@@ -158,14 +158,23 @@ class DeleteUserView(TestCase):
         response = self.client.get("/delete")
         self.assertRedirects(response, "/login")
 
-    @skip
     def test_user_deleted(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+        self.client.post("/delete")
+        self.assertEquals(User.objects.count(), 0)
 
-    @skip
     def test_user_redirected_after_account_deleted(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+        response = self.client.post("/delete")
+        self.assertTemplateUsed(response, "home_page/delete_account.html")
 
-    @skip
     def test_delete_account_template_returned(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+        response = self.client.get("/delete")
+        self.assertTemplateUsed(response, "home_page/delete_account.html")

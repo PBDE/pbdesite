@@ -80,7 +80,9 @@ def delete_user(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("home_page:login"))
     if request.method == "POST":
+        print("Deleting user")
         user = User.objects.filter(username=request.user)
         user.delete()
+        # should redirect after post
         return render(request, "home_page/delete_account.html", {"delete_account": True})
     return render(request, "home_page/delete_account.html")
