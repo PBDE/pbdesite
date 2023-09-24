@@ -3,14 +3,14 @@
 {% block body %}
     Login
 
-    <form action="{% url 'home_page:login' %}" method="POST">
+    <form action="{% url 'home_page:login' %}" method="POST" id="login-form">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Login" id="login-btn">
     </form>
 
     {% if message %}
-        {{ message }}
+        <p id="error-msg">{{ message }}</p>
     {% endif %}
 
     <a href="{% url 'home_page:register' %}">Register</a>

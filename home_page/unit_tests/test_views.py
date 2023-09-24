@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from unittest import skip
 
-from ..forms import CreateUser, LoginForm
+from ..forms import CustomCreateUserForm, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
 
 def create_user_data():
@@ -33,7 +33,7 @@ class RegisterViewTest(TestCase):
 
     def test_register_form_returned(self):
         response = self.client.get("/register")
-        self.assertIsInstance(response.context["form"], CreateUser)
+        self.assertIsInstance(response.context["form"], CustomCreateUserForm)
 
     def test_new_user_saved_after_valid_post(self):
         user_data = create_user_data()
@@ -47,13 +47,17 @@ class RegisterViewTest(TestCase):
         response = self.client.post("/register", data=user_data)
         self.assertRedirects(response, f"/{user_data['username']}")
 
-    @skip
     def test_invalid_input_not_saved(self):
-        pass
+        user_data = create_user_data()
+        user_data["password1"] = user_data["username"]
+        self.client.post("/register", data=user_data)
+        self.assertEquals(User.objects.count(), 0)
 
-    @skip
     def test_invalid_input_returns_register_template(self):
-        pass
+        user_data = create_user_data()
+        user_data["password1"] = user_data["username"]
+        response = self.client.post("/register", data=user_data)
+        self.assertTemplateUsed(response, "home_page/register.html")
 
     @skip
     def test_invalid_input_returns_register_form(self):

@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, CreateUser
+from .forms import LoginForm, CustomCreateUserForm
 
 
 def index(request):
@@ -13,7 +13,7 @@ def index(request):
 
 def register(request):
     if request.method == "POST":
-        new_user_form = CreateUser(request.POST)
+        new_user_form = CustomCreateUserForm(request.POST)
         if new_user_form.is_valid():
             user = User.objects.create_user(new_user_form.cleaned_data["username"], 
                                             new_user_form.cleaned_data["email"], 
@@ -31,7 +31,7 @@ def register(request):
                 "form": new_user_form
             })
     return render(request, "home_page/register.html", {
-        "form": CreateUser()
+        "form": CustomCreateUserForm()
     })
 
 

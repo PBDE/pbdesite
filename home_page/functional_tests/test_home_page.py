@@ -84,14 +84,68 @@ class HomePageTest(FunctionalTest):
         html_body = self.browser.find_element(By.TAG_NAME, "body").get_attribute("innerHTML")
         self.assertInHTML(HOME_PAGE_LINK, html_body)
 
-    @skip
     def test_only_valid_registration_details(self):
 
         # the user goes to the register page
-        self.browser.get(self.live_server_url + "/register")        
+        self.browser.get(self.live_server_url + "/register")
 
-    @skip
+        # the user clicks register without providing any details
+        self.browser.find_element(By.ID, ID_REGISTER_BTN).click()
+
+        # the user sees the error message
+        username_input = self.browser.find_element(By.ID, ID_USERNAME_INPUT)
+        self.assertTrue(username_input.get_attribute("validationMessage"))
+
+        username = self.random_user_details(self.UserDetails.USERNAME)
+        password1 = self.random_user_details(self.UserDetails.PASSWORD)
+        password2 = self.random_user_details(self.UserDetails.PASSWORD)
+        while password1 == password2:
+            password2 = self.random_user_details(self.UserDetails.PASSWORD)
+
+        # the user enters passwords that don't match
+        email = self.random_user_details(self.UserDetails.EMAIL)
+        self.browser.find_element(By.ID, ID_USERNAME_INPUT).send_keys(username)
+        self.browser.find_element(By.ID, ID_CREATE_PASSWORD_INPUT).send_keys(password1)
+        self.browser.find_element(By.ID, ID_PASSWORD_CONFIRM_INPUT).send_keys(password2)
+        self.browser.find_element(By.ID, ID_EMAIL_INPUT).send_keys(email)
+        self.browser.find_element(By.ID, ID_REGISTER_BTN).click()
+
+        # wait for the page to load
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_CREATE_USER_FROM))
+
+        # the user sees the error message
+        self.assertTrue(self.browser.find_element(By.CLASS_NAME, CLS_ERROR_LIST))
+
     def test_only_valid_login_details(self):
+
+        username, _, password = self.create_temporary_user()
+        wrong_username = self.random_user_details(self.UserDetails.USERNAME)
+        wrong_password = self.random_user_details(self.UserDetails.PASSWORD)
+
+        while wrong_username == username:
+            wrong_username = self.random_user_details(self.UserDetails.USERNAME)
+
+        while wrong_password == password:
+            wrong_password = self.random_user_details(self.UserDetails.PASSWORD)
         
         # the user goes to the login page
         self.browser.get(self.live_server_url + "/login")
+
+        # the user tries to login without providing login details
+        self.browser.find_element(By.ID, ID_LOGIN_BTN).click()
+
+        # the user sees the error message
+        username_input = self.browser.find_element(By.ID, ID_USERNAME_INPUT)
+        self.assertTrue(username_input.get_attribute("validationMessage"))
+
+        # the user then enters their details, but incorrectly
+        self.browser.find_element(By.ID, ID_USERNAME_INPUT).send_keys(wrong_username)
+        self.browser.find_element(By.ID, ID_PASSWORD_INPUT).send_keys(wrong_password)
+        self.browser.find_element(By.ID, ID_LOGIN_BTN).click()
+
+        # the page loads
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_LOGIN_FORM))
+
+        # the user sees the error message
+        error_message = self.browser.find_element(By.ID, ID_ERROR_TEXT)
+        self.assertIn(USER_DETAILS_ERROR_MSG, error_message.text)

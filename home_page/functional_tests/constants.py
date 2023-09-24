@@ -31,7 +31,15 @@ ID_HEADER_TEXT = "header-text"
 ID_USER_GREETING_TEXT = "user-greeting"
 ID_CONFIRMATION_TEXT = "confirm-delete-msg"
 ID_DELETED_CONFIRM_TEXT = "account-deleted-msg"
+ID_ERROR_TEXT = "error-msg"
+ID_LOGIN_FORM ="login-form"
+ID_CREATE_USER_FROM = "create-user-form"
+
+## css classes
+# django defaults
+CLS_ERROR_LIST = "errorlist"
 
 # messages
 CONFIRM_DELETE_ACCOUNT_MSG = "Are you sure you want to delete your account?"
 DELETED_ACCOUNT_CONFIRM_MSG = "Account deleted"
+USER_DETAILS_ERROR_MSG = "Details did not match an existing user"
