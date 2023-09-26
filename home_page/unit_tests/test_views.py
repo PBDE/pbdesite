@@ -15,7 +15,6 @@ def create_user_data():
             "password1": password, 
             "password2": password, 
             "email": email}
-    print(user_data)
     return user_data
 
 class IndexViewTest(TestCase):
@@ -59,13 +58,17 @@ class RegisterViewTest(TestCase):
         response = self.client.post("/register", data=user_data)
         self.assertTemplateUsed(response, "home_page/register.html")
 
-    @skip
     def test_invalid_input_returns_register_form(self):
-        pass
+        user_data = create_user_data()
+        user_data["password1"] = user_data["username"]
+        response = self.client.post("/register", data=user_data)
+        self.assertIsInstance(response.context["form"], CustomCreateUserForm)
 
-    @skip
     def test_invalid_input_response_contains_error_message(self):
-        pass
+        user_data = create_user_data()
+        user_data["password1"] = user_data["username"]
+        response = self.client.post("/register", data=user_data)
+        self.assertContains(response, "errorlist")
 
 
 class LoginViewTest(TestCase):
@@ -107,13 +110,33 @@ class LoginViewTest(TestCase):
                                           "password": user_data["password1"]})
         self.assertRedirects(response, f"/{user_data['username']}")
 
-    @skip
     def test_invalid_login_returns_login_template(self):
-        pass
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        incorrect_user_data = create_user_data()
+        response = self.client.post("/login", 
+                                    data={"username": incorrect_user_data["username"],
+                                          "password": incorrect_user_data["password1"]})
+        self.assertTemplateUsed(response, "home_page/login.html")
 
-    @skip
-    def test_invalid_login_shows_error_message(self):
-        pass
+    def test_invalid_login_response_contains_login_form(self):
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        incorrect_user_data = create_user_data()
+        response = self.client.post("/login", 
+                                    data={"username": incorrect_user_data["username"],
+                                          "password": incorrect_user_data["password1"]})
+        self.assertIsInstance(response.context["form"], LoginForm)
+
+
+    def test_invalid_login_contains_error_message(self):
+        user_data = create_user_data()
+        User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        incorrect_user_data = create_user_data()
+        response = self.client.post("/login", 
+                                    data={"username": incorrect_user_data["username"],
+                                          "password": incorrect_user_data["password1"]})
+        self.assertContains(response, "Invalid login details")
 
 
 class LogoutViewTest(TestCase):

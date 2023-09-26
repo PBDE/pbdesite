@@ -26,7 +26,6 @@ def register(request):
                     )
                 )
         else:
-            print("User form errors:", new_user_form.errors) # REMOVE THIS
             return render(request, "home_page/register.html", {
                 "form": new_user_form
             })
@@ -37,7 +36,9 @@ def register(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('home_page:account', kwargs={"user": request.user.username}))
+        return HttpResponseRedirect(reverse('home_page:account', 
+                                            kwargs={"user": request.user.username})
+        )
     if request.method == "POST":
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
@@ -46,17 +47,13 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return HttpResponseRedirect(reverse("home_page:account", kwargs={"user": username}))
-            else:
-                return render(request, "home_page/login.html", {
-                "form": login_form,
-                "message": "Details did not match an existing user"
-            })
-        else:
-            return render(request, "home_page/login.html", {
-                "form": login_form,
-                "message": "Invalid login details"
-            })
+                return HttpResponseRedirect(reverse("home_page:account", 
+                                                    kwargs={"user": username})
+                )
+        return render(request, 
+                      "home_page/login.html", 
+                      {"form": login_form, "message": "Invalid login details"}
+        )
     return render(request, "home_page/login.html", {
         "form": LoginForm()
     })
