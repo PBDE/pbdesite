@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from unittest import skip
 
 from ..forms import CustomCreateUserForm, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
