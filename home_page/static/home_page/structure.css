@@ -20,7 +20,7 @@ html {
     top: 0;
     padding: 1.5rem;
     
-    background-color: brown;
+    /* background-color: brown; */
 }
 
 .home-link {
@@ -30,7 +30,7 @@ html {
 .nav-menu-list {
     display: flex;
     
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
 }
 
 .nav-menu-list-item {
@@ -46,10 +46,10 @@ html {
     align-items: center;
     justify-content: center;
     
-    background-color: blanchedalmond;
+    /* background-color: blanchedalmond; */
 }
 
-.header-section h1 {
+.header-section > h1 {
     font-size: 10rem;
 }
 
@@ -57,7 +57,38 @@ html {
 
 .about-section {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10rem
+}
+
+.about-section > h2 {
+    font-size: 5rem;
+}
+
+.about-box-container {
+    display: flex;
+}
+
+.about-box-container > div {
+    flex: 1;
+    margin: 2rem;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+
+    /* background-color: rosybrown; */
+}
+
+.about-box-container > div > h1 {
+    color: 3rem;
+}
+
+.skills-list {
+    display: grid;
+    grid-template-columns: 20rem 20rem 20rem;
 }
 
 /* *** APPS SECTION *** */
@@ -66,4 +97,20 @@ html {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.apps-section > h2 {
+    font-size: 5rem;
+    padding: 5rem 0 3rem
+}
+
+.apps-list {
+    display: grid;
+    grid-template-columns: 20rem 20rem;
+    padding: 0 0 5rem
+}
+
+.apps-list > li {
+    font-size: 2rem;
+    padding: 3rem;
 }

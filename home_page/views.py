@@ -10,7 +10,6 @@ from .forms import LoginForm, CustomCreateUserForm
 def index(request):
     return render(request, "home_page/index.html")
 
-
 def register(request):
     if request.method == "POST":
         new_user_form = CustomCreateUserForm(request.POST)
@@ -32,7 +31,6 @@ def register(request):
     return render(request, "home_page/register.html", {
         "form": CustomCreateUserForm()
     })
-
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -58,11 +56,9 @@ def login_view(request):
         "form": LoginForm()
     })
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("home_page:index"))
-
 
 def user_view(request, user):
     if request.user.is_authenticated and user == request.user.username:
@@ -71,7 +67,6 @@ def user_view(request, user):
         return HttpResponseRedirect(reverse("home_page:login"))
     else:
         return HttpResponseRedirect(reverse("home_page:index"))
-
 
 def delete_user(request):
     if not request.user.is_authenticated:
