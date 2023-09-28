@@ -80,6 +80,5 @@ def delete_user(request):
         print("Deleting user")
         user = User.objects.filter(username=request.user)
         user.delete()
-        # should redirect after post
-        return render(request, "home_page/delete_account.html", {"delete_account": True})
-    return render(request, "home_page/delete_account.html")
+        return render(request, "home_page/delete_account.html")
+    return render(request, "home_page/delete_account.html", {"check_for_delete": True})
