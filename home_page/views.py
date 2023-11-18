@@ -50,7 +50,7 @@ def login_view(request):
                 )
         return render(request, 
                       "home_page/login.html", 
-                      {"form": login_form, "message": "Invalid login details"}
+                      {"form": login_form, "message": "Details did not match an existing user"}
         )
     return render(request, "home_page/login.html", {
         "form": LoginForm()

@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from ..forms import CustomCreateUserForm, LoginForm
+from home_page.forms import CustomCreateUserForm, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
 
 def create_user_data():
@@ -127,7 +127,6 @@ class LoginViewTest(TestCase):
                                           "password": incorrect_user_data["password1"]})
         self.assertIsInstance(response.context["form"], LoginForm)
 
-
     def test_invalid_login_contains_error_message(self):
         user_data = create_user_data()
         User.objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
@@ -135,7 +134,7 @@ class LoginViewTest(TestCase):
         response = self.client.post("/login", 
                                     data={"username": incorrect_user_data["username"],
                                           "password": incorrect_user_data["password1"]})
-        self.assertContains(response, "Invalid login details")
+        self.assertContains(response, "Details did not match an existing user")
 
 
 class LogoutViewTest(TestCase):
