@@ -1,7 +1,8 @@
 from django.test import TestCase
-from .test_views import create_user_data
 from django.contrib.auth import get_user_model
 from django.db.utils import IntegrityError
+
+from .test_views import create_user_data
 
 class CustomUserModelTest(TestCase):
     
