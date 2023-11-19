@@ -1,5 +1,6 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
@@ -64,7 +65,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         username = self.random_user_details(self.UserDetails.USERNAME)
         email = self.random_user_details(self.UserDetails.EMAIL)
         password = self.random_user_details(self.UserDetails.PASSWORD)
-        User.objects.create_user(username, email, password)
+        get_user_model().objects.create_user(username, email, password)
 
         return username, email, password
     

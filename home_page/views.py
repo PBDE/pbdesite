@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 
-from .forms import LoginForm, CustomCreateUserForm
+from .forms import LoginForm, CustomUserCreationForm
 
 
 def index(request):
@@ -12,9 +12,9 @@ def index(request):
 
 def register(request):
     if request.method == "POST":
-        new_user_form = CustomCreateUserForm(request.POST)
+        new_user_form = CustomUserCreationForm(request.POST)
         if new_user_form.is_valid():
-            user = User.objects.create_user(new_user_form.cleaned_data["username"], 
+            user = get_user_model().objects.create_user(new_user_form.cleaned_data["username"], 
                                             new_user_form.cleaned_data["email"], 
                                             new_user_form.cleaned_data["password1"])
             if user:
@@ -29,7 +29,7 @@ def register(request):
                 "form": new_user_form
             })
     return render(request, "home_page/register.html", {
-        "form": CustomCreateUserForm()
+        "form": CustomUserCreationForm()
     })
 
 def login_view(request):
@@ -63,7 +63,7 @@ def logout_view(request):
 def user_view(request, user):
     if request.user.is_authenticated and user == request.user.username:
         return render(request, f"home_page/account.html")
-    elif User.objects.filter(username=user).exists():
+    elif get_user_model().objects.filter(username=user).exists():
         return HttpResponseRedirect(reverse("home_page:login"))
     else:
         return HttpResponseRedirect(reverse("home_page:index"))
@@ -73,7 +73,7 @@ def delete_user(request):
         return HttpResponseRedirect(reverse("home_page:login"))
     if request.method == "POST":
         print("Deleting user")
-        user = User.objects.filter(username=request.user)
+        user = get_user_model().objects.filter(username=request.user)
         user.delete()
         return render(request, "home_page/delete_account.html")
     return render(request, "home_page/delete_account.html", {"check_for_delete": True})

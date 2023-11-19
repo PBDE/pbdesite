@@ -1,7 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth import get_user_model
 
-from django.contrib.auth.password_validation import validate_password
 
 class LoginForm(forms.Form):
 
@@ -9,7 +9,22 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
-class CustomCreateUserForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):
 
-    email = forms.EmailField()
+    class Meta:
+        model = get_user_model()
+        fields = (
+            "email",
+            "username"
+        )
+
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+            "email",
+            "username"
+        )
 

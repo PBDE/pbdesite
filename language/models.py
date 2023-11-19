@@ -1,12 +1,13 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 WORD_MAX_LENGTH = 64
 
 class KnownLanguageNoun(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     known_language_noun = models.CharField(max_length=WORD_MAX_LENGTH)
     
     class Meta:
@@ -19,7 +20,7 @@ class KnownLanguageNoun(models.Model):
     
 class TargetLanguageNoun(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     target_language_noun = models.CharField(max_length=WORD_MAX_LENGTH)
     last_test = models.DateField(auto_now=True)
     number_of_tests = models.PositiveIntegerField(default=0)
