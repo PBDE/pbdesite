@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
 html {
     font-size: 62.5%;
 }
@@ -19,8 +27,7 @@ html {
     width: 100%;
     top: 0;
     padding: 1.5rem;
-    
-    /* background-color: brown; */
+    background-color: white;
 }
 
 .home-link {
@@ -29,13 +36,12 @@ html {
 
 .nav-menu-list {
     display: flex;
-    
-    /* background-color: aliceblue; */
 }
 
 .nav-menu-list-item {
     margin: 0 2rem;
     font-size: 2rem;
+    text-transform: uppercase;
 }
 
 /* *** HEADER SECTION *** */
@@ -45,12 +51,13 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    /* background-color: blanchedalmond; */
 }
 
 .header-section > h1 {
     font-size: 10rem;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 3rem;
 }
 
 /* *** ABOUT SECTION *** */
@@ -59,11 +66,7 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10rem
-}
-
-.about-section > h2 {
-    font-size: 5rem;
+    padding: 10rem;
 }
 
 .about-box-container {
@@ -76,19 +79,23 @@ html {
     font-size: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-
-    /* background-color: rosybrown; */
 }
 
-.about-box-container > div > h1 {
-    color: 3rem;
+
+.about-box-container > div > h3 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
 }
 
 .skills-list {
     display: grid;
     grid-template-columns: 20rem 20rem 20rem;
+    text-align: center;
+}
+
+.skills-list > li {
+    margin: 0.5rem;
 }
 
 /* *** APPS SECTION *** */
@@ -107,10 +114,115 @@ html {
 .apps-list {
     display: grid;
     grid-template-columns: 20rem 20rem;
-    padding: 0 0 5rem
+    padding: 0 0 5rem;
+    text-align: center;
 }
 
 .apps-list > li {
     font-size: 2rem;
     padding: 3rem;
+}
+
+/* *** SUB PAGE *** */
+
+.main-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.main-container {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 8rem;
+}
+
+.main-container > h2 {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+}
+
+.main-container > p {
+    font-size: 2.5rem;
+}
+
+.main-options-list > li {
+    font-size: 2rem;
+    padding: 1rem 0;
+}
+
+/* *** FORMs *** */
+
+.main-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-form > * {
+    margin-top: 2rem;
+}
+
+.main-form > label {
+    font-size: 2rem;
+}
+
+.main-form > input {
+    height: 3rem;
+}
+
+.main-form > span {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* *** MEDIA QUERIES ***  */
+
+/* 1400px */
+@media(max-width: 87.5em) {
+    .about-box-container {
+        flex-direction: column;
+    }
+}
+
+/* 800px */
+@media(max-width: 50em) {
+    .skills-list {
+        grid-template-columns: 20rem 20rem;
+    }
+}
+
+/* 550px  */
+@media(max-width: 34em) {
+    .about-section {
+        padding: 1rem;
+    }
+    .skills-list {
+        grid-template-columns: 1fr;
+    }
+    /* fix the nav bar */
+}
+
+/* 450px */
+@media(max-width: 28em) {
+
+    html {
+        font-size: 56.25%;
+    }
+
+    .header-section > h1 {
+        padding: 0 0.5rem;
+    }
+}
+
+/* 350px */
+@media(max-width: 22em) {
+
+    .header-section > h1 {
+        font-size: 6rem;
+    }
+
+    .apps-list {
+        grid-template-columns: 1fr;
+    }
 }

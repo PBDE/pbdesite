@@ -1,20 +1,21 @@
 {% extends 'home_page/layout.html' %}
 
 {% block body %}
-
-    Register
-
-    <form action="{% url 'home_page:register' %}" method="POST" id="create-user-form">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Register" id="register-btn">
-    </form>
-
-    {% if forms.errors %}
-        {{ forms.errors }}
-    {% endif %}
-
-    <a href="{% url 'home_page:login' %}">Login</a>
-    <a href="{% url 'home_page:index' %}">Home</a>
-
+    <section class="main-section">
+        <div class="main-container">
+            <h2>Register</h2>
+            <form class="main-form" action="{% url 'home_page:register' %}" method="POST" id="create-user-form">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Register" id="register-btn">
+            </form>
+            {% if forms.errors %}
+                {{ forms.errors }}
+            {% endif %}
+            <ul class="main-options-list">
+                <li><a href="{% url 'home_page:login' %}">Login</a></li>
+                <li><a href="{% url 'home_page:index' %}">Home</a></li>
+            </ul>
+        </div>
+    </section>
 {% endblock %}

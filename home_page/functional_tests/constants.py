@@ -2,7 +2,7 @@ from django.urls import reverse
 
 ## page text
 BROWSER_TITLE_TEXT = "PBDE"
-HEADER_TEXT = "Portfolio"
+HEADER_TEXT = "Lorem Ipsum"
 USER_GREETING_TEXT = "Hi, "
 
 ## links

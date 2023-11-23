@@ -16,7 +16,7 @@ class HomePageTest(FunctionalTest):
 
         # the user sees the header text
         header_text = self.browser.find_element(By.ID, ID_HEADER_TEXT).text
-        self.assertIn(HEADER_TEXT, header_text)
+        self.assertIn(HEADER_TEXT, header_text.title())
 
     def test_user_can_register(self):
 
@@ -58,7 +58,7 @@ class HomePageTest(FunctionalTest):
 
         # the user is redirected to the home page
         header_text = self.browser.find_element(By.ID, ID_HEADER_TEXT).text
-        self.assertIn(HEADER_TEXT, header_text)
+        self.assertIn(HEADER_TEXT, header_text.title())
 
     def test_user_can_delete_account(self):
         

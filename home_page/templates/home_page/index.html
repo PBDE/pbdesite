@@ -1,44 +1,37 @@
 {% extends 'home_page/layout.html' %}
 
+{% block navbar %}
+    {% if user.is_authenticated %}
+        <li class="nav-menu-list-item">
+            <a href="{% url 'home_page:account' user=user %}">Account</a>
+        </li>
+    {% else %}
+        <li class="nav-menu-list-item">
+            <a href="{% url 'home_page:login' %}">Login</a>
+        </li>
+        <li class="nav-menu-list-item">
+            <a href="{% url 'home_page:register' %}">Register</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
-
-    <menu class="nav-menu-bar">
-        <a class="home-link" href="#">PBDE</a>
-        <ul class="nav-menu-list">
-            <li class="nav-menu-list-item"><a href="">About</a></li>
-            <li class="nav-menu-list-item"><a href="">Apps</a></li>
-        {% if user.is_authenticated %}
-            <li class="nav-menu-list-item">
-                <a href="{% url 'home_page:account' user=user %}">Account</a>
-            </li>
-        {% else %}
-            <li class="nav-menu-list-item">
-                <a href="{% url 'home_page:login' %}">Login</a>
-            </li>
-            <li class="nav-menu-list-item">
-                <a href="{% url 'home_page:register' %}">Register</a>
-            </li>
-        {% endif %}
-        </ul>
-    </menu>
-
     <section class="header-section">
-        <h1 id="header-text">Portfolio</h1>
+        <h1 id="header-text">Lorem ipsum</h1>
     </section>
-
     <section class="about-section">
-        <h2>About</h2>
         <div class="about-box-container">
             <div class="about-container">
-                <h1>About</h1>
+                <h3>About</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu arcu urna. Fusce tempus dapibus eros eget convallis. Praesent elit metus, scelerisque nec libero et, pulvinar mollis mauris. Vestibulum non orci vel nisl faucibus fermentum eu a augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ante turpis, posuere quis suscipit at, semper ut magna. Suspendisse eleifend orci eu sapien venenatis, at elementum est sollicitudin. Mauris ultrices eros eget velit interdum eleifend. Mauris tincidunt, ligula eget tincidunt bibendum, enim felis mattis sapien, eu mollis nibh risus sit amet ante. Integer luctus at elit a.</p>
             </div>
             <div class="skills-container">
-                <h1>Skills</h1>
+                <h3>Skills</h3>
                 <ul class="skills-list">
                     <li>Python</li>
                     <li>Django</li>
                     <li>JavaScript</li>
+                    <li>React</li>
                     <li>CSS</li>
                     <li>HTML</li>
                     <li>C#</li>
@@ -55,12 +48,11 @@
     <section class="apps-section">
         <h2>Apps</h2>
         <ul class="apps-list">
-            <li><a href="{% url 'language:index' %}">Language</a></li>
+            <li><a href="">Language</a></li>
             <li><a href="">Hours Tracker</a></li>
             <li><a href="">Map</a></li>
             <li><a href="">Rugby Data</a></li>
             <li><a href="">Volunteer Tracker</a></li>
         </ul>
     </section>
-
 {% endblock %}

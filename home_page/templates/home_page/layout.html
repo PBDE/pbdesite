@@ -9,6 +9,14 @@
         <link rel="stylesheet" href="{% static 'home_page/structure.css' %}">
     </head>
     <body>
+        <menu class="nav-menu-bar">
+            <a class="home-link" href="{% url 'home_page:index' %}">PBDE</a>
+            <ul class="nav-menu-list">
+                <li class="nav-menu-list-item"><a href="">About</a></li>
+                <li class="nav-menu-list-item"><a href="">Apps</a></li>
+                {% block navbar %}{% endblock %}
+            </ul>
+        </menu>
         {% block body %}{% endblock %}
     </body>
 </html>
