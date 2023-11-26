@@ -7,15 +7,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>PBDE</title>
         <link rel="stylesheet" href="{% static 'home_page/structure.css' %}">
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     </head>
     <body>
-        <menu class="nav-menu-bar">
+        <menu class="nav-menu-bar nav-open">
             <a class="home-link" href="{% url 'home_page:index' %}">PBDE</a>
             <ul class="nav-menu-list">
                 <li class="nav-menu-list-item"><a href="">About</a></li>
                 <li class="nav-menu-list-item"><a href="">Apps</a></li>
                 {% block navbar %}{% endblock %}
             </ul>
+            <button class="nav-menu-btn">
+                <ion-icon class="nav-menu-icon" name="menu-outline"></ion-icon>
+                <ion-icon class="nav-menu-icon" name="close-outline"></ion-icon>
+            </button>
         </menu>
         {% block body %}{% endblock %}
     </body>
