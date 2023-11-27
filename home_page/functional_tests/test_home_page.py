@@ -149,3 +149,6 @@ class HomePageTest(FunctionalTest):
         # the user sees the error message
         error_message = self.browser.find_element(By.ID, ID_ERROR_TEXT)
         self.assertIn(USER_DETAILS_ERROR_MSG, error_message.text)
+
+    def test_nav_menu_on_small_screen_size(self):
+        self.fail("Implement")

@@ -1,4 +1,5 @@
 {% extends 'home_page/layout.html' %}
+{% load static %}
 
 {% block navbar %}
     {% if user.is_authenticated %}
@@ -47,12 +48,19 @@
 
     <section class="apps-section">
         <h2>Apps</h2>
-        <ul class="apps-list">
-            <li><a href="">Language</a></li>
-            <li><a href="">Hours Tracker</a></li>
-            <li><a href="">Map</a></li>
-            <li><a href="">Rugby Data</a></li>
-            <li><a href="">Volunteer Tracker</a></li>
-        </ul>
+        <div class="apps-container">
+            <div class="app-card">
+                <div class="app-info">
+                    <a href="">Language</a>
+                </div>
+                <img class="app-img" src="{% static 'home_page/images/app_image.png' %}" alt="app image">
+            </div>
+            <div class="app-card">
+                <div class="app-info">
+                    <a href="">Hours Tracker</a>
+                </div>
+                <img class="app-img" src="{% static 'home_page/images/app_image.png' %}" alt="app image">
+            </div>
+        </div>
     </section>
 {% endblock %}
