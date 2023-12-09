@@ -10,6 +10,9 @@ services:
       - .:/portfolio
     depends_on:
       - db
+    environment:
+      - "SECRET_KEY=django-insecure-otxa9-5krer_9*q4uzdpq_9ttr&h%+in0hs904f-4=i+vpz#@2"
+      - "DEBUG=True"
   db:
     image: postgres:13
     volumes:
