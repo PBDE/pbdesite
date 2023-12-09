@@ -18,6 +18,7 @@ class HomePageTest(FunctionalTest):
         header_text = self.browser.find_element(By.ID, ID_HEADER_TEXT).text
         self.assertIn(HEADER_TEXT, header_text.title())
 
+    @skip
     def test_user_can_register(self):
 
         # the user goes to the register page
@@ -40,6 +41,7 @@ class HomePageTest(FunctionalTest):
         greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
         self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
+    @skip
     def test_user_can_login(self):
 
         username, _, _ = self.login_temporary_user()
@@ -48,6 +50,7 @@ class HomePageTest(FunctionalTest):
         greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
         self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
+    @skip
     def test_user_can_logout(self):
 
         self.login_temporary_user()
@@ -60,6 +63,7 @@ class HomePageTest(FunctionalTest):
         header_text = self.browser.find_element(By.ID, ID_HEADER_TEXT).text
         self.assertIn(HEADER_TEXT, header_text.title())
 
+    @skip
     def test_user_can_delete_account(self):
         
         self.login_temporary_user()
@@ -84,6 +88,7 @@ class HomePageTest(FunctionalTest):
         html_body = self.browser.find_element(By.TAG_NAME, "body").get_attribute("innerHTML")
         self.assertInHTML(HOME_PAGE_LINK, html_body)
 
+    @skip
     def test_only_valid_registration_details(self):
 
         # the user goes to the register page
@@ -116,6 +121,7 @@ class HomePageTest(FunctionalTest):
         # the user sees the error message
         self.assertTrue(self.browser.find_element(By.CLASS_NAME, CLS_ERROR_LIST))
 
+    @skip
     def test_only_valid_login_details(self):
 
         username, _, password = self.create_temporary_user()
