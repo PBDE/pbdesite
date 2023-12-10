@@ -51,7 +51,7 @@ class RegisterViewTest(TestCase):
         user_data = create_user_data()
         user_data["password1"] = user_data["username"]
         self.client.post(reverse("home_page:register"), data=user_data)
-        self.assertEquals(get_user_model().objects.count(), 0)
+        self.assertEqual(get_user_model().objects.count(), 0)
 
     def test_invalid_input_returns_register_template(self):
         user_data = create_user_data()
@@ -189,7 +189,7 @@ class DeleteUserView(TestCase):
         get_user_model().objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
         self.client.login(username=user_data["username"], password=user_data["password1"])
         self.client.post(reverse("home_page:delete_account"))
-        self.assertEquals(get_user_model().objects.count(), 0)
+        self.assertEqual(get_user_model().objects.count(), 0)
 
     def test_user_redirected_after_account_deleted(self):
         user_data = create_user_data()
