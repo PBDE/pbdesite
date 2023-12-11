@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from environs import Env
+
+env = Env()
+env.read_env()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path(env("ADMIN"), admin.site.urls),
     path('', include("home_page.urls"))
 ]

@@ -13,6 +13,10 @@ services:
     environment:
       - "SECRET_KEY=django-insecure-otxa9-5krer_9*q4uzdpq_9ttr&h%+in0hs904f-4=i+vpz#@2"
       - "DEBUG=True"
+      - "SECURE_SSL_REDIRECT=False"
+      - "SECURE_HSTS_SECONDS=0"
+      - "SECURE_HSTS_INCLUDE_SUBDOMAINS=False"
+      - "SECURE_HSTS_PRELOAD=False"
   db:
     image: postgres:13
     volumes:
