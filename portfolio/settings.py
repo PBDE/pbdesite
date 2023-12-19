@@ -29,7 +29,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -88,8 +88,6 @@ DATABASES = {
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT')
     }
-    # Docker
-    # 'default': env.dj_db_url("DATABASE_URL", default="postgres://postgres@db/postgres")
 }
 
 
