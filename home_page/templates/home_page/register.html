@@ -4,11 +4,6 @@
     <section class="main-section">
         <div class="main-container">
             <h2>Register</h2>
-            <form class="main-form" action="{% url 'home_page:register' %}" method="POST" id="create-user-form">
-                <!-- {% csrf_token %}
-                {{ form }} -->
-                <input type="submit" value="Register" id="register-btn">
-            </form>
             {% if forms.errors %}
                 {{ forms.errors }}
             {% endif %}

@@ -4,11 +4,6 @@
     <section class="main-section">
         <div class="main-container">
             <h2>Login</h2>
-            <form class="main-form" action="{% url 'home_page:login' %}" method="POST" id="login-form">
-                <!-- {% csrf_token %}
-                {{ form }} -->
-                <input type="submit" value="Login" id="login-btn">
-            </form>
             {% if message %}
                 <p id="error-msg">{{ message }}</p>
             {% endif %}

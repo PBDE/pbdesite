@@ -5,10 +5,6 @@
         <div class="main-container">
             {% if check_for_delete %}
                 <p id="confirm-delete-msg">Are you sure you want to delete your account?</p>
-                <form class="main-form" action="{% url 'home_page:delete_account' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Confirm" id="confirm-delete-btn">
-                </form>
                 <ul class="main-options-list">
                     <li><a href="{% url 'home_page:account' user=user %}">Cancel</a></li>
                 </ul>
