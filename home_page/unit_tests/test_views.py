@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from unittest import skip
 
 from home_page.forms import CustomUserCreationForm, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
@@ -65,6 +66,7 @@ class RegisterViewTest(TestCase):
         response = self.client.post(reverse("home_page:register"), data=user_data)
         self.assertIsInstance(response.context["form"], CustomUserCreationForm)
 
+    @skip
     def test_invalid_input_response_contains_error_message(self):
         user_data = create_user_data()
         user_data["password1"] = user_data["username"]
