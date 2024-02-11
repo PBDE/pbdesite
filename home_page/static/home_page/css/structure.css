@@ -17,7 +17,9 @@ html {
 }
 
 body {
-    overflow-x: hidden
+    overflow-x: hidden;
+    font-family: 'Rubik', sans-serif;
+    background-color: black;
 }
 
 /* *** NAV BAR *** */
@@ -30,12 +32,13 @@ body {
     position: fixed;
     width: 100%;
     top: 0;
-    padding: 1.5rem;
-    background-color: white;
+    padding: 2rem;
+    background-color: black;
 }
 
 .home-link {
     font-size: 2rem;
+    color: white;
 }
 
 .nav-menu-list {
@@ -46,6 +49,10 @@ body {
     margin: 0 2rem;
     font-size: 2rem;
     text-transform: uppercase;
+}
+
+.nav-menu-list-item > a {
+    color: white;
 }
 
 .nav-menu-btn {
@@ -74,94 +81,57 @@ body {
     justify-content: center;
 }
 
-/* .header-section > h1 {
-    font-size: 10rem;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 0 3rem;
-} */
-
-.header-section-outer-container {
-    /* background-color: darkgoldenrod; */
+.header-section-cntr {
     width: 70%;
     height: 50%;
 }
 
-.header-text-container {
-    /* background-color: cadetblue; */
-    font-size: 3rem;
-    width: 35rem;
-    
+.header-text-cntr {
+    font-size: 4rem;
+    width: 45rem;
+    color: white;
 }
+
+.header-text-cntr span {
+    font-weight: 500;
+}
+
+.header-text-cntr {
+    margin-bottom: 2rem;
+}
+
 
 /* *** ABOUT SECTION *** */
 
 .about-section {
+    /* background-color: tomato; */
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 10rem;
+    justify-content: center;
 }
 
-.about-box-container {
+.about-section-cntr {
     display: flex;
-}
-
-.about-box-container > div {
-    flex: 1;
-    margin: 2rem;
-    font-size: 2rem;
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 70%;
+    background-color: darkgreen;
 }
 
-.about-box-container > div > h3 {
+.about-section-panel {
+    background-color: cadetblue;
+}
+
+.panel-header-cntr {
+    /* display: flex; */
+    /* align-items: center;
+    justify-content: center; */
+    background-color: goldenrod;
+}
+
+.about-section-panel h2 {
     font-size: 3rem;
-    margin-bottom: 2rem;
-}
-
-.skills-list {
-    display: grid;
-    grid-template-columns: 20rem 20rem 20rem;
-    text-align: center;
-}
-
-.skills-list > li {
-    margin: 0.5rem;
-}
-
-/* *** APPS SECTION *** */
-
-.apps-section {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-.apps-section > h2 {
-    font-size: 5rem;
-    padding: 5rem 0 3rem
-}
-
-.apps-container {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-}
-
-.app-card {
-    display: flex;
-    padding: 2rem;
-    justify-content: space-between;
-}
-
-.app-img {
-    width: 50%;
-}
-
-.app-info {
-    font-size: 3rem;
+    color: white;
 }
 
 /* *** SUB PAGE *** */
@@ -191,6 +161,10 @@ body {
 .main-options-list > li {
     font-size: 2rem;
     padding: 1rem 0;
+}
+
+.main-options-list a {
+    color: white;
 }
 
 /* *** FORMs *** */

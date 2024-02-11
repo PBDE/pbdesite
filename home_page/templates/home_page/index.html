@@ -18,47 +18,51 @@
 
 {% block body %}
     <section class="header-section">
-        <!-- <h1 id="header-text">Lorem ipsum</h1> -->
-        <div class="header-section-outer-container">
-            <div class="header-text-container">
-                <p>Hi. I'm Phil.</p>
-                <p>A full stack developer and data analyst.</p>
+        <div class="header-section-cntr">
+            <div class="header-text-cntr">
+                <p class="header-greeting-text">Hi. I'm <span>Phil</span>.</p>
+                <p class="header-description-text">A full stack <span>developer</span> and <span>data analyst</span>.</p>
             </div>
-        </div>
-    </section>
-    <section class="about-section">
-        <div class="about-box-container">
-            <div class="about-container">
-                <h3>About</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu arcu urna. Fusce tempus dapibus eros eget convallis. Praesent elit metus, scelerisque nec libero et, pulvinar mollis mauris. Vestibulum non orci vel nisl faucibus fermentum eu a augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce ante turpis, posuere quis suscipit at, semper ut magna. Suspendisse eleifend orci eu sapien venenatis, at elementum est sollicitudin. Mauris ultrices eros eget velit interdum eleifend. Mauris tincidunt, ligula eget tincidunt bibendum, enim felis mattis sapien, eu mollis nibh risus sit amet ante. Integer luctus at elit a.</p>
-            </div>
-            <div class="skills-container">
-                <h3>Skills</h3>
-                <ul class="skills-list">
-                    <li>Lorem</li>
-                    <li>ipsum</li>
-                    <li>dolor</li>
-                    <li>sit</li>
-                    <li>amet</li>
-                    <li>consectetur</li>
-                </ul>
-            </div>
+            <!-- main line -->
+            <svg
+                id="mainline"
+                width="1920"
+                height="1080"
+                viewBox="0 0 1920 1080"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:svg="http://www.w3.org/2000/svg">
+                <g>
+                    <path
+                    style="fill:none;fill-opacity:1;stroke:#7700ff;stroke-width:4.99;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                    d="M 2.3044975,47.17728 C 384.77684,-25.825236 402.15065,14.653475 408.19775,21.366883"
+                    id="path1332" />
+                </g>
+            </svg>
         </div>
     </section>
 
-    <section class="apps-section">
-        <h2>Apps</h2>
-        <div class="apps-container">
-            <div class="app-card">
-                <div class="app-info">
-                    <a href="">Language</a>
+    <section class="about-section">
+        <div class="about-section-cntr">
+
+            <div class="about-section-panel">
+                <div class="panel-header-cntr">
+                    <h2>About</h2>
+                    <svg></svg>
                 </div>
+                <div class="panel-info-cntr"></div>
             </div>
-            <div class="app-card">
-                <div class="app-info">
-                    <a href="">Hours Tracker</a>
+            
+            <div class="about-section-panel">
+                <div class="panel-header-cntr">
+                    <h2>Skills</h2>
+                    <svg></svg>
                 </div>
+                <div class="panel-info-cntr"></div>
             </div>
+
         </div>
     </section>
+    
+
 {% endblock %}

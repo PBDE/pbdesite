@@ -2,7 +2,7 @@ from django.urls import reverse
 
 ## page text
 BROWSER_TITLE_TEXT = "PBDE"
-HEADER_TEXT = "Lorem Ipsum"
+HEADER_TEXT = "Hi. I'm"
 USER_GREETING_TEXT = "Hi, "
 
 ## links
@@ -38,6 +38,9 @@ ID_CREATE_USER_FROM = "create-user-form"
 ## css classes
 # django defaults
 CLS_ERROR_LIST = "errorlist"
+
+# own
+CLS_HEADER_TEXT = "header-greeting-text"
 
 # messages
 CONFIRM_DELETE_ACCOUNT_MSG = "Are you sure you want to delete your account?"

@@ -15,8 +15,8 @@ class HomePageTest(FunctionalTest):
         self.assertIn(BROWSER_TITLE_TEXT, self.browser.title)
 
         # the user sees the header text
-        header_text = self.browser.find_element(By.ID, ID_HEADER_TEXT).text
-        self.assertIn(HEADER_TEXT, header_text.title())
+        header_text = self.browser.find_element(By.CLASS_NAME, CLS_HEADER_TEXT).text
+        self.assertIn(HEADER_TEXT.upper(), header_text.upper())
 
     @skip
     def test_user_can_register(self):
