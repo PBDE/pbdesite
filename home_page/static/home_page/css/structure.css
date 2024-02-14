@@ -72,23 +72,31 @@ body {
     display: none;
 }
 
-/* *** HEADER SECTION *** */
+/* *** SECTIONS SHARED ***  */
 
-.header-section {
-    height: 100vh;
+.section-main {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.section-main-cntr {
+    width: 70%
+}
+
+/* *** HEADER SECTION *** */
+
+.header-section {
+    height: 100vh;
+}
+
 .header-section-cntr {
-    width: 70%;
     height: 50%;
 }
 
 .header-text-cntr {
-    font-size: 4rem;
     width: 45rem;
+    font-size: 4rem;
     color: white;
 }
 
@@ -103,36 +111,68 @@ body {
 
 /* *** ABOUT SECTION *** */
 
-.about-section {
-    /* background-color: tomato; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .about-section-cntr {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70%;
-    background-color: darkgreen;
-}
-
-.about-section-panel {
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
     background-color: cadetblue;
 }
 
-.panel-header-cntr {
-    /* display: flex; */
-    /* align-items: center;
-    justify-content: center; */
+.about-section-panel {
+    padding-bottom: 4rem;
     background-color: goldenrod;
+}
+
+.panel-header-cntr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .about-section-panel h2 {
     font-size: 3rem;
     color: white;
 }
+
+.panel-info-cntr {
+    /* background-color: rgb(250, 37, 0); */
+}
+
+.skills-info-cntr {
+    background-color: violet;
+    height: 100%;
+}
+
+.panel-info-cntr p {
+    margin-bottom: 1rem;
+    color: grey;
+    font-family: serif;
+    font-size: 2rem;
+    line-height: 3.5rem;
+}
+
+.panel-info-cntr div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skills-list {
+    display: grid;
+    grid-template-columns: 20rem 20rem;
+    text-align: center;
+}
+
+.skills-list li {
+    margin: 0.5rem;
+    color: gray;
+    font-size: 2.5rem;
+}
+
 
 /* *** SUB PAGE *** */
 
@@ -167,7 +207,7 @@ body {
     color: white;
 }
 
-/* *** FORMs *** */
+/* *** FORMS *** */
 
 .main-form {
     display: flex;
