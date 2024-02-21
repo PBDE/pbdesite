@@ -1,8 +1,8 @@
 {% extends "home_page/layout.html" %}
 
 {% block body %}
-    <section class="main-section">
-        <div class="main-container">
+    <section class="section-sub-page">
+        <div class="sub-page-cntr">
             {% if check_for_delete %}
                 <p id="confirm-delete-msg">Are you sure you want to delete your account?</p>
                 <ul class="main-options-list">
@@ -10,7 +10,7 @@
                 </ul>
             {% else %}
                     <p id="account-deleted-msg">Account deleted</p>
-                    <ul class="main-options-list">
+                    <ul class="sub-page-options-list">
                         <li><a href="{% url 'home_page:index' %}">Home</a></li>
                     </ul>
             {% endif %}
