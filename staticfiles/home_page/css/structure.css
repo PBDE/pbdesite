@@ -1,7 +1,11 @@
-* {
+*, *:before, *:after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
 }
 
 li {
@@ -30,15 +34,10 @@ body {
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    width: 100%;
     top: 0;
+    width: 100%;
     padding: 2rem;
     background-color: black;
-}
-
-.home-link {
-    font-size: 2rem;
-    color: white;
 }
 
 .nav-menu-list {
@@ -47,19 +46,30 @@ body {
 
 .nav-menu-list-item {
     margin: 0 2rem;
+}
+
+.nav-link {
+    color: white;
     font-size: 2rem;
     text-transform: uppercase;
+    border-style: solid;
+    border-width: 3.5px;
+    border-color: black;
+
 }
 
-.nav-menu-list-item > a {
-    color: white;
+.nav-link:hover, .nav-link:focus {
+    border-image-source: linear-gradient(to right, #7700ff, #cc00ff); 
+    border-image-slice: 0 0 1 0; 
 }
+
+/* *** NAV BAR MOBILE *** */
 
 .nav-menu-btn {
+    display: none;
     border: none;
     background: none;
     cursor: pointer;
-    display: none;
 }
 
 .nav-menu-icon {
@@ -72,73 +82,134 @@ body {
     display: none;
 }
 
-/* *** HEADER SECTION *** */
+/* *** SECTIONS SHARED ***  */
 
-.header-section {
-    height: 100vh;
+.section-main {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-bottom: 8rem;
 }
 
-.header-section-cntr {
+.section-main-cntr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+}
+
+.section-heading {
+    padding: 0.1rem;
+    margin: 3rem;
+    color: white;
+    font-size: 4rem;
+    border-style: solid;
+    border-width: 4px;
+    border-image-source: linear-gradient(to right, #7700ff, #cc00ff); 
+    border-image-slice: 0 0 1 0; 
+}
+
+/* *** HEADER SECTION *** */
+
+.section-header {
+    height: 100vh;
+}
+
+.section-header-cntr {
     width: 70%;
     height: 50%;
 }
 
 .header-text-cntr {
-    font-size: 4rem;
-    width: 45rem;
+    max-width: 45rem;
+    margin-bottom: 1rem;
     color: white;
+    font-size: 4rem;
 }
 
 .header-text-cntr span {
     font-weight: 500;
 }
 
-.header-greeting-cntr {
-    margin-bottom: 2rem;
+.mainline {
+    max-width: 410px;
 }
 
+/* *** SKILLS SECTION *** */
 
-/* *** ABOUT SECTION *** */
+.skills-list-cntr {
+    width: 100%;
+}
 
-
-
-/* *** SUB PAGE *** */
-
-.main-section {
-    height: 100vh;
+.skills-list {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
-.main-container {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 8rem;
-}
-
-.main-container > h2 {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-}
-
-.main-container > p {
+.skills-list > li {
+    padding: 1.5rem 3rem;
+    color: grey;
     font-size: 2.5rem;
 }
 
-.main-options-list > li {
-    font-size: 2rem;
-    padding: 1rem 0;
+.skills-cntr {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
 }
 
-.main-options-list a {
+.skills-logo {
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-right: 0.5rem;
+}
+
+/* *** ABOUT SECTION *** */
+
+.about-text > p {
+    color: grey;
+    font-family: serif;
+    font-size: 2rem;
+    line-height: 3.5rem;
+}
+
+/* *** SUB PAGE *** */
+
+.section-sub-page {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.sub-page-cntr {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-top: 8rem;
+}
+
+.sub-page-cntr > h2 {
+    margin-bottom: 2rem;
+    font-size: 4rem;
+}
+
+.sub-page-cntr > p {
+    font-size: 2.5rem;
+}
+
+.sub-page-options-list > li {
+    padding: 1rem 0;
+    font-size: 2rem;
+}
+
+.sub-page-options-list > a {
     color: white;
 }
 
-/* *** FORMs *** */
+/* *** FORMS *** */
 
 .main-form {
     display: flex;
@@ -167,47 +238,39 @@ body {
 }
 
 .main-form > div > span {
-    font-size: 1.5rem;
     margin: 0;
+    font-size: 1.5rem;
 }
 
 /* *** MEDIA QUERIES ***  */
 
-/* 1400px */
-@media(max-width: 87.5em) {
-    .about-box-container {
-        flex-direction: column;
-    }
-}
-
-/* 800px */
-@media(max-width: 50em) {
+@media(max-width: 875px) {
+    
     .skills-list {
-        grid-template-columns: 20rem 20rem;
+        display: grid;
+        grid-template-columns: 30% 30%;
     }
 }
 
 /* 650px */
-@media(max-width: 40em) {
+@media(max-width: 650px) {
     .nav-menu-btn {
         display: block;
         z-index: 1000;
     }
 
     .nav-menu-list {
+        align-items: center;
+        justify-content: space-evenly;
+        flex-direction: column;
+
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100vh;
         
-        align-items: center;
-        justify-content: space-evenly;
-        flex-direction: column;
-        
         transform: translateX(100%);
-
-        /* transition: all 0.5s; */
 
         /* hide visually */
         opacity: 0;
@@ -215,19 +278,18 @@ body {
         pointer-events: none;
         /* hide from screen readers */
         visibility: hidden;
-
     }
 
     .nav-open .nav-menu-list {
+        visibility: visible;
         opacity: 1;
         pointer-events: auto;
-        visibility: visible;
         transform: translateX(0);
     }
 
     .behind-nav {
-        pointer-events: none;
         visibility: hidden;
+        pointer-events: none;
     }
 
     .nav-open .nav-menu-icon[name="close-outline"] {
@@ -237,34 +299,42 @@ body {
     .nav-open .nav-menu-icon[name="menu-outline"] {
         display: none;
     }
-}
 
-/* 550px  */
-@media(max-width: 34em) {
-    .about-section {
-        padding: 1rem;
-    }
     .skills-list {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+    }
+    .skills-list > li {
+        padding: 0.5rem;
+    }
+
+    .skills-cntr {
+        justify-content: center;
     }
 }
 
-/* 450px */
-@media(max-width: 28em) {
-
-    html {
-        font-size: 56.25%;
+@media(max-width: 350px)
+{
+    .header-text-cntr {
+        font-size: 2.5rem;
     }
 
-    .header-section > h1 {
-        padding: 0 0.5rem;
+    .section-heading {
+        font-size: 2.5rem;
     }
-}
 
-/* 350px */
-@media(max-width: 22em) {
+    .skills-list > li {
+        padding: 0;
+        font-size: 2rem;
+    }
 
-    .header-section > h1 {
-        font-size: 6rem;
+    .skills-logo {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .about-text > p {
+        font-size: 1.5rem;
+        line-height: 2rem;
     }
 }
