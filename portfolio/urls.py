@@ -22,5 +22,6 @@ env.read_env()
 
 urlpatterns = [
     path(env("ADMIN"), admin.site.urls),
-    path('', include("home_page.urls"))
+    path('', include("home_page.urls")),
+    path('vocabulary', include("vocab_trainer.urls"))
 ]
