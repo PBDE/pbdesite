@@ -4,14 +4,14 @@
 {% block navbar %}
     {% if user.is_authenticated %}
         <li class="nav-menu-list-item">
-            <a href="{% url 'home_page:account' user=user %}">Account</a>
+            <a class="nav-link" href="{% url 'home_page:account' user=user %}">Account</a>
         </li>
     {% else %}
         <li class="nav-menu-list-item">
-            <a href="{% url 'home_page:login' %}">Login</a>
+            <a class="nav-link" href="{% url 'home_page:login' %}">Login</a>
         </li>
         <li class="nav-menu-list-item">
-            <a href="{% url 'home_page:register' %}">Register</a>
+            <a class="nav-link" href="{% url 'home_page:register' %}">Register</a>
         </li>
     {% endif %}
 {% endblock %}
@@ -24,20 +24,6 @@
                 <p>A full stack <span>developer</span> and <span>data analyst</span>.</p>
             </div>
             <!-- main line -->
-
-                <!-- <svg
-                    class="mainline"
-                    viewBox="0 0 412 50"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:svg="http://www.w3.org/2000/svg">
-                    <g>
-                        <path
-                        style="fill:none;fill-opacity:1;stroke:#7700ff;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-                        d="M 2.3044975,47.17728 C 384.77684,-25.825236 402.15065,14.653475 408.19775,21.366883" />
-                    </g>
-                </svg> -->
-
                 <svg
                     class="mainline"
                     viewBox="-1 -1 411 48"
@@ -95,19 +81,84 @@
             <h2 class="section-heading">Skills</h2>
             <div class="skills-list-cntr">
                 <ul class="skills-list">
-                    <li>Python</li>
-                    <li>Django</li>
-                    <li>JavaScript</li>
-                    <li>CSS</li>
-                    <li>Sass</li>
-                    <li>HTML</li>
-                    <li>C#</li>
-                    <li>React</li>
-                    <li>Git</li>
-                    <li>SQL</li>
-                    <li>Numpy</li>
-                    <li>Pandas</li>
-                    <li>Scikit-learn</li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\python-original.svg' %}">
+                            <p>Python</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\django-original.svg' %}">
+                            <p>Django</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\javascript-original.svg' %}">
+                            <p>JavaScript</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\css-original.svg' %}">
+                            <p>CSS</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\sass-original.svg' %}">
+                            <p>Sass</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\html-original.svg' %}">
+                            <p>HTML</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\react-original.svg' %}">
+                            <p>React</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\git-original.svg' %}">
+                            <p>Git</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\c-sharp-original.svg' %}">
+                            <p>C#</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\sql-original.svg' %}">
+                            <p>SQL</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\numpy-original.svg' %}">
+                            <p>Numpy</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\pandas-original.svg' %}">
+                            <p>Pandas</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skills-cntr">
+                            <img class="skills-logo" src="{% static '\home_page\images\scikit-learn-original.svg' %}">
+                            <p>Scikit-learn</p>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

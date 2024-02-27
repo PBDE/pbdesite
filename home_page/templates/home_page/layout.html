@@ -17,14 +17,14 @@
     <body>
         <menu class="nav-menu-bar">
             <div>
-               <a class="home-link" href="{% url 'home_page:index' %}">PBDE</a>
+               <a class="home-link nav-link" href="{% url 'home_page:index' %}">PBDE</a>
             </div>
             <ul class="nav-menu-list">
                 <li class="nav-menu-list-item">
-                    <a href="">About</a>
+                    <a class="nav-link" href="">About</a>
                 </li>
                 <li class="nav-menu-list-item">
-                    <a href="">Apps</a>
+                    <a class="nav-link" href="">Apps</a>
                 </li>
                 {% block navbar %}{% endblock %}
             </ul>
