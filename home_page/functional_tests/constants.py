@@ -40,7 +40,7 @@ ID_CREATE_USER_FROM = "create-user-form"
 CLS_ERROR_LIST = "errorlist"
 
 # own
-CLS_HEADER_TEXT = "header-greeting-text"
+CLS_HEADER_TEXT = "header-text-cntr"
 
 # messages
 CONFIRM_DELETE_ACCOUNT_MSG = "Are you sure you want to delete your account?"
