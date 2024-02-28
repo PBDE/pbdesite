@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class VocabTrainerConfig(AppConfig):
+class LanguageConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'vocab_trainer'
+    name = 'language'

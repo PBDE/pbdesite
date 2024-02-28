@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import EnglishNoun, GermanNoun
 
-# Register your models here.
+admin.site.register(EnglishNoun)
+admin.site.register(GermanNoun)
+
