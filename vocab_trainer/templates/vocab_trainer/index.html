@@ -1,0 +1,15 @@
+{% extends "vocab_trainer/layout.html" %}
+
+{% block body %}
+
+    <a href="{% url 'vocab_trainer:add' %}">Add vocabulary</a>
+    <a href="{% url 'vocab_trainer:test' %}">Test vocabulary</a>
+    <a href="{% url 'home_page:index' %}">Home Page</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'home_page:logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'home_page:login' %}">Login</a>
+    {% endif %}
+    <a href="{% url 'vocab_trainer:translations' %}">Vocabulary Table</a>
+
+{% endblock %}
