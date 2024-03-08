@@ -72,7 +72,7 @@ class HomePageTest(FunctionalTest):
         self.assertEqual(confimation_question, CONFIRM_DELETE_ACCOUNT_MSG)
 
         # the user clicks confirm
-        self.browser.find_element(By.ID, ID_CONFIRM_DELETE_BTN).click()
+        self.browser.find_element(By.CLASS_NAME, ID_CONFIRM_DELETE_BTN).click()
         self.wait_for(lambda: self.browser.find_element(By.ID, ID_DELETED_CONFIRM_TEXT))
 
         # the user gets confirmation that the account has been deleted

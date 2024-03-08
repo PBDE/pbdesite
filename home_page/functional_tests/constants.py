@@ -6,7 +6,7 @@ HEADER_TEXT = "Hi. I'm"
 USER_GREETING_TEXT = "Hi, "
 
 ## links
-HOME_PAGE_LINK = "<a href='%s'>Home</a>" % reverse("home_page:index")
+HOME_PAGE_LINK = "<a class='home-page-link' href='%s'>Home</a>" % reverse("home_page:index")
 # LOGIN_LINK = "<a href='%s'>Login</a>" % reverse("home_page:login")
 # REGISTER_LINK = "<a href='%s'>Register</a>" % reverse("home_page:register")
 # LOGOUT_LINK = "<a href='%s'>Logout</a>" % reverse("home_page:logout")
