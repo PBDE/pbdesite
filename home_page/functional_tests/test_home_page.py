@@ -1,6 +1,5 @@
 from portfolio.functional_tests.base import FunctionalTest
 from selenium.webdriver.common.by import By
-from unittest import skip
 
 from .constants import *
 
@@ -18,7 +17,6 @@ class HomePageTest(FunctionalTest):
         header_text = self.browser.find_element(By.CLASS_NAME, CLS_HEADER_TEXT).text
         self.assertIn(HEADER_TEXT.upper(), header_text.upper())
 
-    @skip
     def test_user_can_register(self):
 
         # the user goes to the register page
@@ -41,7 +39,6 @@ class HomePageTest(FunctionalTest):
         greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
         self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
-    @skip
     def test_user_can_login(self):
 
         username, _, _ = self.login_temporary_user()
@@ -50,26 +47,24 @@ class HomePageTest(FunctionalTest):
         greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
         self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
-    @skip
     def test_user_can_logout(self):
 
         self.login_temporary_user()
 
         # on their account page, the user clicks the option to logout
-        self.browser.find_element(By.LINK_TEXT, LOGOUT_LINK_TEXT).click()
-        self.wait_for(lambda: self.browser.find_element(By.ID, ID_HEADER_TEXT))
+        self.browser.find_element(By.CLASS_NAME, "logout-link").click()
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME, ID_HEADER_TEXT))
 
         # the user is redirected to the home page
-        header_text = self.browser.find_element(By.ID, ID_HEADER_TEXT).text
-        self.assertIn(HEADER_TEXT, header_text.title())
+        header_text = self.browser.find_element(By.CLASS_NAME, ID_HEADER_TEXT).text
+        self.assertIn(HEADER_TEXT.title(), header_text.title())
 
-    @skip
     def test_user_can_delete_account(self):
         
         self.login_temporary_user()
 
         # on their account page, the user clicks the option to delete their account
-        self.browser.find_element(By.LINK_TEXT, DELETE_ACCOUNT_LINK_TEXT).click()
+        self.browser.find_element(By.CLASS_NAME, "delete-account-link").click()
         self.wait_for(lambda: self.browser.find_element(By.ID, ID_CONFIRMATION_TEXT))
 
         # the user is asked to confirm the deletion
@@ -88,7 +83,6 @@ class HomePageTest(FunctionalTest):
         html_body = self.browser.find_element(By.TAG_NAME, "body").get_attribute("innerHTML")
         self.assertInHTML(HOME_PAGE_LINK, html_body)
 
-    @skip
     def test_only_valid_registration_details(self):
 
         # the user goes to the register page
@@ -121,7 +115,6 @@ class HomePageTest(FunctionalTest):
         # the user sees the error message
         self.assertTrue(self.browser.find_element(By.CLASS_NAME, CLS_ERROR_LIST))
 
-    @skip
     def test_only_valid_login_details(self):
 
         username, _, password = self.create_temporary_user()
@@ -158,3 +151,8 @@ class HomePageTest(FunctionalTest):
 
     def test_nav_menu_on_small_screen_size(self):
         self.fail("Implement")
+        # go to the page
+        # reduce the window size
+        # check for button
+        # check nav gone
+        # get side menu appears

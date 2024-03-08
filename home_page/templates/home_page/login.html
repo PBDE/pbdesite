@@ -7,9 +7,14 @@
             {% if message %}
                 <p id="error-msg">{{ message }}</p>
             {% endif %}
+            <form class="main-form" action="{% url 'home_page:login' %}" method="POST" id="login-form">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Login" id="login-btn">
+                </form>
             <ul class="sub-page-options-list">
-                <li><a href="{% url 'home_page:register' %}">Register</a></li>
-                <li><a href="{% url 'home_page:index' %}">Home</a></li>
+                <li><a class="register-page-link" href="{% url 'home_page:register' %}">Register</a></li>
+                <li><a class="home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
             </ul>
         </div>
     </section>
