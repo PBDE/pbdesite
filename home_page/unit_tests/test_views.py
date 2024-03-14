@@ -1,11 +1,14 @@
 from django.test import TestCase, Client
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.urls import reverse
+from django.contrib.auth.forms import PasswordChangeForm
+from unittest import skip
+
 
 from home_page.forms import CustomUserCreationForm, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
 
-from home_page.views import INDEX_TEMPLATE, REGISTER_TEMPLATE, LOGIN_TEMPLATE, ACCOUNT_TEMPLATE, DELETE_ACCOUNT_TEMPLATE
+from home_page.views import INDEX_TEMPLATE, REGISTER_TEMPLATE, LOGIN_TEMPLATE, ACCOUNT_TEMPLATE, DELETE_ACCOUNT_TEMPLATE, CHANGE_PASSWORD_TEMPLATE
 
 def create_user_data():
     functional_test = FunctionalTest()
@@ -204,3 +207,39 @@ class DeleteUserView(TestCase):
         self.client.login(username=user_data["username"], password=user_data["password1"])
         response = self.client.get(reverse("home_page:delete_account"))
         self.assertTemplateUsed(response, DELETE_ACCOUNT_TEMPLATE)
+
+
+class ChangePasswordView(TestCase):
+
+    def test_not_authenticated_user_redirected(self):
+        user_data = create_user_data()
+        get_user_model().objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        response = self.client.get(reverse("home_page:change_password"))
+        self.assertRedirects(response, reverse("home_page:login"))
+
+    def test_change_password_template_returned(self):
+        user_data = create_user_data()
+        get_user_model().objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+        response = self.client.get(reverse("home_page:change_password"))
+        self.assertTemplateUsed(response, CHANGE_PASSWORD_TEMPLATE)
+
+    def test_change_password_form_returned(self):
+        
+        user_data = create_user_data()
+        get_user_model().objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+        response = self.client.get(reverse("home_page:change_password"))
+        self.assertIsInstance(response.context["form"], PasswordChangeForm)
+
+    def test_password_changed(self):
+
+        user_data = create_user_data()
+        new_password = create_user_data()["password1"]
+        get_user_model().objects.create_user(user_data["username"], user_data["email"], user_data["password1"])
+        self.client.login(username=user_data["username"], password=user_data["password1"])
+
+        response = self.client.post(reverse("home_page:change_password"), data={"old_password": user_data["password1"] , "new_password1": new_password, "new_password2": new_password})
+        self.assertTemplateUsed(response, CHANGE_PASSWORD_TEMPLATE)
+        user = authenticate(username=user_data["username"], password=new_password)
+        self.assertIsNotNone(user)

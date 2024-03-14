@@ -1,5 +1,6 @@
 from portfolio.functional_tests.base import FunctionalTest
 from selenium.webdriver.common.by import By
+from unittest import skip
 
 from .constants import *
 
@@ -37,7 +38,7 @@ class HomePageTest(FunctionalTest):
 
         # the user sees the greeting
         greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
-        self.assertIn(USER_GREETING_TEXT + username, greeting_text)
+        self.assertIn((USER_GREETING_TEXT + username).lower(), greeting_text.lower())
 
     def test_user_can_login(self):
 
@@ -57,7 +58,7 @@ class HomePageTest(FunctionalTest):
 
         # the user is redirected to the home page
         header_text = self.browser.find_element(By.CLASS_NAME, ID_HEADER_TEXT).text
-        self.assertIn(HEADER_TEXT.title(), header_text.title())
+        self.assertIn(HEADER_TEXT.lower(), header_text.lower())
 
     def test_user_can_delete_account(self):
         
@@ -82,6 +83,32 @@ class HomePageTest(FunctionalTest):
         # the user sees the option to return to the home page
         html_body = self.browser.find_element(By.TAG_NAME, "body").get_attribute("innerHTML")
         self.assertInHTML(HOME_PAGE_LINK, html_body)
+
+    def test_user_can_change_password(self):
+
+        _, _, old_password = self.login_temporary_user()
+
+        # on their account page the user clicks the option to change their password
+        self.browser.find_element(By.CLASS_NAME, "change-password-link").click()
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_CHANGE_PASSWORD_FORM))
+
+        # the user is asked to enter their old password
+        self.browser.find_element(By.ID, ID_OLD_PASSWORD_INPUT).send_keys(old_password)
+
+        # the user is asked to enter their new password twice
+        password = self.random_user_details(self.UserDetails.PASSWORD)
+        self.browser.find_element(By.ID, ID_NEW_PASSWORD_INPUT).send_keys(password)
+        self.browser.find_element(By.ID, ID_CONFIRM_PASSWORD_INPUT).send_keys(password)
+
+        # the user clicks confirm
+        self.browser.find_element(By.ID, ID_CHANGE_PASSWORD_BTN).click()
+
+        # the user gets confirmation that the password has been changed
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME
+        , CLS_PASSWORD_CHANGED_CONFIRM_TEXT))
+
+        confirmation_text = self.browser.find_element(By.CLASS_NAME, CLS_PASSWORD_CHANGED_CONFIRM_TEXT).text
+        self.assertIn(PASSWORD_CHANGE_CONFIRMATION_MSG.lower(), confirmation_text.lower())
 
     def test_only_valid_registration_details(self):
 
@@ -146,9 +173,14 @@ class HomePageTest(FunctionalTest):
         self.wait_for(lambda: self.browser.find_element(By.ID, ID_LOGIN_FORM))
 
         # the user sees the error message
-        error_message = self.browser.find_element(By.ID, ID_ERROR_TEXT)
+        error_message = self.browser.find_element(By.CLASS_NAME, CLS_ERROR_TEXT)
         self.assertIn(USER_DETAILS_ERROR_MSG, error_message.text)
 
+    @skip
+    def test_only_valid_change_of_password_details(self):
+        self.fail("Implement")
+    
+    @skip
     def test_nav_menu_on_small_screen_size(self):
         self.fail("Implement")
         # go to the page

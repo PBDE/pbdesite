@@ -4,9 +4,10 @@
     <section class="section-sub-page">
         <div class="sub-page-cntr">
             <h2>Register</h2>
-            {% if forms.errors %}
-                {{ forms.errors }}
-            {% endif %}
+            <!-- {% if form.errors %}
+                <p class="form-error-msg">{{ form.errors }}</p>
+                <p class="form-error-msg">{{ form.non_field_errors }}
+            {% endif %} -->
             <form class="main-form" action="{% url 'home_page:register' %}" method="POST" id="create-user-form">
                 {% csrf_token %}
                 {{ form }}

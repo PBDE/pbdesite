@@ -3,13 +3,14 @@
 {% block body %}
     <section class="section-sub-page">
         <div class="sub-page-cntr">
+            <h2>Delete account</h2>
             {% if check_for_delete %}
-                <p id="confirm-delete-msg">Are you sure you want to delete your account?</p>
+                <p id="confirm-delete-msg" class="helptext">Are you sure you want to delete your account?</p>
                 <form class="main-form" action="{% url 'home_page:delete_account' %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" value="Confirm" class="confirm-delete-btn">
                 </form>
-                <ul class="main-options-list">
+                <ul class="sub-page-options-list">
                     <li><a class="cancel-link" href="{% url 'home_page:account' user=user %}">Cancel</a></li>
                 </ul>
             {% else %}

@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 from .forms import LoginForm, CustomUserCreationForm
 
@@ -11,6 +12,7 @@ REGISTER_TEMPLATE = "home_page/register.html"
 LOGIN_TEMPLATE = "home_page/login.html"
 ACCOUNT_TEMPLATE = "home_page/account.html"
 DELETE_ACCOUNT_TEMPLATE = "home_page/delete_account.html"
+CHANGE_PASSWORD_TEMPLATE = "home_page/change_password.html"
 
 def index(request):
     return render(request, INDEX_TEMPLATE)
@@ -81,5 +83,22 @@ def delete_user(request):
     if request.method == "POST":
         user = get_user_model().objects.filter(username=request.user)
         user.delete()
-        return render(request, DELETE_ACCOUNT_TEMPLATE)
+        return render(request, DELETE_ACCOUNT_TEMPLATE) # redirect
     return render(request, DELETE_ACCOUNT_TEMPLATE, {"check_for_delete": True})
+
+def change_password(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("home_page:login"))
+    
+    if request.method == "POST":
+        change_password_form = PasswordChangeForm(request.user, request.POST)
+        if not change_password_form.is_valid():
+            print(change_password_form.errors)
+            print(change_password_form.non_field_errors())
+            return render(request, CHANGE_PASSWORD_TEMPLATE, {"form": change_password_form})
+
+        user = change_password_form.save()
+        update_session_auth_hash(request, user)
+        return render(request, CHANGE_PASSWORD_TEMPLATE) # redirect
+
+    return render(request, CHANGE_PASSWORD_TEMPLATE, {"form": PasswordChangeForm(request.user)})

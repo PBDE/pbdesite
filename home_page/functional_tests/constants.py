@@ -4,6 +4,7 @@ from django.urls import reverse
 BROWSER_TITLE_TEXT = "PBDE"
 HEADER_TEXT = "Hi. I'm"
 USER_GREETING_TEXT = "Hi, "
+PASSWORD_CHANGE_CONFIRMATION_TEXT = "Password changed successfully"
 
 ## links
 HOME_PAGE_LINK = "<a class='home-page-link' href='%s'>Home</a>" % reverse("home_page:index")
@@ -22,6 +23,9 @@ ID_PASSWORD_INPUT = "id_password"
 ID_CREATE_PASSWORD_INPUT = "id_password1"
 ID_PASSWORD_CONFIRM_INPUT = "id_password2"
 ID_EMAIL_INPUT = "id_email"
+ID_OLD_PASSWORD_INPUT = "id_old_password"
+ID_NEW_PASSWORD_INPUT = "id_new_password1"
+ID_CONFIRM_PASSWORD_INPUT = "id_new_password2"
 
 # own
 ID_REGISTER_BTN = "register-btn"
@@ -31,9 +35,10 @@ ID_HEADER_TEXT = "header-text-cntr"
 ID_USER_GREETING_TEXT = "user-greeting"
 ID_CONFIRMATION_TEXT = "confirm-delete-msg"
 ID_DELETED_CONFIRM_TEXT = "account-deleted-msg"
-ID_ERROR_TEXT = "error-msg"
 ID_LOGIN_FORM ="login-form"
 ID_CREATE_USER_FROM = "create-user-form"
+ID_CHANGE_PASSWORD_FORM = "change_password_form"
+ID_CHANGE_PASSWORD_BTN = "confirm-change-password-btn"
 
 ## css classes
 # django defaults
@@ -41,8 +46,11 @@ CLS_ERROR_LIST = "errorlist"
 
 # own
 CLS_HEADER_TEXT = "header-text-cntr"
+CLS_ERROR_TEXT = "form-error-msg"
+CLS_PASSWORD_CHANGED_CONFIRM_TEXT = "confirm-password-change-msg"
 
 # messages
 CONFIRM_DELETE_ACCOUNT_MSG = "Are you sure you want to delete your account?"
 DELETED_ACCOUNT_CONFIRM_MSG = "Account deleted"
 USER_DETAILS_ERROR_MSG = "Details did not match an existing user"
+PASSWORD_CHANGE_CONFIRMATION_MSG = "Password successfully changed"

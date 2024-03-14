@@ -5,7 +5,7 @@
         <div class="sub-page-cntr">
             <h2>Login</h2>
             {% if message %}
-                <p id="error-msg">{{ message }}</p>
+                <p class="form-error-msg">{{ message }}</p>
             {% endif %}
             <form class="main-form" action="{% url 'home_page:login' %}" method="POST" id="login-form">
                 {% csrf_token %}
