@@ -1,6 +1,8 @@
 from portfolio.functional_tests.base import FunctionalTest
 from selenium.webdriver.common.by import By
 from unittest import skip
+from django.core import mail
+import re
 
 from .constants import *
 
@@ -104,11 +106,68 @@ class HomePageTest(FunctionalTest):
         self.browser.find_element(By.ID, ID_CHANGE_PASSWORD_BTN).click()
 
         # the user gets confirmation that the password has been changed
-        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME
-        , CLS_PASSWORD_CHANGED_CONFIRM_TEXT))
+        self.wait_for(lambda: self.browser.find_element(By.ID
+        , ID_PASSWORD_CHANGED_CONFIRM_MSG))
 
-        confirmation_text = self.browser.find_element(By.CLASS_NAME, CLS_PASSWORD_CHANGED_CONFIRM_TEXT).text
+        confirmation_text = self.browser.find_element(By.ID, ID_PASSWORD_CHANGED_CONFIRM_MSG).text
         self.assertIn(PASSWORD_CHANGE_CONFIRMATION_MSG.lower(), confirmation_text.lower())
+
+    def test_user_can_request_new_password_link(self):
+
+        username, email, _ = self.create_temporary_user()
+
+        # the user goes to the login page
+        self.browser.get(self.live_server_url + "/login")
+
+        # on the login page the user clicks the forgotten password option
+        self.browser.find_element(By.CLASS_NAME, "forgotten-password-link").click()
+
+        # the user is then directed to the forgotten password page
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_FORGOTTEN_PASSWORD_TEXT))
+
+        # the user enters their email address
+        self.browser.find_element(By.ID, ID_EMAIL_INPUT).send_keys(email)
+        self.browser.find_element(By.ID, ID_REQUEST_PASSWORD_BTN).click()
+
+        # the user then sees a message advising that an email has been sent to their account with instructions
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_PASSWORD_EMAIL_SENT_TEXT))
+
+        # check the dummy email has been created
+        reset_email = mail.outbox[0]
+        # self.assertIn(email, reset_email)
+        url_search = re.search(r'http://.+/.+$', reset_email.body)
+        url = url_search.group(0)
+
+        # the user clicks the link and is directed to create new password page
+        self.browser.get(url)
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_NEW_PASSWORD_INPUT))
+
+        # the user enters a new password
+        new_password = self.random_user_details(self.UserDetails.PASSWORD)
+        self.browser.find_element(By.ID, ID_NEW_PASSWORD_INPUT).send_keys(new_password)
+        self.browser.find_element(By.ID, ID_CONFIRM_PASSWORD_INPUT).send_keys(new_password)
+        self.browser.find_element(By.ID, ID_RESET_PASSWORD_BTN).click()
+
+        # the user gets confirmation that the password has been changed
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_PASSWORD_CHANGED_CONFIRM_MSG))
+
+        confirmation_text = self.browser.find_element(By.ID, ID_PASSWORD_CHANGED_CONFIRM_MSG).text
+        self.assertIn(PASSWORD_CHANGE_CONFIRMATION_MSG.lower(), confirmation_text.lower())
+
+        # the user is redirected to the login page
+        self.browser.find_element(By.ID, ID_RETURN_TO_LOGIN_LINK).click()
+
+        # the user logs in with the new details
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_USERNAME_INPUT))
+
+        self.browser.find_element(By.ID, ID_USERNAME_INPUT).send_keys(username)
+        self.browser.find_element(By.ID, ID_PASSWORD_INPUT).send_keys(new_password)
+        self.browser.find_element(By.ID, ID_LOGIN_BTN).click()
+
+        self.wait_for(lambda: self.browser.find_element(By.ID, ID_USER_GREETING_TEXT))
+
+        greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
+        self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
     def test_only_valid_registration_details(self):
 

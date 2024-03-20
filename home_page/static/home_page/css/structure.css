@@ -215,7 +215,7 @@ body {
     text-transform: uppercase;
 }
 
-.confirm-password-change-msg {
+.sub-page-text {
     color: var(--body-text-color);
 }
 

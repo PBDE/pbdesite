@@ -4,7 +4,6 @@ from django.urls import reverse
 BROWSER_TITLE_TEXT = "PBDE"
 HEADER_TEXT = "Hi. I'm"
 USER_GREETING_TEXT = "Hi, "
-PASSWORD_CHANGE_CONFIRMATION_TEXT = "Password changed successfully"
 
 ## links
 HOME_PAGE_LINK = "<a class='home-page-link' href='%s'>Home</a>" % reverse("home_page:index")
@@ -37,8 +36,14 @@ ID_CONFIRMATION_TEXT = "confirm-delete-msg"
 ID_DELETED_CONFIRM_TEXT = "account-deleted-msg"
 ID_LOGIN_FORM ="login-form"
 ID_CREATE_USER_FROM = "create-user-form"
-ID_CHANGE_PASSWORD_FORM = "change_password_form"
+ID_CHANGE_PASSWORD_FORM = "change-password-form"
 ID_CHANGE_PASSWORD_BTN = "confirm-change-password-btn"
+ID_FORGOTTEN_PASSWORD_TEXT = "forgetten-password-header"
+ID_REQUEST_PASSWORD_BTN = "request-password-btn"
+ID_PASSWORD_EMAIL_SENT_TEXT = "password-email-sent-msg"
+ID_RESET_PASSWORD_BTN = "password-reset-btn"
+ID_PASSWORD_CHANGED_CONFIRM_MSG = "password-changed-confirm-msg"
+ID_RETURN_TO_LOGIN_LINK = "login-link"
 
 ## css classes
 # django defaults
@@ -47,7 +52,6 @@ CLS_ERROR_LIST = "errorlist"
 # own
 CLS_HEADER_TEXT = "header-text-cntr"
 CLS_ERROR_TEXT = "form-error-msg"
-CLS_PASSWORD_CHANGED_CONFIRM_TEXT = "confirm-password-change-msg"
 
 # messages
 CONFIRM_DELETE_ACCOUNT_MSG = "Are you sure you want to delete your account?"
