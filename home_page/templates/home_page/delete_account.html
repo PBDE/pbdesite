@@ -1,24 +1,24 @@
-{% extends "home_page/layout.html" %}
+{% extends "home_page/sub_page_layout.html" %}
 
-{% block body %}
-    <section class="section-sub-page">
-        <div class="sub-page-cntr">
-            <h2>Delete account</h2>
-            {% if check_for_delete %}
-                <p id="confirm-delete-msg" class="helptext">Are you sure you want to delete your account?</p>
-                <form class="main-form" action="{% url 'home_page:delete_account' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="Confirm" class="confirm-delete-btn">
-                </form>
-                <ul class="sub-page-options-list">
-                    <li><a class="cancel-link" href="{% url 'home_page:account' user=user %}">Cancel</a></li>
-                </ul>
-            {% else %}
-                    <p id="account-deleted-msg">Account deleted</p>
-                    <ul class="sub-page-options-list">
-                        <li><a class="home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
-                    </ul>
-            {% endif %}
-        </div>
-    </section>
+{% block header %}Delete account{% endblock %}
+
+{% block form %}
+    {% if check_for_delete %}
+        <p id="confirm-delete-msg" class="helptext">Are you sure you want to delete your account?</p>
+        <form class="main-form" action="{% url 'home_page:delete_account' %}" method="POST">
+            {% csrf_token %}
+            <input class="submit-btn confirm-delete-btn" type="submit" value="Confirm">
+        </form>
+    {% else %}
+        <p id="account-deleted-msg" class="helptext">Account deleted</p>
+    {% endif %}
 {% endblock %}
+
+{% block options-list %}
+    {% if check_for_delete %}
+        <li><a class="nav-link cancel-link" href="{% url 'home_page:account' user=user %}">Cancel</a></li>
+    {% else %}
+        <li><a class="nav-link home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
+    {% endif %}
+{% endblock %}
+

@@ -14,6 +14,7 @@
     --background-color: black;
     --main-color-one: #7700ff;
     --main-color-two: #cc00ff;
+    --main-form-color: #e6e3e9;
 }
 
 li {
@@ -109,7 +110,7 @@ body {
 
 .section-heading {
     padding: 0.1rem;
-    margin: 3rem;
+    margin: 3rem 0rem;
     color: var(--heading-text-color);
     font-size: 4rem;
     border-style: solid;
@@ -193,14 +194,12 @@ body {
 }
 
 .sub-page-cntr {
-    display: flex;
-    flex-direction: column;
     width: 60%;
     margin-top: 8rem;
 }
 
 .sub-page-cntr h2 {
-    margin-bottom: 2rem;
+    display: inline-block;
     font-size: 4rem;
     color: var(--heading-text-color);
 }
@@ -213,6 +212,10 @@ body {
 .sub-page-options-list a {
     color: var(--heading-text-color);
     text-transform: uppercase;
+}
+
+.sub-page-cntr p, .sub-page-cntr li {
+    font-size: 1.5rem;
 }
 
 .sub-page-text {
@@ -251,6 +254,7 @@ body {
 
 .helptext, .helptext li {
     color: var(--body-text-color);
+    font-size: 1.5rem;
 }
 
 .form-error-msg {
@@ -259,6 +263,31 @@ body {
 
 .errorlist li {
     color: var(--main-color-two);
+}
+
+.main-form > div > input {
+    border: none;
+    background-color: var(--main-form-color);
+    padding-left: 1rem;
+}
+
+.submit-btn {
+    width: 30%;
+    text-align: center;
+    line-height: 0px;
+    padding: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--main-color-two);
+    background-color: var(--background-color);
+    border-width: 4px;
+    border-image-source: linear-gradient(to right, var(--main-color-one), var(--main-color-two)); 
+    border-image-slice: 1 1 1 1;
+    cursor: pointer; 
+}
+
+.submit-btn:hover, .submit-btn:focus {
+    color: var(--heading-text-color);
 }
 
 /* *** MEDIA QUERIES ***  */

@@ -9,7 +9,7 @@ from enum import Enum, auto
 from string import ascii_letters, digits, punctuation
 from random import randint
 
-from home_page.functional_tests.constants import ID_USERNAME_INPUT, ID_PASSWORD_INPUT, ID_LOGIN_BTN, ID_USER_GREETING_TEXT
+from home_page.functional_tests.constants import ID_USERNAME_INPUT, ID_PASSWORD_INPUT, ID_LOGIN_BTN, CLS_SUB_PAGE_HEADER_TEXT
 
 class FunctionalTest(StaticLiveServerTestCase):
 
@@ -82,7 +82,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.browser.find_element(By.ID, ID_LOGIN_BTN).click()
 
         # the registered user is redirected to their user page
-        self.wait_for(lambda: self.browser.find_element(By.ID, ID_USER_GREETING_TEXT))
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT))
 
         return username, email, password
  

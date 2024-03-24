@@ -6,7 +6,7 @@ HEADER_TEXT = "Hi. I'm"
 USER_GREETING_TEXT = "Hi, "
 
 ## links
-HOME_PAGE_LINK = "<a class='home-page-link' href='%s'>Home</a>" % reverse("home_page:index")
+HOME_PAGE_LINK = "<a class='nav-link home-page-link' href='%s'>Home</a>" % reverse("home_page:index")
 # LOGIN_LINK = "<a href='%s'>Login</a>" % reverse("home_page:login")
 # REGISTER_LINK = "<a href='%s'>Register</a>" % reverse("home_page:register")
 # LOGOUT_LINK = "<a href='%s'>Logout</a>" % reverse("home_page:logout")
@@ -31,14 +31,14 @@ ID_REGISTER_BTN = "register-btn"
 ID_CONFIRM_DELETE_BTN = "confirm-delete-btn"
 ID_LOGIN_BTN = "login-btn"
 ID_HEADER_TEXT = "header-text-cntr"
-ID_USER_GREETING_TEXT = "user-greeting"
+# ID_USER_GREETING_TEXT = "user-greeting"
 ID_CONFIRMATION_TEXT = "confirm-delete-msg"
 ID_DELETED_CONFIRM_TEXT = "account-deleted-msg"
 ID_LOGIN_FORM ="login-form"
 ID_CREATE_USER_FROM = "create-user-form"
 ID_CHANGE_PASSWORD_FORM = "change-password-form"
 ID_CHANGE_PASSWORD_BTN = "confirm-change-password-btn"
-ID_FORGOTTEN_PASSWORD_TEXT = "forgetten-password-header"
+# ID_FORGOTTEN_PASSWORD_TEXT = "forgetten-password-header"
 ID_REQUEST_PASSWORD_BTN = "request-password-btn"
 ID_PASSWORD_EMAIL_SENT_TEXT = "password-email-sent-msg"
 ID_RESET_PASSWORD_BTN = "password-reset-btn"
@@ -52,9 +52,13 @@ CLS_ERROR_LIST = "errorlist"
 # own
 CLS_HEADER_TEXT = "header-text-cntr"
 CLS_ERROR_TEXT = "form-error-msg"
+CLS_SUB_PAGE_HEADER_TEXT = "sub-page-heading"
 
 # messages
 CONFIRM_DELETE_ACCOUNT_MSG = "Are you sure you want to delete your account?"
 DELETED_ACCOUNT_CONFIRM_MSG = "Account deleted"
 USER_DETAILS_ERROR_MSG = "Details did not match an existing user"
 PASSWORD_CHANGE_CONFIRMATION_MSG = "Password successfully changed"
+
+# headers
+FORGOTTEN_PASSWORD_TEXT = "Forgotten password"

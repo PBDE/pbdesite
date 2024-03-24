@@ -1,15 +1,10 @@
-{% extends 'home_page/layout.html' %}
+{% extends 'home_page/sub_page_layout.html' %}
 
-{% block body %}
-    <section class="section-sub-page">
-        <div class="sub-page-cntr">
-            <h2 id="user-greeting">Hi, {{ request.user.username }}</h2>
-            <ul class="sub-page-options-list">
-                <li><a class="home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
-                <li><a class="logout-link" href="{% url 'home_page:logout' %}">Logout</a></li>
-                <li><a class="delete-account-link" href="{% url 'home_page:delete_account' %}">Delete Account</a></li>
-                <li><a class="change-password-link" href="{% url 'home_page:change_password' %}">Change Password</a></li>
-            </ul>
-        </div>
-    </section>
+{% block header %}Hi, {{ request.user.username }}{% endblock %}
+
+{% block options-list %}
+    <li><a class="nav-link home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
+    <li><a class="nav-link logout-link" href="{% url 'home_page:logout' %}">Logout</a></li>
+    <li><a class="nav-link delete-account-link" href="{% url 'home_page:delete_account' %}">Delete Account</a></li>
+    <li><a class="nav-link change-password-link" href="{% url 'home_page:change_password' %}">Change Password</a></li>
 {% endblock %}

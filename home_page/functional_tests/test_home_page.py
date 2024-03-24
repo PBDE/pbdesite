@@ -36,10 +36,10 @@ class HomePageTest(FunctionalTest):
         self.browser.find_element(By.ID, ID_REGISTER_BTN).click()
 
         # the registered user is redirected to their user page
-        self.wait_for(lambda: self.browser.find_element(By.ID, ID_USER_GREETING_TEXT))
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT))
 
         # the user sees the greeting
-        greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
+        greeting_text = self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT).text
         self.assertIn((USER_GREETING_TEXT + username).lower(), greeting_text.lower())
 
     def test_user_can_login(self):
@@ -47,7 +47,7 @@ class HomePageTest(FunctionalTest):
         username, _, _ = self.login_temporary_user()
 
         # the user sees the greeting
-        greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
+        greeting_text = self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT).text
         self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
     def test_user_can_logout(self):
@@ -123,7 +123,11 @@ class HomePageTest(FunctionalTest):
         self.browser.find_element(By.CLASS_NAME, "forgotten-password-link").click()
 
         # the user is then directed to the forgotten password page
-        self.wait_for(lambda: self.browser.find_element(By.ID, ID_FORGOTTEN_PASSWORD_TEXT))
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT))
+
+        forgotten_password_text = self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT).text
+
+        self.assertEqual(forgotten_password_text, FORGOTTEN_PASSWORD_TEXT)
 
         # the user enters their email address
         self.browser.find_element(By.ID, ID_EMAIL_INPUT).send_keys(email)
@@ -164,9 +168,9 @@ class HomePageTest(FunctionalTest):
         self.browser.find_element(By.ID, ID_PASSWORD_INPUT).send_keys(new_password)
         self.browser.find_element(By.ID, ID_LOGIN_BTN).click()
 
-        self.wait_for(lambda: self.browser.find_element(By.ID, ID_USER_GREETING_TEXT))
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT))
 
-        greeting_text = self.browser.find_element(By.ID, ID_USER_GREETING_TEXT).text
+        greeting_text = self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT).text
         self.assertIn(USER_GREETING_TEXT + username, greeting_text)
 
     def test_only_valid_registration_details(self):
@@ -234,10 +238,6 @@ class HomePageTest(FunctionalTest):
         # the user sees the error message
         error_message = self.browser.find_element(By.CLASS_NAME, CLS_ERROR_TEXT)
         self.assertIn(USER_DETAILS_ERROR_MSG, error_message.text)
-
-    @skip
-    def test_only_valid_change_of_password_details(self):
-        self.fail("Implement")
     
     @skip
     def test_nav_menu_on_small_screen_size(self):

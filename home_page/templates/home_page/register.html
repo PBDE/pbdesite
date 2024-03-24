@@ -1,22 +1,18 @@
-{% extends 'home_page/layout.html' %}
+{% extends 'home_page/sub_page_layout.html' %}
 
-{% block body %}
-    <section class="section-sub-page">
-        <div class="sub-page-cntr">
-            <h2>Register</h2>
-            <!-- {% if form.errors %}
-                <p class="form-error-msg">{{ form.errors }}</p>
-                <p class="form-error-msg">{{ form.non_field_errors }}
-            {% endif %} -->
-            <form class="main-form" action="{% url 'home_page:register' %}" method="POST" id="create-user-form">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Register" id="register-btn">
-            </form>
-            <ul class="sub-page-options-list">
-                <li><a class="login-page-link" href="{% url 'home_page:login' %}">Login</a></li>
-                <li><a class="home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
-            </ul>
-        </div>
-    </section>
+{% block header %}Sign up{% endblock %}
+
+{% block form %}
+
+    <form class="main-form" action="{% url 'home_page:register' %}" method="POST" id="create-user-form">
+        {% csrf_token %}
+        {{ form }}
+        <input class="submit-btn" type="submit" value="Sign up" id="register-btn">
+    </form>
+
+{% endblock %}
+
+{% block options-list %}
+    <li><a class="nav-link login-page-link" href="{% url 'home_page:login' %}">Login</a></li>
+    <li><a class="nav-link home-page-link" href="{% url 'home_page:index' %}">Home</a></li>
 {% endblock %}
