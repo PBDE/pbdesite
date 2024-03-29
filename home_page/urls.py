@@ -12,6 +12,7 @@ urlpatterns = [
     path("delete", views.delete_user, name="delete_account"),
     path("user/<str:user>", views.user_view, name="account"),
     path("change-password", views.change_password, name="change_password"),
+    path("privacy-statement", views.privacy_statement, name="privacy"),
 
     path("password-reset", PasswordResetView.as_view(template_name="home_page\password_reset.html", email_template_name="home_page\password_reset_email.html", success_url=reverse_lazy("home_page:password_reset_done")), name="password_reset"),
 

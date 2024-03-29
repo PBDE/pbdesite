@@ -27,6 +27,7 @@ a {
 
 html {
     font-size: 62.5%;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -147,6 +148,10 @@ body {
 
 /* *** SKILLS SECTION *** */
 
+#section-skills {
+    padding-top: 4rem;
+}
+
 .skills-list-cntr {
     width: 100%;
 }
@@ -183,6 +188,12 @@ body {
     font-family: serif;
     font-size: 2rem;
     line-height: 3.5rem;
+}
+
+/* *** APPS SECTION *** */
+
+.section-apps {
+    height: 100vh;
 }
 
 /* *** SUB PAGE *** */

@@ -238,12 +238,27 @@ class HomePageTest(FunctionalTest):
         # the user sees the error message
         error_message = self.browser.find_element(By.CLASS_NAME, CLS_ERROR_TEXT)
         self.assertIn(USER_DETAILS_ERROR_MSG, error_message.text)
+
+    def test_user_can_view_privacy_statement(self):
+
+        # go to the register page
+        self.browser.get(self.live_server_url + "/register")
+
+        # click on the privacy page link
+        self.browser.find_element(By.CLASS_NAME, CLS_PRIVACY_STATEMENT_LINK).click() # here
+
+        # check for the expected header
+        self.wait_for(lambda: self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT))
+
+        privacy_header = self.browser.find_element(By.CLASS_NAME, CLS_SUB_PAGE_HEADER_TEXT).text
+        self.assertEqual(privacy_header.lower(), PRIVACY_STATEMENT_TEXT.lower())
+
     
     @skip
     def test_nav_menu_on_small_screen_size(self):
-        self.fail("Implement")
         # go to the page
         # reduce the window size
         # check for button
         # check nav gone
         # get side menu appears
+        self.fail("Implement")

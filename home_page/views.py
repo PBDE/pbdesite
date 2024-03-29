@@ -13,6 +13,7 @@ LOGIN_TEMPLATE = "home_page/login.html"
 ACCOUNT_TEMPLATE = "home_page/account.html"
 DELETE_ACCOUNT_TEMPLATE = "home_page/delete_account.html"
 CHANGE_PASSWORD_TEMPLATE = "home_page/change_password.html"
+PRIVACY_STATEMENT_TEMPLATE = "home_page/privacy.html"
 
 def index(request):
     return render(request, INDEX_TEMPLATE)
@@ -102,3 +103,6 @@ def change_password(request):
         return render(request, CHANGE_PASSWORD_TEMPLATE) # redirect
 
     return render(request, CHANGE_PASSWORD_TEMPLATE, {"form": PasswordChangeForm(request.user)})
+
+def privacy_statement(request):
+    return render(request, PRIVACY_STATEMENT_TEMPLATE)

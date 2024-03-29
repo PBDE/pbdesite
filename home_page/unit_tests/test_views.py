@@ -8,7 +8,7 @@ from unittest import skip
 from home_page.forms import CustomUserCreationForm, LoginForm
 from portfolio.functional_tests.base import FunctionalTest
 
-from home_page.views import INDEX_TEMPLATE, REGISTER_TEMPLATE, LOGIN_TEMPLATE, ACCOUNT_TEMPLATE, DELETE_ACCOUNT_TEMPLATE, CHANGE_PASSWORD_TEMPLATE
+from home_page.views import INDEX_TEMPLATE, REGISTER_TEMPLATE, LOGIN_TEMPLATE, ACCOUNT_TEMPLATE, DELETE_ACCOUNT_TEMPLATE, CHANGE_PASSWORD_TEMPLATE, PRIVACY_STATEMENT_TEMPLATE
 
 def create_user_data():
     functional_test = FunctionalTest()
@@ -243,3 +243,8 @@ class ChangePasswordView(TestCase):
         self.assertTemplateUsed(response, CHANGE_PASSWORD_TEMPLATE)
         user = authenticate(username=user_data["username"], password=new_password)
         self.assertIsNotNone(user)
+
+class TestPrivacyStatementView(TestCase):
+    def test_privacy_statement_template_returned(self):
+        response = self.client.get(reverse("home_page:privacy"))
+        self.assertTemplateUsed(response, PRIVACY_STATEMENT_TEMPLATE)
