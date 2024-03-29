@@ -21,10 +21,10 @@
             </div>
             <ul class="nav-menu-list">
                 <li class="nav-menu-list-item">
-                    <a class="nav-link" href="">About</a>
+                    <a class="nav-link" href="{% url 'home_page:index' %}#section-skills">About</a>
                 </li>
                 <li class="nav-menu-list-item">
-                    <a class="nav-link" href="">Apps</a>
+                    <a class="nav-link" href="{% url 'home_page:index' %}#section-apps">Apps</a>
                 </li>
                 {% block navbar %}{% endblock %}
             </ul>
