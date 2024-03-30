@@ -13,7 +13,7 @@ btnNavEl.addEventListener('click', function(){
     mainBlockEl.classList.toggle('behind-nav');
 });
 
-const allLinks = document.querySelectorAll('a:link');
+// const allLinks = document.querySelectorAll('a:link');
 
 // allLinks.forEach(function(link) {
 //     link.addEventListener('click', function(e){

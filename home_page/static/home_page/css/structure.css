@@ -15,6 +15,21 @@
     --main-color-one: #7700ff;
     --main-color-two: #cc00ff;
     --main-form-color: #e6e3e9;
+
+    --fs-large: 4rem;
+    --fs-mid-large: 2.5rem;
+    --fs-mid: 2rem;
+    --fs-small: 1.5rem;
+}
+
+@media(max-width: 350px)
+{
+    :root {
+        --fs-large: 2.5rem;
+        --fs-mid-large: 2rem;
+        --fs-mid: 1.5rem;
+        --fs-small: 1rem;
+    }
 }
 
 li {
@@ -60,12 +75,11 @@ body {
 
 .nav-link {
     color: var(--heading-text-color);
-    font-size: 2rem;
+    font-size: var(--fs-mid);
     text-transform: uppercase;
     border-style: solid;
     border-width: 3.5px;
     border-color: var(--background-color);
-
 }
 
 .nav-link:hover, .nav-link:focus {
@@ -113,7 +127,7 @@ body {
     padding: 0.1rem;
     margin: 3rem 0rem;
     color: var(--heading-text-color);
-    font-size: 4rem;
+    font-size: var(--fs-large);
     border-style: solid;
     border-width: 4px;
     border-image-source: linear-gradient(to right, var(--main-color-one), var(--main-color-two)); 
@@ -135,7 +149,7 @@ body {
     max-width: 45rem;
     margin-bottom: 1rem;
     color: var(--heading-text-color);
-    font-size: 4rem;
+    font-size: var(--fs-large);
 }
 
 .header-text-cntr span {
@@ -166,7 +180,7 @@ body {
 .skills-list > li {
     padding: 1.5rem 3rem;
     color: var(--body-text-color);
-    font-size: 2.5rem;
+    font-size: var(--fs-mid-large);
 }
 
 .skills-cntr {
@@ -186,14 +200,14 @@ body {
 .about-text > p {
     color: var(--body-text-color);
     font-family: serif;
-    font-size: 2rem;
+    font-size: var(--fs-mid);
     line-height: 3.5rem;
 }
 
 /* *** APPS SECTION *** */
 
-.section-apps {
-    height: 100vh;
+#section-apps {
+    padding-top: 4rem;
 }
 
 /* *** SUB PAGE *** */
@@ -211,13 +225,18 @@ body {
 
 .sub-page-cntr h2 {
     display: inline-block;
-    font-size: 4rem;
+    font-size: var(--fs-large);
     color: var(--heading-text-color);
+}
+
+.sub-page-options-list {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
 }
 
 .sub-page-options-list li {
     padding-top: 2rem;
-    font-size: 2rem;
+    font-size: var(--fs-mid);
 }
 
 .sub-page-options-list a {
@@ -226,10 +245,22 @@ body {
 }
 
 .sub-page-cntr p, .sub-page-cntr li {
-    font-size: 1.5rem;
+    font-size: var(--fs-small);
 }
 
 .sub-page-text {
+    color: var(--body-text-color);
+    padding-left: 3.5px;
+}
+
+.privacy-sub-heading {
+    color: var(--body-text-color);
+    margin: 2rem 0;
+    padding-left: 3.5px;
+    font-size: var(--fs-small);
+}
+
+.privacy-text {
     color: var(--body-text-color);
 }
 
@@ -250,7 +281,7 @@ body {
 }
 
 .main-form label {
-    font-size: 2rem;
+    font-size: var(--fs-mid);
     color: var(--body-text-color);
 }
 
@@ -260,12 +291,13 @@ body {
 
 .main-form span {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: var(--fs-small);
 }
 
 .helptext, .helptext li {
     color: var(--body-text-color);
-    font-size: 1.5rem;
+    font-size: var(--fs-small);
+    padding-left: 3.5px;
 }
 
 .form-error-msg {
@@ -283,11 +315,11 @@ body {
 }
 
 .submit-btn {
-    width: 30%;
+    max-width: 30%;
     text-align: center;
     line-height: 0px;
     padding: 2rem;
-    font-size: 2rem;
+    font-size: var(--fs-mid);
     font-weight: 700;
     color: var(--main-color-two);
     background-color: var(--background-color);
@@ -370,21 +402,16 @@ body {
     .skills-cntr {
         justify-content: center;
     }
+
+    #section-skills, #section-apps {
+        padding-top: 6rem;
+    }
 }
 
 @media(max-width: 350px)
 {
-    .header-text-cntr {
-        font-size: 2.5rem;
-    }
-
-    .section-heading {
-        font-size: 2.5rem;
-    }
-
     .skills-list > li {
         padding: 0;
-        font-size: 2rem;
     }
 
     .skills-logo {
@@ -393,7 +420,6 @@ body {
     }
 
     .about-text > p {
-        font-size: 1.5rem;
         line-height: 2rem;
     }
 }
