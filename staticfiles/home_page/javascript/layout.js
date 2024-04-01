@@ -12,3 +12,12 @@ btnNavEl.addEventListener('click', function(){
     navMenuBarEl.classList.toggle('nav-open');
     mainBlockEl.classList.toggle('behind-nav');
 });
+
+// const allLinks = document.querySelectorAll('a:link');
+
+// allLinks.forEach(function(link) {
+//     link.addEventListener('click', function(e){
+//         e.preventDefault();
+//         const href = link.getAttribute('href');
+//     })
+// })

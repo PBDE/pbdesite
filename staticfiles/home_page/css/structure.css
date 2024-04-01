@@ -8,6 +8,30 @@
     outline: none;
 }
 
+:root {
+    --heading-text-color: white;
+    --body-text-color: grey;
+    --background-color: black;
+    --main-color-one: #7700ff;
+    --main-color-two: #cc00ff;
+    --main-form-color: #e6e3e9;
+
+    --fs-large: 4rem;
+    --fs-mid-large: 2.5rem;
+    --fs-mid: 2rem;
+    --fs-small: 1.5rem;
+}
+
+@media(max-width: 350px)
+{
+    :root {
+        --fs-large: 2.5rem;
+        --fs-mid-large: 2rem;
+        --fs-mid: 1.5rem;
+        --fs-small: 1rem;
+    }
+}
+
 li {
     list-style: none;
 }
@@ -18,12 +42,13 @@ a {
 
 html {
     font-size: 62.5%;
+    scroll-behavior: smooth;
 }
 
 body {
     overflow-x: hidden;
     font-family: 'Rubik', sans-serif;
-    background-color: black;
+    background-color: var(--background-color);
 }
 
 /* *** NAV BAR *** */
@@ -37,7 +62,7 @@ body {
     top: 0;
     width: 100%;
     padding: 2rem;
-    background-color: black;
+    background-color: var(--background-color);
 }
 
 .nav-menu-list {
@@ -49,17 +74,16 @@ body {
 }
 
 .nav-link {
-    color: white;
-    font-size: 2rem;
+    color: var(--heading-text-color);
+    font-size: var(--fs-mid);
     text-transform: uppercase;
     border-style: solid;
     border-width: 3.5px;
-    border-color: black;
-
+    border-color: var(--background-color);
 }
 
 .nav-link:hover, .nav-link:focus {
-    border-image-source: linear-gradient(to right, #7700ff, #cc00ff); 
+    border-image-source: linear-gradient(to right, var(--main-color-one), var(--main-color-two)); 
     border-image-slice: 0 0 1 0; 
 }
 
@@ -75,7 +99,7 @@ body {
 .nav-menu-icon {
     height: 5rem;
     width: 5rem;
-    color: grey;
+    color: var(--body-text-color);
 }
 
 .nav-menu-icon[name="close-outline"] {
@@ -101,12 +125,12 @@ body {
 
 .section-heading {
     padding: 0.1rem;
-    margin: 3rem;
-    color: white;
-    font-size: 4rem;
+    margin: 3rem 0rem;
+    color: var(--heading-text-color);
+    font-size: var(--fs-large);
     border-style: solid;
     border-width: 4px;
-    border-image-source: linear-gradient(to right, #7700ff, #cc00ff); 
+    border-image-source: linear-gradient(to right, var(--main-color-one), var(--main-color-two)); 
     border-image-slice: 0 0 1 0; 
 }
 
@@ -124,8 +148,8 @@ body {
 .header-text-cntr {
     max-width: 45rem;
     margin-bottom: 1rem;
-    color: white;
-    font-size: 4rem;
+    color: var(--heading-text-color);
+    font-size: var(--fs-large);
 }
 
 .header-text-cntr span {
@@ -137,6 +161,10 @@ body {
 }
 
 /* *** SKILLS SECTION *** */
+
+#section-skills {
+    padding-top: 4rem;
+}
 
 .skills-list-cntr {
     width: 100%;
@@ -151,8 +179,8 @@ body {
 
 .skills-list > li {
     padding: 1.5rem 3rem;
-    color: grey;
-    font-size: 2.5rem;
+    color: var(--body-text-color);
+    font-size: var(--fs-mid-large);
 }
 
 .skills-cntr {
@@ -170,10 +198,16 @@ body {
 /* *** ABOUT SECTION *** */
 
 .about-text > p {
-    color: grey;
+    color: var(--body-text-color);
     font-family: serif;
-    font-size: 2rem;
+    font-size: var(--fs-mid);
     line-height: 3.5rem;
+}
+
+/* *** APPS SECTION *** */
+
+#section-apps {
+    padding-top: 4rem;
 }
 
 /* *** SUB PAGE *** */
@@ -185,28 +219,49 @@ body {
 }
 
 .sub-page-cntr {
-    display: flex;
-    flex-direction: column;
     width: 60%;
     margin-top: 8rem;
 }
 
-.sub-page-cntr > h2 {
-    margin-bottom: 2rem;
-    font-size: 4rem;
+.sub-page-cntr h2 {
+    display: inline-block;
+    font-size: var(--fs-large);
+    color: var(--heading-text-color);
 }
 
-.sub-page-cntr > p {
-    font-size: 2.5rem;
+.sub-page-options-list {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
 }
 
-.sub-page-options-list > li {
-    padding: 1rem 0;
-    font-size: 2rem;
+.sub-page-options-list li {
+    padding-top: 2rem;
+    font-size: var(--fs-mid);
 }
 
-.sub-page-options-list > a {
-    color: white;
+.sub-page-options-list a {
+    color: var(--heading-text-color);
+    text-transform: uppercase;
+}
+
+.sub-page-cntr p, .sub-page-cntr li {
+    font-size: var(--fs-small);
+}
+
+.sub-page-text {
+    color: var(--body-text-color);
+    padding-left: 3.5px;
+}
+
+.privacy-sub-heading {
+    color: var(--body-text-color);
+    margin: 2rem 0;
+    padding-left: 3.5px;
+    font-size: var(--fs-small);
+}
+
+.privacy-text {
+    color: var(--body-text-color);
 }
 
 /* *** FORMS *** */
@@ -225,21 +280,57 @@ body {
     flex-direction: column;
 }
 
-.main-form > input {
+.main-form label {
+    font-size: var(--fs-mid);
+    color: var(--body-text-color);
+}
+
+.main-form input {
     height: 3rem;
 }
 
-.main-form > div > label {
-    font-size: 2rem;
+.main-form span {
+    margin: 0;
+    font-size: var(--fs-small);
+}
+
+.helptext, .helptext li {
+    color: var(--body-text-color);
+    font-size: var(--fs-small);
+    padding-left: 3.5px;
+}
+
+.form-error-msg {
+    color: var(--main-color-two)
+}
+
+.errorlist li {
+    color: var(--main-color-two);
 }
 
 .main-form > div > input {
-    height: 3rem;
+    border: none;
+    background-color: var(--main-form-color);
+    padding-left: 1rem;
 }
 
-.main-form > div > span {
-    margin: 0;
-    font-size: 1.5rem;
+.submit-btn {
+    max-width: 30%;
+    text-align: center;
+    line-height: 0px;
+    padding: 2rem;
+    font-size: var(--fs-mid);
+    font-weight: 700;
+    color: var(--main-color-two);
+    background-color: var(--background-color);
+    border-width: 4px;
+    border-image-source: linear-gradient(to right, var(--main-color-one), var(--main-color-two)); 
+    border-image-slice: 1 1 1 1;
+    cursor: pointer; 
+}
+
+.submit-btn:hover, .submit-btn:focus {
+    color: var(--heading-text-color);
 }
 
 /* *** MEDIA QUERIES ***  */
@@ -311,21 +402,16 @@ body {
     .skills-cntr {
         justify-content: center;
     }
+
+    #section-skills, #section-apps {
+        padding-top: 6rem;
+    }
 }
 
 @media(max-width: 350px)
 {
-    .header-text-cntr {
-        font-size: 2.5rem;
-    }
-
-    .section-heading {
-        font-size: 2.5rem;
-    }
-
     .skills-list > li {
         padding: 0;
-        font-size: 2rem;
     }
 
     .skills-logo {
@@ -334,7 +420,6 @@ body {
     }
 
     .about-text > p {
-        font-size: 1.5rem;
         line-height: 2rem;
     }
 }
