@@ -15,16 +15,16 @@
         {% endif %}
 
         {% if add_check_answer_button %}
-            <form action="{% url 'language:test' %}" method="POST">
+            <form action="{% url 'vocab_trainer:test' %}" method="POST">
                 {% csrf_token %}
                 {{ answer_form }}
                 <input type="submit" value="Check Answer">
             </form>
         {% else %}
-            <form action="{% url 'language:test' %}" method="POST">
+            <form action="{% url 'vocab_trainer:test' %}" method="POST">
                 {{ answer_form }}
             </form>
-            <form action="{% url 'language:test' %}" method="GET">
+            <form action="{% url 'vocab_trainer:test' %}" method="GET">
                 <input type="submit" value="Next Question">
             </form>
         {% endif %}
@@ -39,6 +39,6 @@
         <p>Guest user</p>
     {% endif %}
 
-    <a href="{% url 'language:index' %}">Return</a>
+    <a href="{% url 'vocab_trainer:index' %}">Return</a>
     
 {% endblock %}
