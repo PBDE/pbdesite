@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'legion/css/structure.css' %}">
+</head>
+<body>
+    <menu class="nav-menu-bar">
+        <div>
+            <a class="home-link nav-link" href="{% url 'home_page:index' %}">PBDE</a>
+         </div>
+    </menu>
+    <section class="section-main">
+        <div class="container cont-main">
+            <h1>Legion</h1>
+            <div class="container cont-score">
+                <div class="score-box">
+                    <h3>Total Score</h3>
+                    <p class="score">0000000</p>
+                </div>
+                <div class="score-box">
+                    <h3>Current Score</h3>
+                    <p class="score">0000000</p>
+                </div>
+            </div>
+            <div class="container cont-dice">
+                <div class="die">x</div>
+                <div class="die">x</div>
+                <div class="die">x</div>
+                <div class="die">x</div>
+                <div class="die">x</div>
+                <div class="die">x</div>
+            </div>
+            <div class="container cont-buttons">
+                <button>Roll</button>
+                <button>End Turn</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+

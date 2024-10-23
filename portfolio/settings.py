@@ -36,6 +36,7 @@ ALLOWED_HOSTS = env.str('ALLOWED_HOSTS').split(',')
 INSTALLED_APPS = [
     'home_page',
     'vocab_trainer',
+    'legion',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

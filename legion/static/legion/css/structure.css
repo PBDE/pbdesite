@@ -1,0 +1,93 @@
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+h1 {
+    font-size: 10rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+p {
+    font-size: 2.5rem;
+}
+
+.nav-menu-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 2rem;
+    background-color: tomato;
+}
+
+.section-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding-bottom: 8rem;
+}
+
+.container {
+    display: flex;
+}
+
+.cont-main {
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 70%;
+    height: 70%;
+    background-color: blanchedalmond;
+}
+
+.cont-score {
+    justify-content: space-between;
+    width: 50%;
+    background-color: goldenrod;
+}
+
+.score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cont-dice {
+    background-color: purple;
+}
+
+.die {
+    font-size: 8rem;
+    padding: 0.5rem;
+}
+
+.cont-buttons {
+    justify-content: space-between;
+    width: 50%;
+    background-color: darkgreen;
+}
+
+button {
+    width: 40%;
+    padding: 0.5rem 0.2rem;
+    font-size: 3rem;
+}
+

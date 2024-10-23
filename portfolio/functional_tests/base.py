@@ -1,5 +1,4 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-# from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
