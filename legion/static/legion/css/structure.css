@@ -79,15 +79,14 @@ p {
     padding: 0.5rem;
 }
 
-.cont-buttons {
-    justify-content: space-between;
-    width: 50%;
-    background-color: darkgreen;
+.cont-btns {
+    justify-content: space-evenly;
+    width: 70%;
+    background-color: green;
 }
 
 button {
-    width: 40%;
+    width: 30%;
     padding: 0.5rem 0.2rem;
     font-size: 3rem;
 }
-

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'legion/css/structure.css' %}">
+    <script defer src="{% static 'legion/javascript/legion.js' %}"></script>
 </head>
 <body>
     <menu class="nav-menu-bar">
@@ -20,11 +21,11 @@
             <div class="container cont-score">
                 <div class="score-box">
                     <h3>Total Score</h3>
-                    <p class="score">0000000</p>
+                    <p id="total-score">0000000</p>
                 </div>
                 <div class="score-box">
                     <h3>Current Score</h3>
-                    <p class="score">0000000</p>
+                    <p id="current-score">0000000</p>
                 </div>
             </div>
             <div class="container cont-dice">
@@ -35,9 +36,14 @@
                 <div class="die">x</div>
                 <div class="die">x</div>
             </div>
-            <div class="container cont-buttons">
-                <button>Roll</button>
-                <button>End Turn</button>
+            <div class="container cont-btns">
+                <button id="roll-btn">Roll</button>
+                <button id="end-btns">End Turn</button>
+            </div>
+            <div class="container cont-btns">
+                <button id="solo-btn">Solo</button>
+                <button id="pandp-btn">Pass & Play</button>
+                <button id="ai-btn">Verses AI</button>
             </div>
         </div>
     </section>
