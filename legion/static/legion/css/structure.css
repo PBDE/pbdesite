@@ -90,3 +90,7 @@ button {
     padding: 0.5rem 0.2rem;
     font-size: 3rem;
 }
+
+.hidden {
+    display: none
+}

@@ -18,7 +18,11 @@
     <section class="section-main">
         <div class="container cont-main">
             <h1>Legion</h1>
-            <div class="container cont-score">
+            <div class="container cont-score hidden">
+                <div class="player-number">
+                    <h3>Player</h3>
+                    <p>1</p>
+                </div>
                 <div class="score-box">
                     <h3>Total Score</h3>
                     <p id="total-score">0000000</p>
@@ -29,18 +33,18 @@
                 </div>
             </div>
             <div class="container cont-dice">
-                <div class="die">x</div>
-                <div class="die">x</div>
-                <div class="die">x</div>
-                <div class="die">x</div>
-                <div class="die">x</div>
-                <div class="die">x</div>
+                <div class="die" id="die-1">x</div>
+                <div class="die" id="die-2">x</div>
+                <div class="die" id="die-3">x</div>
+                <div class="die" id="die-4">x</div>
+                <div class="die" id="die-5">x</div>
+                <div class="die" id="die-6">x</div>
             </div>
-            <div class="container cont-btns">
+            <div class="container cont-btns turn-btns hidden">
                 <button id="roll-btn">Roll</button>
                 <button id="end-btns">End Turn</button>
             </div>
-            <div class="container cont-btns">
+            <div class="container cont-btns mode-btns">
                 <button id="solo-btn">Solo</button>
                 <button id="pandp-btn">Pass & Play</button>
                 <button id="ai-btn">Verses AI</button>
