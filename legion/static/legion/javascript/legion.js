@@ -81,8 +81,16 @@ class GameManager {
         return availableToKeep;
     }
 
-    #keepingContainsScoringCombination(){
+    keepingContainsScoringCombination(){
         const keeping = this.#getKeepingDice();
+        if(
+            this.#scoreChecker.ThreeMs(keeping) || 
+            this.#scoreChecker.ThreeDs(keeping) || 
+            this.#scoreChecker.ThreeCs(keeping) || 
+            this.#scoreChecker.ThreeLs(keeping) || 
+            this.#scoreChecker.xsOrVs(keeping)){
+            console.log("Keeping contains scoring dice");
+        }
     }
 
     #getKeptDice(){
@@ -110,7 +118,7 @@ class GameManager {
         // disable the roll button
             // remove event listener
             // grey out button
-            
+
         // after a die is clicked - check if a roll is allowed
     }
 
@@ -173,6 +181,8 @@ class Die {
         else {
             console.log(`${this.#dieElementID} can't be kept`);
         }
+
+        this.#gameManager.keepingContainsScoringCombination();
     }
 }
 
@@ -203,59 +213,61 @@ class ScoreChecker {
 
         this.#currentRoll.forEach(roll => this.#counts[roll]++);
 
-        if (this.#OneOfEach()){
+        if (this.#OneOfEach(Object.values(this.#counts))){
             console.log("One of each");
             this.#scoring.push(this.#currentRoll);
         }
 
-        if (this.#SixOfAKind()){
+        if (this.#SixOfAKind(this.#currentRoll)){
             console.log("Six of a kind");
             this.#scoring.push(this.#currentRoll);
         }
         
-        if (this.#ThreePairs()){
+        if (this.#ThreePairs(Object.values(this.#counts))){
             console.log("Three pairs");
             this.#scoring.push(this.#currentRoll);
         }
 
-        if (this.#ThreeMs()){
+        if (this.ThreeMs(this.#currentRoll)){
             console.log("3 M's");
             this.#scoring.push(['m', 'm', 'm']);
             // this.#AddToScoringArray(dieFaces.m)
         }
 
-        if (this.#ThreeLs()){
+        if (this.ThreeLs(this.#currentRoll)){
             console.log("3 L's");
             this.#scoring.push(['l', 'l', 'l']);
         }
 
-        if (this.#ThreeCs()){
+        if (this.ThreeCs(this.#currentRoll)){
             console.log("3 C's");
             this.#scoring.push(['c', 'c', 'c']);
         }
 
-        if (this.#ThreeDs()){
+        if (this.ThreeDs(this.#currentRoll)){
             console.log("3 D's");
             this.#scoring.push(['d', 'd', 'd']);
         }
 
-        if (this.#FourVs()){
+        if (this.#FourVs(this.#currentRoll)){
             console.log("4 V's")
         }
-        
-        for (const value of ['x', 'v']){
-            for (let count = 0; count < this.#counts[value]; count++){
-                this.#scoring.push(value);
+
+        if (this.xsOrVs(this.#currentRoll)){
+            for (const value of ['x', 'v']){
+                for (let count = 0; count < this.#counts[value]; count++){
+                    this.#scoring.push(value);
+                }
             }
         }
 
         if (isFirstRoll){
             
-            if (this.#AllNoScoring()){
+            if (this.#AllNoScoring(this.#scoring)){
                 console.log("No scoring");
             }
             
-            if (this.#AllScoring()){
+            if (this.#AllScoring(this.#scoring)){
                 console.log("All scoring");
             }
         }
@@ -269,49 +281,53 @@ class ScoreChecker {
     //     }
     // }
 
-    #AllNoScoring(){
-        return this.#scoring.length === 0;
+    ThreeMs(diceArray){
+        return diceArray.filter(value => value === dieFaces.m).length >= 3;
     }
 
-    #AllScoring(){
-        return this.#scoring.flat().length === 6; // all scoring doesn't work with 3 of a kind plus 3 x's or v's
+    ThreeDs(diceArray){
+        return diceArray.filter(value => value === dieFaces.d).length >= 3;
     }
 
-    #OneOfEach(){
-        return Object.values(this.#counts).every(count => count === 1);
+    ThreeCs(diceArray){
+        return diceArray.filter(value => value === dieFaces.c).length >= 3;
     }
 
-    #SixOfAKind(){
-        return this.#currentRoll.every(value => value === this.#currentRoll[0]);
+    ThreeLs(diceArray){
+        return diceArray.filter(value => value === dieFaces.l).length >= 3;
     }
 
-    #ThreePairs(){
+    xsOrVs(diceArray){
+        return (diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x));
+    }
+
+    #AllNoScoring(diceArray){
+        return diceArray.length === 0;
+    }
+
+    #AllScoring(diceArray){
+        return diceArray.flat().length === 6; // all scoring doesn't work with 3 of a kind plus 3 x's or v's
+    }
+
+    #SixOfAKind(diceArray){
+        return diceArray.every(value => value === diceArray[0]);
+    }
+        
+    #FourVs(diceArray){
+        return diceArray.filter(value => value === dieFaces.v).length >= 4;
+    }
+
+    #OneOfEach(countsArray){ // switch to use dice array
+        return countsArray.every(count => count === 1);
+    }
+
+    #ThreePairs(countsArray){ // switch to use dice array
         let pairsCount = 0
-        Object.values(this.#counts).forEach(function(count){
+        countsArray.forEach(function(count){
             if (count === 2) pairsCount ++;
             if (count === 4) pairsCount += 2;
         })
         return pairsCount === 3;
-    }
-
-    #ThreeMs(){
-        return this.#counts['m'] >= 3;
-    }
-
-    #ThreeDs(){
-        return this.#counts['d'] >= 3;
-    }
-
-    #ThreeCs(){
-        return this.#counts['c'] >= 3;
-    }
-
-    #ThreeLs(){
-        return this.#counts['l'] >= 3;
-    }
-    
-    #FourVs(){
-        return this.#counts['v'] >= 4;
     }
 }
 
