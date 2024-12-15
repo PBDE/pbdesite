@@ -11,12 +11,27 @@ const currentScoreDisplay = document.querySelector('#current-score');
 
 const diceElements = document.querySelectorAll('.die');
 
+const dieFaces = {
+    v: 'v',
+    x: 'x',
+    l: 'l',
+    c: 'c',
+    d: 'd',
+    m: 'm'
+}
+
 class GameManager {
 
-    #diceInstances = {};
+    #dieInstances = {};
     #players = [];
+    #isFirstRoll = true;
+    #scoreChecker;
+    #activePlayer;
+    #scoreResult;
 
     constructor(playerCount, versesAI){
+
+        this.#scoreChecker = new ScoreChecker();
 
         if (!versesAI){
             for(let i = 0; i < playerCount; i++) {
@@ -30,41 +45,78 @@ class GameManager {
         }
 
         for (let i = 0; i < diceElements.length; i ++) {
-            
             const die_id = `die-${i + 1}`;
-            const die = new Die (die_id);
-            this.#diceInstances[die_id] = die;
+            const die = new Die (die_id, this);
+            this.#dieInstances[die_id] = die;
         }
-
-        console.log(this.#diceInstances);
-
-        diceElements.forEach(function(diceElement) {
-            diceElement.addEventListener('click', this.#DicePressed);
-        }, this);
 
         rollButton.addEventListener('click', this.#Roll.bind(this));
         endButton.addEventListener('click', this.#EndTurn);
+    }
+    
+    getScoringDiceAvailable(){
 
-        const scoreChecker = new ScoreChecker();
+        const alreadyKept = [...this.#getKeptDice(), ...this.#getKeepingDice()];
+        const availableToKeep = [...this.#scoreResult.scoring].flat();
+
+        alreadyKept.forEach(function(value){
+            const index = availableToKeep.indexOf(value);
+            if (index > -1){ availableToKeep.splice(index, 1); }
+        });
+
+        // availableToKeep shouldn't be flat as it will be needed when checking if a scoring dice combination has been kept before a new roll
+        
+        console.clear()
+        console.log("Scoring");
+        console.log(this.#scoreResult.scoring);
+        console.log("Already kept");
+        console.log(alreadyKept);
+        console.log("Available to keep");
+        console.log((availableToKeep));
+
+        if(availableToKeep.length === 0){
+            console.log("No scoring");
+        }
+        
+        return availableToKeep;
     }
 
-    #SetPlayer() {
-        // modal that asks for the number of players
+    #keepingContainsScoringCombination(){
+        const keeping = this.#getKeepingDice();
     }
 
-    #DicePressed(){
-        console.log("Dice pressed");
+    #getKeptDice(){
+        let kept = [];
+        Object.values(this.#dieInstances).forEach(function(die){
+            if (die.kept){ kept.push(die.value); }
+        });
+        return kept;
+    }
+
+    #getKeepingDice(){
+        let keeping = [];
+        Object.values(this.#dieInstances).forEach(function(die){
+            if (die.keeping){ keeping.push(die.value); }
+        });
+        return keeping;
     }
 
     #Roll(){
+        let currentRoll = [];
+        Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
+        this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll, this.#isFirstRoll);
+        this.#isFirstRoll = false;
 
-        for (const [key, die] of Object.entries(this.#diceInstances)){
-            die.Roll();
-        }        
+        // disable the roll button
+            // remove event listener
+            // grey out button
+            
+        // after a die is clicked - check if a roll is allowed
     }
 
     #EndTurn(){
         console.log("End Turn");
+        this.#isFirstRoll = true;
 
         // add the score to the player's score
         // move to the next player
@@ -76,141 +128,217 @@ class Player {
     #playerID; 
 
     constructor(playerID) {
-        this.#playerID = playerID
+        this.#playerID = playerID;
     }
 }
 
 class Die {
 
-    #scoring = false;
-    #kept = false;
-    #keeping = false;
-    #faces = ['V', 'X', 'L', 'C', 'D', 'M'];
-    
-    value = this.#faces[0];
+    kept = false;
+    keeping = false;
+    value;
+    #dieElementID;
+    #element;
+    #gameManager;
+    #faces = Object.values(dieFaces);
 
-    constructor(dieElementID){
-        
-        this.dieElementID = dieElementID;
+    constructor(dieElementID, gameManager){
+        this.#dieElementID = dieElementID;
+        this.#gameManager = gameManager;
+        this.#element = document.getElementById(`${this.#dieElementID}`);
+        this.#element.addEventListener('click', this.#DiePressed.bind(this));
     }
 
     Roll(){
-        console.log(`Rolled ${this.dieElementID}`);
-        this.value = this.#faces[Math.floor(Math.random() * this.#faces.length)];
-        console.log(this.value);
-
-        // document.getElementById(`#${this.dieElementID}`).textContent = this.#value;
+        if (!this.keeping && !this.kept) {
+            this.value = this.#faces[Math.floor(Math.random() * this.#faces.length)];
+            this.#element.textContent = this.value;
+        }
+        if (this.keeping){
+            this.kept = true;
+            this.keeping = false;
+            this.#element.style.backgroundColor = 'blue';
+        }
+        return this.value;
     }
 
-    // set scoring
-    // get scoring
-    // set kept
-    // get kept
-    // set keeping
-    // get keeping
+    #DiePressed(){
+        if(this.kept){
+            console.log(`${this.#dieElementID} already kept`);
+        }
+        else if(this.keeping || this.#gameManager.getScoringDiceAvailable().includes(this.value)) {
+            this.keeping = !this.keeping;
+            this.#element.style.backgroundColor = this.keeping ? 'red' : 'purple';
+        }
+        else {
+            console.log(`${this.#dieElementID} can't be kept`);
+        }
+    }
 }
 
 class ScoreChecker {
 
-    #rollCounter = 0;
+    #counts;
+    #currentRoll;
+    #scoring;
+    
+    CheckScore(currentRoll, isFirstRoll){
 
-    constructor() {
-        console.log("score counter");
+        this.#counts = {
+            'v': 0,
+            'x': 0,
+            'l': 0,
+            'c': 0,
+            'd': 0,
+            'm': 0
+        };
+        this.#scoring = []
+        this.#currentRoll = currentRoll;
+        this.#checkCombinations(isFirstRoll); // pass optionsToKeep in then return it
+
+        return { scoring: this.#scoring }
     }
 
-    CheckScore(){
+    #checkCombinations(isFirstRoll){
 
+        this.#currentRoll.forEach(roll => this.#counts[roll]++);
+
+        if (this.#OneOfEach()){
+            console.log("One of each");
+            this.#scoring.push(this.#currentRoll);
+        }
+
+        if (this.#SixOfAKind()){
+            console.log("Six of a kind");
+            this.#scoring.push(this.#currentRoll);
+        }
+        
+        if (this.#ThreePairs()){
+            console.log("Three pairs");
+            this.#scoring.push(this.#currentRoll);
+        }
+
+        if (this.#ThreeMs()){
+            console.log("3 M's");
+            this.#scoring.push(['m', 'm', 'm']);
+            // this.#AddToScoringArray(dieFaces.m)
+        }
+
+        if (this.#ThreeLs()){
+            console.log("3 L's");
+            this.#scoring.push(['l', 'l', 'l']);
+        }
+
+        if (this.#ThreeCs()){
+            console.log("3 C's");
+            this.#scoring.push(['c', 'c', 'c']);
+        }
+
+        if (this.#ThreeDs()){
+            console.log("3 D's");
+            this.#scoring.push(['d', 'd', 'd']);
+        }
+
+        if (this.#FourVs()){
+            console.log("4 V's")
+        }
+        
+        for (const value of ['x', 'v']){
+            for (let count = 0; count < this.#counts[value]; count++){
+                this.#scoring.push(value);
+            }
+        }
+
+        if (isFirstRoll){
+            
+            if (this.#AllNoScoring()){
+                console.log("No scoring");
+            }
+            
+            if (this.#AllScoring()){
+                console.log("All scoring");
+            }
+        }
     }
 
-    #CheckAllNoScoring(){
+    // #AddToScoringArray(value){
+    //     for (let i = 0; i < 3; i++){
+    //         if (this.scoring.length < 6) {
+    //             this.#scoring.push(value);
+    //         }
+    //     }
+    // }
 
+    #AllNoScoring(){
+        return this.#scoring.length === 0;
     }
 
-    #CheckAllScoring(){
-
+    #AllScoring(){
+        return this.#scoring.flat().length === 6; // all scoring doesn't work with 3 of a kind plus 3 x's or v's
     }
 
-    #CheckMinimumScore(){
-
+    #OneOfEach(){
+        return Object.values(this.#counts).every(count => count === 1);
     }
 
-    #CheckNewRolledScoring(){
-
+    #SixOfAKind(){
+        return this.#currentRoll.every(value => value === this.#currentRoll[0]);
     }
 
-    #CheckCircus(){
-
+    #ThreePairs(){
+        let pairsCount = 0
+        Object.values(this.#counts).forEach(function(count){
+            if (count === 2) pairsCount ++;
+            if (count === 4) pairsCount += 2;
+        })
+        return pairsCount === 3;
     }
 
-    #CheckSixOfAKind(){
-
+    #ThreeMs(){
+        return this.#counts['m'] >= 3;
     }
 
-    #CheckThreePairs(){
-
+    #ThreeDs(){
+        return this.#counts['d'] >= 3;
     }
 
-    #CheckThreeOfAKind(){
-
+    #ThreeCs(){
+        return this.#counts['c'] >= 3;
     }
 
-    #CheckX(){
-
+    #ThreeLs(){
+        return this.#counts['l'] >= 3;
     }
-
-    #CheckV(){
-
+    
+    #FourVs(){
+        return this.#counts['v'] >= 4;
     }
 }
 
 class App {
 
+    #isPassAndPlay = true;
+    #isVersesAI = true;
+
     constructor() {        
-        
-        // soloButton.addEventListener('click', this.#test);
-        
-        // soloButton.addEventListener('click', function(){
-        //     const playerCount = 1;
-        //     const versesAI = false;
-
-        //     // call startGame - passing this, playerCount and versesAI - how do you pass this
-        
-        // });
-        
-        soloButton.addEventListener('click', this.#startGame.bind(this, 1, false));
-        pandpButton.addEventListener('click', this.#getPlayerCount.bind(this));
-        aiButton.addEventListener('click', this.#startGame.bind(this, 2, true));
+        soloButton.addEventListener('click', this.#startGame.bind(this, !this.#isPassAndPlay, !this.#isVersesAI));
+        pandpButton.addEventListener('click', this.#startGame.bind(this, this.#isPassAndPlay, !this.#isVersesAI));
+        aiButton.addEventListener('click', this.#startGame.bind(this, !this.#isPassAndPlay, this.#isVersesAI));
     }
-
-    // #test() {
-    //     console.log(this);
-    //     console.log(this.id);
-
-    //     let playerCount = 1;
-    //     let versesAI = false;
-
-    //     if (this.id === "pandp-btn")
-    //     {
-    //         playerCount = this.#getPlayerCount();
-    //     }
-
-    //     if (this.id === "ai-btn")
-    //     {
-    //         playerCount = 2;
-    //         versesAI
-    //     }
-
-    //     this.#startGame(); // this will be the HTMLElement
-    // }
 
     #getPlayerCount() {
 
         // implement get player count
-
-        this.#startGame(2, false);
+        return 2;
     }
 
-    #startGame(playerCount, versesAI) {
+    #startGame(passAndPlay, versesAI) {
+
+        // could use a switch statement based on the id of the button clicked rather than passing the arguement in
+
+        let playerCount = 1;
+        if (passAndPlay) playerCount = this.#getPlayerCount();
+        if (versesAI) playerCount = 2;
         this.GameManager = new GameManager(playerCount, versesAI);
         this.#hideGameButtons();
     }
