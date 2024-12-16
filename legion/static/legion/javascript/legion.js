@@ -90,6 +90,10 @@ class GameManager {
             this.#scoreChecker.ThreeLs(keeping) || 
             this.#scoreChecker.xsOrVs(keeping)){
             console.log("Keeping contains scoring dice");
+            rollButton.disabled = false; 
+        }
+        else {
+            rollButton.disabled = true;
         }
     }
 
@@ -114,10 +118,7 @@ class GameManager {
         Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
         this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll, this.#isFirstRoll);
         this.#isFirstRoll = false;
-
-        // disable the roll button
-            // remove event listener
-            // grey out button
+        rollButton.disabled = true;
 
         // after a die is clicked - check if a roll is allowed
     }
@@ -181,7 +182,6 @@ class Die {
         else {
             console.log(`${this.#dieElementID} can't be kept`);
         }
-
         this.#gameManager.keepingContainsScoringCombination();
     }
 }
