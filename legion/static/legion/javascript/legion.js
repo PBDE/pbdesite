@@ -5,10 +5,8 @@ const endButton = document.querySelector('#end-btns');
 const soloButton = document.querySelector('#solo-btn');
 const pandpButton = document.querySelector('#pandp-btn');
 const aiButton = document.querySelector('#ai-btn');
-
 const totalScoreDisplay = document.querySelector('#total-score');
 const currentScoreDisplay = document.querySelector('#current-score');
-
 const diceElements = document.querySelectorAll('.die');
 
 const dieFaces = {
@@ -24,9 +22,7 @@ class GameManager {
 
     #dieInstances = {};
     #players = [];
-    #isFirstRoll = true;
     #scoreChecker;
-    #activePlayer;
     #scoreResult;
 
     constructor(playerCount, versesAI){
@@ -57,44 +53,64 @@ class GameManager {
     getScoringDiceAvailable(){
 
         const alreadyKept = [...this.#getKeptDice(), ...this.#getKeepingDice()];
-        const availableToKeep = [...this.#scoreResult.scoring].flat();
+        const availableToKeep = [...this.#scoreResult.scoring];
 
+        // remove the dice that have already been kept from availableToKeep
         alreadyKept.forEach(function(value){
             const index = availableToKeep.indexOf(value);
             if (index > -1){ availableToKeep.splice(index, 1); }
         });
 
-        // availableToKeep shouldn't be flat as it will be needed when checking if a scoring dice combination has been kept before a new roll
-        
-        console.clear()
-        console.log("Scoring");
-        console.log(this.#scoreResult.scoring);
-        console.log("Already kept");
-        console.log(alreadyKept);
-        console.log("Available to keep");
-        console.log((availableToKeep));
+        // console.clear()
+        // console.log("Scoring");
+        // console.log(this.#scoreResult.scoring);
+        // console.log("Already kept");
+        // console.log(alreadyKept);
+        // console.log("Available to keep");
+        // console.log((availableToKeep));
 
         if(availableToKeep.length === 0){
-            console.log("No scoring");
+            console.log("No score. Roll over");
         }
         
         return availableToKeep;
     }
 
     keepingContainsScoringCombination(){
+
+        // must also check that keeping contains only full scoring combinations
+        // currently if three pairs are rolled a roll is allowed if one of the kept die is an x or v even if a single c is kept, rather than both c's that
+
         const keeping = this.#getKeepingDice();
-        if(
-            this.#scoreChecker.ThreeMs(keeping) || 
-            this.#scoreChecker.ThreeDs(keeping) || 
-            this.#scoreChecker.ThreeCs(keeping) || 
-            this.#scoreChecker.ThreeLs(keeping) || 
-            this.#scoreChecker.xsOrVs(keeping)){
-            console.log("Keeping contains scoring dice");
+
+        console.log("Keeping:");
+        console.log(keeping);
+        
+        const keepingCombinations = this.#scoreChecker.CheckCombinations(keeping);
+
+        console.log("Keeping combinations:");
+        console.log(keepingCombinations);
+
+        if(Object.values(keepingCombinations).includes(true)){
             rollButton.disabled = false; 
         }
         else {
             rollButton.disabled = true;
         }
+    }
+
+    #Roll(){
+        let currentRoll = [];
+        Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
+        this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll);
+        rollButton.disabled = true;
+    }
+    
+    #EndTurn(){
+        console.log("End Turn");
+
+        // add the score to the player's score
+        // move to the next player
     }
 
     #getKeptDice(){
@@ -111,24 +127,6 @@ class GameManager {
             if (die.keeping){ keeping.push(die.value); }
         });
         return keeping;
-    }
-
-    #Roll(){
-        let currentRoll = [];
-        Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
-        this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll, this.#isFirstRoll);
-        this.#isFirstRoll = false;
-        rollButton.disabled = true;
-
-        // after a die is clicked - check if a roll is allowed
-    }
-
-    #EndTurn(){
-        console.log("End Turn");
-        this.#isFirstRoll = true;
-
-        // add the score to the player's score
-        // move to the next player
     }
 }
 
@@ -172,6 +170,9 @@ class Die {
     }
 
     #DiePressed(){
+
+        console.clear();
+
         if(this.kept){
             console.log(`${this.#dieElementID} already kept`);
         }
@@ -183,18 +184,81 @@ class Die {
             console.log(`${this.#dieElementID} can't be kept`);
         }
         this.#gameManager.keepingContainsScoringCombination();
+
+        // check if all dice have been kept
     }
 }
 
 class ScoreChecker {
 
-    #counts;
-    #currentRoll;
-    #scoring;
-    
-    CheckScore(currentRoll, isFirstRoll){
+    CheckScore(currentRoll){
 
-        this.#counts = {
+        const combinations = this.CheckCombinations(currentRoll);
+        const scoring = this.#CreateScoringArray(combinations, currentRoll);
+
+        this.#CalculateScore(combinations, currentRoll);
+
+        return { scoring: scoring, combinations: combinations }
+    }
+
+    CheckCombinations(diceArray){
+
+        const counts = this.#CountValues(diceArray);
+
+        const ThreePairs = function(countsArray){ // switch to use dice array?
+            let pairsCount = 0
+            Object.values(countsArray).forEach(function(count){
+                if (count === 2) pairsCount ++;
+                if (count === 4) pairsCount += 2;
+            })
+            return pairsCount === 3;
+        }
+
+        const combinations = {
+            sixOfAKind: Object.values(counts).every(value => value === 1),
+            oneOfEach: Object.values(counts).every(value => value === diceArray[0]),
+            threePairs: ThreePairs(counts),
+            threeMs: diceArray.filter(value => value === dieFaces.m).length >= 3,
+            threeDs: diceArray.filter(value => value === dieFaces.d).length >= 3,
+            threeCs: diceArray.filter(value => value === dieFaces.c).length >= 3,
+            threeLs: diceArray.filter(value => value === dieFaces.l).length >= 3,
+            xsOrVs: diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x),
+        }
+        return combinations;
+    }
+
+    #CreateScoringArray(combinations, currentRoll){
+
+        const counts = this.#CountValues(currentRoll);
+
+        let scoring = []
+        if(combinations.oneOfEach || combinations.sixOfAKind || combinations.threePairs){
+            return currentRoll;
+        }
+        if (combinations.threeMs){ scoring.push(['m', 'm', 'm']); } // better way of adding to the array
+        if (combinations.threeLs){ scoring.push(['l', 'l', 'l']); }
+        if (combinations.threeCs){ scoring.push(['c', 'c', 'c']); }
+        if (combinations.threeDs){ scoring.push(['d', 'd', 'd']); }
+        if (combinations.xsOrVs){
+            for (const value of ['x', 'v']){
+                for (let count = 0; count < counts[value]; count++){
+                    scoring.push(value);
+                }
+            }
+        }
+        return scoring.flat();
+    }
+
+    #CalculateScore(combinations, currentRoll){
+
+        // for (const [key, value] in Object.entries(combinations)){
+        //     console.log(key);
+        // }
+
+    }
+
+    #CountValues(diceArray){
+        let counts = {
             'v': 0,
             'x': 0,
             'l': 0,
@@ -202,144 +266,21 @@ class ScoreChecker {
             'd': 0,
             'm': 0
         };
-        this.#scoring = []
-        this.#currentRoll = currentRoll;
-        this.#checkCombinations(isFirstRoll); // pass optionsToKeep in then return it
-
-        return { scoring: this.#scoring }
-    }
-
-    #checkCombinations(isFirstRoll){
-
-        this.#currentRoll.forEach(roll => this.#counts[roll]++);
-
-        if (this.#OneOfEach(Object.values(this.#counts))){
-            console.log("One of each");
-            this.#scoring.push(this.#currentRoll);
-        }
-
-        if (this.#SixOfAKind(this.#currentRoll)){
-            console.log("Six of a kind");
-            this.#scoring.push(this.#currentRoll);
-        }
-        
-        if (this.#ThreePairs(Object.values(this.#counts))){
-            console.log("Three pairs");
-            this.#scoring.push(this.#currentRoll);
-        }
-
-        if (this.ThreeMs(this.#currentRoll)){
-            console.log("3 M's");
-            this.#scoring.push(['m', 'm', 'm']);
-            // this.#AddToScoringArray(dieFaces.m)
-        }
-
-        if (this.ThreeLs(this.#currentRoll)){
-            console.log("3 L's");
-            this.#scoring.push(['l', 'l', 'l']);
-        }
-
-        if (this.ThreeCs(this.#currentRoll)){
-            console.log("3 C's");
-            this.#scoring.push(['c', 'c', 'c']);
-        }
-
-        if (this.ThreeDs(this.#currentRoll)){
-            console.log("3 D's");
-            this.#scoring.push(['d', 'd', 'd']);
-        }
-
-        if (this.#FourVs(this.#currentRoll)){
-            console.log("4 V's")
-        }
-
-        if (this.xsOrVs(this.#currentRoll)){
-            for (const value of ['x', 'v']){
-                for (let count = 0; count < this.#counts[value]; count++){
-                    this.#scoring.push(value);
-                }
-            }
-        }
-
-        if (isFirstRoll){
-            
-            if (this.#AllNoScoring(this.#scoring)){
-                console.log("No scoring");
-            }
-            
-            if (this.#AllScoring(this.#scoring)){
-                console.log("All scoring");
-            }
-        }
-    }
-
-    // #AddToScoringArray(value){
-    //     for (let i = 0; i < 3; i++){
-    //         if (this.scoring.length < 6) {
-    //             this.#scoring.push(value);
-    //         }
-    //     }
-    // }
-
-    ThreeMs(diceArray){
-        return diceArray.filter(value => value === dieFaces.m).length >= 3;
-    }
-
-    ThreeDs(diceArray){
-        return diceArray.filter(value => value === dieFaces.d).length >= 3;
-    }
-
-    ThreeCs(diceArray){
-        return diceArray.filter(value => value === dieFaces.c).length >= 3;
-    }
-
-    ThreeLs(diceArray){
-        return diceArray.filter(value => value === dieFaces.l).length >= 3;
-    }
-
-    xsOrVs(diceArray){
-        return (diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x));
-    }
-
-    #AllNoScoring(diceArray){
-        return diceArray.length === 0;
-    }
-
-    #AllScoring(diceArray){
-        return diceArray.flat().length === 6; // all scoring doesn't work with 3 of a kind plus 3 x's or v's
-    }
-
-    #SixOfAKind(diceArray){
-        return diceArray.every(value => value === diceArray[0]);
-    }
-        
-    #FourVs(diceArray){
-        return diceArray.filter(value => value === dieFaces.v).length >= 4;
-    }
-
-    #OneOfEach(countsArray){ // switch to use dice array
-        return countsArray.every(count => count === 1);
-    }
-
-    #ThreePairs(countsArray){ // switch to use dice array
-        let pairsCount = 0
-        countsArray.forEach(function(count){
-            if (count === 2) pairsCount ++;
-            if (count === 4) pairsCount += 2;
-        })
-        return pairsCount === 3;
+        diceArray.forEach(value => counts[value]++) // what happens if the input array contains entries that are not in the counts object?
+        return counts;
     }
 }
 
 class App {
 
-    #isPassAndPlay = true;
-    #isVersesAI = true;
+    constructor() {    
+        
+        const isPassAndPlay = true;
+        const isVersesAI = true;
 
-    constructor() {        
-        soloButton.addEventListener('click', this.#startGame.bind(this, !this.#isPassAndPlay, !this.#isVersesAI));
-        pandpButton.addEventListener('click', this.#startGame.bind(this, this.#isPassAndPlay, !this.#isVersesAI));
-        aiButton.addEventListener('click', this.#startGame.bind(this, !this.#isPassAndPlay, this.#isVersesAI));
+        soloButton.addEventListener('click', this.#startGame.bind(this, !isPassAndPlay, !isVersesAI));
+        pandpButton.addEventListener('click', this.#startGame.bind(this, isPassAndPlay, !isVersesAI));
+        aiButton.addEventListener('click', this.#startGame.bind(this, !isPassAndPlay, isVersesAI));
     }
 
     #getPlayerCount() {
