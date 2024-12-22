@@ -103,6 +103,8 @@ class GameManager {
         let currentRoll = [];
         Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
         this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll);
+        console.log("Roll Score: ");
+        console.log(this.#scoreResult.rollScore);
         rollButton.disabled = true;
     }
     
@@ -185,27 +187,30 @@ class Die {
         }
         this.#gameManager.keepingContainsScoringCombination();
 
-        // check if all dice have been kept
+        // calculate keeping score
+
+        // check if all dice have been kept - roll button should become unavailable
     }
 }
 
 class ScoreChecker {
 
+    #combinations;
+
     CheckScore(currentRoll){
 
-        const combinations = this.CheckCombinations(currentRoll);
-        const scoring = this.#CreateScoringArray(combinations, currentRoll);
+        this.#combinations = this.CheckCombinations(currentRoll);
+        const scoring = this.#CreateScoringArray(this.#combinations, currentRoll);
+        const rollScore = this.#CalculateScoreFromCombinations(currentRoll);
 
-        this.#CalculateScore(combinations, currentRoll);
-
-        return { scoring: scoring, combinations: combinations }
+        return { scoring: scoring, combinations: this.#combinations, rollScore: rollScore }
     }
 
     CheckCombinations(diceArray){
 
         const counts = this.#CountValues(diceArray);
 
-        const ThreePairs = function(countsArray){ // switch to use dice array?
+        const ThreePairs = function(countsArray){
             let pairsCount = 0
             Object.values(countsArray).forEach(function(count){
                 if (count === 2) pairsCount ++;
@@ -215,16 +220,37 @@ class ScoreChecker {
         }
 
         const combinations = {
-            sixOfAKind: Object.values(counts).every(value => value === 1),
-            oneOfEach: Object.values(counts).every(value => value === diceArray[0]),
-            threePairs: ThreePairs(counts),
-            threeMs: diceArray.filter(value => value === dieFaces.m).length >= 3,
-            threeDs: diceArray.filter(value => value === dieFaces.d).length >= 3,
-            threeCs: diceArray.filter(value => value === dieFaces.c).length >= 3,
-            threeLs: diceArray.filter(value => value === dieFaces.l).length >= 3,
-            xsOrVs: diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x),
+            'sixOfAKind': Object.values(counts).every(value => value === 1),
+            'oneOfEach': Object.values(counts).every(value => value === diceArray[0]),
+            'threePairs': ThreePairs(counts),
+            'threeMs': diceArray.filter(value => value === dieFaces.m).length >= 3,
+            'threeDs': diceArray.filter(value => value === dieFaces.d).length >= 3,
+            'threeCs': diceArray.filter(value => value === dieFaces.c).length >= 3,
+            'threeLs': diceArray.filter(value => value === dieFaces.l).length >= 3,
+            'xsOrVs': diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x)
         }
         return combinations;
+    }
+
+    CalculateScoreIncompleteArray(diceArray){ // too much repitition - create a three of a kind method
+
+        let score = 0;
+
+        if (diceArray.filter(value => value === dieFaces.m).length >= 3){
+            score = 1000;
+        }
+        if (diceArray.filter(value => value === dieFaces.d).length >= 3){
+            score += 500;
+        }
+        if (diceArray.filter(value => value === dieFaces.c).length >= 3){
+            score += 100;
+        }
+        if (diceArray.filter(value => value === dieFaces.l).length >= 3){
+            score += 50;
+        }
+        score += diceArray.filter(value => value === dieFaces.x).length * 10;
+        score += diceArray.filter(value => value === dieFaces.v).length * 5;
+        return score;
     }
 
     #CreateScoringArray(combinations, currentRoll){
@@ -249,12 +275,41 @@ class ScoreChecker {
         return scoring.flat();
     }
 
-    #CalculateScore(combinations, currentRoll){
+    #CalculateScoreFromCombinations(diceArray){
 
-        // for (const [key, value] in Object.entries(combinations)){
-        //     console.log(key);
-        // }
+        let rollScore = 0;
 
+        if (diceArray.length = 6){
+            if (this.#combinations.sixOfAKind){
+                rollScore = 5000;
+                return rollScore;
+            }
+            if (this.#combinations.oneOfEach){
+                rollScore = 2000;
+                return rollScore;
+            }
+            if (this.#combinations.threePairs){
+                rollScore = 1000;
+                return rollScore;
+            }
+        }
+
+        if (this.#combinations.threeMs){
+            rollScore = 1000;
+        }
+        if (this.#combinations.threeDs){
+            rollScore += 500;
+        }
+        if (this.#combinations.threeCs){
+            rollScore += 100;   
+        }
+        if (this.#combinations.threeLs){
+            rollScore += 50;
+        }
+        if (this.#combinations.xsOrVs){
+            rollScore += diceArray.filter(value => value === dieFaces.x).length * 10 + diceArray.filter(value => value === dieFaces.v).length * 5;
+        }
+        return rollScore;
     }
 
     #CountValues(diceArray){
