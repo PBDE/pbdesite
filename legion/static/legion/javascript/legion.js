@@ -210,18 +210,17 @@ class ScoreChecker {
 
         const counts = this.#CountValues(diceArray);
 
-        const ThreePairs = function(countsArray){
+        const ThreePairs = function(counts){
             let pairsCount = 0
-            Object.values(countsArray).forEach(function(count){
-                if (count === 2) pairsCount ++;
-                if (count === 4) pairsCount += 2;
-            })
+            Object.values(counts).forEach(function(count){
+                pairsCount += Math.trunc(count/2);
+            });
             return pairsCount === 3;
         }
 
         const combinations = {
-            'sixOfAKind': Object.values(counts).every(value => value === 1),
-            'oneOfEach': Object.values(counts).every(value => value === diceArray[0]),
+            'sixOfAKind': diceArray.every(value => value === diceArray[0]),
+            'oneOfEach': Object.values(counts).every(value => value === 1),
             'threePairs': ThreePairs(counts),
             'threeMs': diceArray.filter(value => value === dieFaces.m).length >= 3,
             'threeDs': diceArray.filter(value => value === dieFaces.d).length >= 3,
