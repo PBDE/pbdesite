@@ -28,6 +28,7 @@ class GameManager {
     #scoreChecker;
     #scoreResult;
     #rollScore = 0;
+    #scoringDiceAvailable = [];
 
     constructor(playerCount, versesAI){
 
@@ -56,38 +57,15 @@ class GameManager {
         endButton.addEventListener('click', this.#EndTurn.bind(this));
         endButton.disabled = true;
     }
-    
-    getScoringDiceAvailable(){
 
-        const alreadyKept = [...this.#GetKeptDice(), ...this.#GetKeepingDice()];
-        const availableToKeep = [...this.#scoreResult.scoring];
-
-        // remove the dice that have already been kept from availableToKeep
-        alreadyKept.forEach(function(value){
-            const index = availableToKeep.indexOf(value);
-            if (index > -1){ availableToKeep.splice(index, 1); }
-        });
-        if(availableToKeep.length === 0){
-            console.log("No score. Roll over");
-        }
-        return availableToKeep;
-    }
-
-    keepingContainsScoringCombination(){
+    KeepingContainsScoringCombination(){
 
         // must also check that keeping contains only full scoring combinations
         // currently if three pairs are rolled a roll is allowed if one of the kept die is an x or v even if a single c is kept, rather than both c's that
+        // roll is also allowed if three of a kind and an x are rolled and the x is kept then one of the three of a kinds is kept
 
-        const keeping = this.#GetKeepingDice();
-
-        console.log("Keeping:");
-        console.log(keeping);
-        
+        const keeping = this.#KeepingDice();
         const keepingCombinations = this.#scoreChecker.CheckCombinations(keeping);
-
-        console.log("Keeping combinations:");
-        console.log(keepingCombinations);
-
         if(Object.values(keepingCombinations).includes(true)){
             rollButton.disabled = false; 
         }
@@ -96,14 +74,24 @@ class GameManager {
         }
     }
 
+    GetScoringDiceAvailable(){
+        return this.#scoringDiceAvailable;
+    }
+
     #Roll(){
         rollButton.disabled = true;
         let currentRoll = [];
         Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
         this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll);
         this.#rollScore = this.#scoreResult.rollScore;
-        rollScoreText.textContent = this.#rollScore;
+        this.#scoringDiceAvailable = this.#ScoringDiceAvailable();
         endButton.disabled = false;
+        rollScoreText.textContent = this.#rollScore;
+        
+        if (this.#scoringDiceAvailable.length === 0){
+            console.log("No score. Roll over");
+            this.#UpdateRollScore(0);
+        }
     }
     
     #EndTurn(){
@@ -114,7 +102,19 @@ class GameManager {
         endButton.disabled = true;
     }
 
-    #GetKeptDice(){
+    #ScoringDiceAvailable(){
+        const alreadyKept = [...this.#KeptDice(), ...this.#KeepingDice()];
+        const availableToKeep = [...this.#scoreResult.scoring];
+
+        // remove the dice that have already been kept from availableToKeep
+        alreadyKept.forEach(function(value){
+            const index = availableToKeep.indexOf(value);
+            if (index > -1){ availableToKeep.splice(index, 1); }
+        });
+        return availableToKeep;
+    }
+
+    #KeptDice(){
         let kept = [];
         Object.values(this.#dieInstances).forEach(function(die){
             if (die.kept){ kept.push(die.value); }
@@ -122,7 +122,7 @@ class GameManager {
         return kept;
     }
 
-    #GetKeepingDice(){
+    #KeepingDice(){
         let keeping = [];
         Object.values(this.#dieInstances).forEach(function(die){
             if (die.keeping){ keeping.push(die.value); }
@@ -140,8 +140,8 @@ class GameManager {
     }
 
     #UpdateRollScore(score){
-        this.rollScore = score;
-        rollScoreText.textContent = this.rollScore;
+        this.#rollScore = score;
+        rollScoreText.textContent = this.#rollScore;
     }
 }
 
@@ -210,14 +210,14 @@ class Die {
         if(this.kept){
             console.log(`${this.#dieElementID} already kept`);
         }
-        else if(this.keeping || this.#gameManager.getScoringDiceAvailable().includes(this.value)) {
+        else if(this.keeping || this.#gameManager.GetScoringDiceAvailable().includes(this.value)) {
             this.keeping = !this.keeping;
             this.#element.style.backgroundColor = this.keeping ? 'red' : 'purple';
         }
         else {
             console.log(`${this.#dieElementID} can't be kept`);
         }
-        this.#gameManager.keepingContainsScoringCombination();
+        this.#gameManager.KeepingContainsScoringCombination();
 
         // calculate keeping score
 
@@ -364,29 +364,29 @@ class App {
         const isPassAndPlay = true;
         const isVersesAI = true;
 
-        soloButton.addEventListener('click', this.#startGame.bind(this, !isPassAndPlay, !isVersesAI));
-        pandpButton.addEventListener('click', this.#startGame.bind(this, isPassAndPlay, !isVersesAI));
-        aiButton.addEventListener('click', this.#startGame.bind(this, !isPassAndPlay, isVersesAI));
+        soloButton.addEventListener('click', this.#StartGame.bind(this, !isPassAndPlay, !isVersesAI));
+        pandpButton.addEventListener('click', this.#StartGame.bind(this, isPassAndPlay, !isVersesAI));
+        aiButton.addEventListener('click', this.#StartGame.bind(this, !isPassAndPlay, isVersesAI));
     }
 
-    #getPlayerCount() {
+    #PlayerCount() {
 
         // implement get player count
         return 2;
     }
 
-    #startGame(passAndPlay, versesAI) {
+    #StartGame(passAndPlay, versesAI) {
 
         // could use a switch statement based on the id of the button clicked rather than passing the arguement in
 
         let playerCount = 1;
-        if (passAndPlay) playerCount = this.#getPlayerCount();
+        if (passAndPlay) playerCount = this.#PlayerCount();
         if (versesAI) playerCount = 2;
         this.GameManager = new GameManager(playerCount, versesAI);
-        this.#hideGameButtons();
+        this.#HideGameButtons();
     }
 
-    #hideGameButtons() {
+    #HideGameButtons() {
         document.querySelector('.turn-btns').classList.remove('hidden');
         document.querySelector('.cont-score').classList.remove('hidden');
         document.querySelector('.mode-btns').classList.add('hidden');
