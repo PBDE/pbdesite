@@ -5,8 +5,10 @@ const endButton = document.querySelector('#end-btns');
 const soloButton = document.querySelector('#solo-btn');
 const pandpButton = document.querySelector('#pandp-btn');
 const aiButton = document.querySelector('#ai-btn');
-const totalScoreDisplay = document.querySelector('#total-score');
-const currentScoreDisplay = document.querySelector('#current-score');
+const playerNumberText = document.querySelector('#player-number');
+const totalScoreText = document.querySelector('#total-score');
+const rollScoreText = document.querySelector('#roll-score');
+const keepingScoreText = document.querySelector('#keeping-score');
 const diceElements = document.querySelectorAll('.die');
 
 const dieFaces = {
@@ -22,8 +24,10 @@ class GameManager {
 
     #dieInstances = {};
     #players = [];
+    #activePlayer;
     #scoreChecker;
     #scoreResult;
+    #rollScore = 0;
 
     constructor(playerCount, versesAI){
 
@@ -31,7 +35,7 @@ class GameManager {
 
         if (!versesAI){
             for(let i = 0; i < playerCount; i++) {
-                const player = new Player(`Player ${i + 1}`);
+                const player = new Player(i + 1);
                 this.#players.push(player);
             }
         }
@@ -39,6 +43,8 @@ class GameManager {
             // create one player and add it to #players
             // create one ai player and add it to #players
         }
+        this.#activePlayer = this.#players[0];
+        playerNumberText.textContent = this.#activePlayer.GetPlayerID();
 
         for (let i = 0; i < diceElements.length; i ++) {
             const die_id = `die-${i + 1}`;
@@ -47,12 +53,13 @@ class GameManager {
         }
 
         rollButton.addEventListener('click', this.#Roll.bind(this));
-        endButton.addEventListener('click', this.#EndTurn);
+        endButton.addEventListener('click', this.#EndTurn.bind(this));
+        endButton.disabled = true;
     }
     
     getScoringDiceAvailable(){
 
-        const alreadyKept = [...this.#getKeptDice(), ...this.#getKeepingDice()];
+        const alreadyKept = [...this.#GetKeptDice(), ...this.#GetKeepingDice()];
         const availableToKeep = [...this.#scoreResult.scoring];
 
         // remove the dice that have already been kept from availableToKeep
@@ -60,19 +67,9 @@ class GameManager {
             const index = availableToKeep.indexOf(value);
             if (index > -1){ availableToKeep.splice(index, 1); }
         });
-
-        // console.clear()
-        // console.log("Scoring");
-        // console.log(this.#scoreResult.scoring);
-        // console.log("Already kept");
-        // console.log(alreadyKept);
-        // console.log("Available to keep");
-        // console.log((availableToKeep));
-
         if(availableToKeep.length === 0){
             console.log("No score. Roll over");
         }
-        
         return availableToKeep;
     }
 
@@ -81,7 +78,7 @@ class GameManager {
         // must also check that keeping contains only full scoring combinations
         // currently if three pairs are rolled a roll is allowed if one of the kept die is an x or v even if a single c is kept, rather than both c's that
 
-        const keeping = this.#getKeepingDice();
+        const keeping = this.#GetKeepingDice();
 
         console.log("Keeping:");
         console.log(keeping);
@@ -100,22 +97,24 @@ class GameManager {
     }
 
     #Roll(){
+        rollButton.disabled = true;
         let currentRoll = [];
         Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
         this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll);
-        console.log("Roll Score: ");
-        console.log(this.#scoreResult.rollScore);
-        rollButton.disabled = true;
+        this.#rollScore = this.#scoreResult.rollScore;
+        rollScoreText.textContent = this.#rollScore;
+        endButton.disabled = false;
     }
     
     #EndTurn(){
-        console.log("End Turn");
-
-        // add the score to the player's score
-        // move to the next player
+        this.#NextPlayer();
+        this.#UpdateRollScore(0);
+        Object.values(this.#dieInstances).forEach(die => die.Reset());
+        rollButton.disabled = false;
+        endButton.disabled = true;
     }
 
-    #getKeptDice(){
+    #GetKeptDice(){
         let kept = [];
         Object.values(this.#dieInstances).forEach(function(die){
             if (die.kept){ kept.push(die.value); }
@@ -123,21 +122,48 @@ class GameManager {
         return kept;
     }
 
-    #getKeepingDice(){
+    #GetKeepingDice(){
         let keeping = [];
         Object.values(this.#dieInstances).forEach(function(die){
             if (die.keeping){ keeping.push(die.value); }
         });
         return keeping;
     }
+
+    #NextPlayer(){
+        this.#activePlayer.SetTotalScore(this.#rollScore);
+        let playerindex = this.#activePlayer.GetPlayerID();
+        if (playerindex >= this.#players.length){ playerindex = 0; }
+        this.#activePlayer = this.#players[playerindex];
+        playerNumberText.textContent = this.#activePlayer.GetPlayerID()
+        totalScoreText.textContent = this.#activePlayer.GetTotalScore();
+    }
+
+    #UpdateRollScore(score){
+        this.rollScore = score;
+        rollScoreText.textContent = this.rollScore;
+    }
 }
 
 class Player {
 
-    #playerID; 
+    #playerID;
+    #totalScore = 0;
 
     constructor(playerID) {
         this.#playerID = playerID;
+    }
+
+    GetPlayerID(){
+        return this.#playerID;
+    }
+
+    GetTotalScore(){
+        return this.#totalScore;
+    }
+
+    SetTotalScore(score){
+        this.#totalScore += score;
     }
 }
 
@@ -169,6 +195,12 @@ class Die {
             this.#element.style.backgroundColor = 'blue';
         }
         return this.value;
+    }
+
+    Reset(){
+        this.kept = false;
+        this.keeping = false;
+        this.#element.style.backgroundColor = 'purple';
     }
 
     #DiePressed(){
@@ -219,8 +251,8 @@ class ScoreChecker {
         }
 
         const combinations = {
-            'sixOfAKind': diceArray.every(value => value === diceArray[0]),
-            'oneOfEach': Object.values(counts).every(value => value === 1),
+            'sixOfAKind': diceArray.length === 6 && diceArray.every(value => value === diceArray[0]),
+            'oneOfEach': diceArray.length === 6 && Object.values(counts).every(value => value === 1),
             'threePairs': ThreePairs(counts),
             'threeMs': diceArray.filter(value => value === dieFaces.m).length >= 3,
             'threeDs': diceArray.filter(value => value === dieFaces.d).length >= 3,
