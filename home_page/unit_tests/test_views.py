@@ -6,7 +6,7 @@ from unittest import skip
 
 
 from home_page.forms import CustomUserCreationForm, LoginForm
-from portfolio.functional_tests.base import FunctionalTest
+from home_page.functional_tests.base import FunctionalTest
 
 from home_page.views import INDEX_TEMPLATE, REGISTER_TEMPLATE, LOGIN_TEMPLATE, ACCOUNT_TEMPLATE, DELETE_ACCOUNT_TEMPLATE, CHANGE_PASSWORD_TEMPLATE, PRIVACY_STATEMENT_TEMPLATE
 
