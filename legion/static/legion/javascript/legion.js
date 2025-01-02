@@ -1,7 +1,7 @@
 'use-strict';
 
 const rollButton = document.querySelector('#roll-btn');
-const endButton = document.querySelector('#end-btns');
+const endButton = document.querySelector('#end-btn');
 const soloButton = document.querySelector('#solo-btn');
 const pandpButton = document.querySelector('#pandp-btn');
 const aiButton = document.querySelector('#ai-btn');
@@ -10,6 +10,7 @@ const totalScoreText = document.querySelector('#total-score');
 const rollScoreText = document.querySelector('#roll-score');
 const keepingScoreText = document.querySelector('#keeping-score');
 const diceElements = document.querySelectorAll('.die');
+const rollMessage = document.querySelector('.roll-message');
 
 const dieFaces = {
     v: 'v',
@@ -89,8 +90,12 @@ class GameManager {
         rollScoreText.textContent = this.#rollScore;
         
         if (this.#scoringDiceAvailable.length === 0){
-            console.log("No score. Roll over");
+            rollMessage.textContent = "No score. Turn Over";
             this.#UpdateRollScore(0);
+        }
+        else {
+            console.log(this.#scoreResult.rollMessage);
+            rollMessage.textContent = this.#scoreResult.rollMessage;
         }
     }
     
@@ -234,8 +239,9 @@ class ScoreChecker {
         this.#combinations = this.CheckCombinations(currentRoll);
         const scoring = this.#CreateScoringArray(this.#combinations, currentRoll);
         const rollScore = this.#CalculateScoreFromCombinations(currentRoll);
+        const rollMessage = this.#CreateScoreMessage(this.#combinations, currentRoll);
 
-        return { scoring: scoring, combinations: this.#combinations, rollScore: rollScore }
+        return { scoring: scoring, combinations: this.#combinations, rollScore: rollScore, rollMessage: rollMessage }
     }
 
     CheckCombinations(diceArray){
@@ -304,6 +310,31 @@ class ScoreChecker {
             }
         }
         return scoring.flat();
+    }
+
+    #CreateScoreMessage(combinations, currentRoll){
+
+        let message = "";
+
+        if(combinations.oneOfEach){ message += "One of each. "; }
+        if(combinations.sixOfAKind){ message += "Six of a kind. "; }
+        if(combinations.threePairs){ message += "Three pairs. "; }
+        if(combinations.threeMs){ message += "Three M's. "; }
+        if(combinations.threeDs){ message += "Three D's. "; }
+        if(combinations.threeCs){ message += "Three C's. "; }
+        if(combinations.threeLs){ message += "Three L's. "; }
+        if(combinations.xsOrVs){
+            const counts = this.#CountValues(currentRoll);
+            if(counts.x > 0){
+                const xMessage = counts.x === 1 ? "1 X. " : `${counts.x} X's. `;
+                message += xMessage;
+            }
+            if(counts.v > 0){
+                const vMessage = counts.v === 1 ? "1 V. " : `${counts.v} V's. `;
+                message += vMessage;
+            }
+        }
+        return message;
     }
 
     #CalculateScoreFromCombinations(diceArray){
