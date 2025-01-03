@@ -1,13 +1,27 @@
-import { expect, test } from 'vitest'
-
-// test die roll
+import { expect, test, describe, it } from 'vitest'
+import { ScoreChecker } from '../static/legion/javascript/legion.js'
 
 // test game manager roll
 
-// test set player
+describe('CheckCombinations', () => {
 
-// test dice pressed
+    test('six of a kind should be true', () => {
 
-// test end turn
+        const diceArray = ['m', 'm', 'm', 'm', 'm', 'm'];
 
-// test check score
+        const combinations = ScoreChecker.CheckCombinations(diceArray);
+
+        expect(combinations.sixOfAKind).toBe(true);
+
+    });
+
+});
+
+describe('CalculateScoreIncompleteArray', () => {
+
+});
+
+describe('CreateScoringArray', () => {
+
+});
+

@@ -78,6 +78,14 @@ class LegionTest(FunctionalTest):
     @skip
     def test_user_can_keep_dice(self):
 
+        self.browser.get(self.live_server_url + "/legion")
+
+        # press the solo button
+        self.browser.find_element(By.ID, ID_SOLO_BTN).click()
+
+        # click roll button
+        self.browser.find_element(By.ID, ID_ROLL_BTN).click()
+
         self.fail("Implement")
 
     def test_user_can_end_turn(self):

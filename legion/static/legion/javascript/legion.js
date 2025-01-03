@@ -82,10 +82,12 @@ class GameManager {
     #Roll(){
         rollButton.disabled = true;
         let currentRoll = [];
+
         Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
         this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll);
         this.#rollScore = this.#scoreResult.rollScore;
         this.#scoringDiceAvailable = this.#ScoringDiceAvailable();
+
         endButton.disabled = false;
         rollScoreText.textContent = this.#rollScore;
         
@@ -264,6 +266,7 @@ class ScoreChecker {
             'threeDs': diceArray.filter(value => value === dieFaces.d).length >= 3,
             'threeCs': diceArray.filter(value => value === dieFaces.c).length >= 3,
             'threeLs': diceArray.filter(value => value === dieFaces.l).length >= 3,
+            'fourVs': diceArray.filter(value => value === dieFaces.v).length >= 4,
             'xsOrVs': diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x)
         }
         return combinations;
@@ -295,6 +298,9 @@ class ScoreChecker {
         const counts = this.#CountValues(currentRoll);
 
         let scoring = []
+
+        if(combinations.fourVs) { return scoring; }
+
         if(combinations.oneOfEach || combinations.sixOfAKind || combinations.threePairs){
             return currentRoll;
         }
@@ -315,6 +321,11 @@ class ScoreChecker {
     #CreateScoreMessage(combinations, currentRoll){
 
         let message = "";
+
+        if (combinations.fourVs) { 
+            message = "Four V's";
+            return message;
+        }
 
         if(combinations.oneOfEach){ message += "One of each. "; }
         if(combinations.sixOfAKind){ message += "Six of a kind. "; }
@@ -340,6 +351,8 @@ class ScoreChecker {
     #CalculateScoreFromCombinations(diceArray){
 
         let rollScore = 0;
+
+        if(this.#combinations.fourVs) { return rollScore; }
 
         if (diceArray.length = 6){
             if (this.#combinations.sixOfAKind){
@@ -417,7 +430,7 @@ class App {
         this.#HideGameButtons();
     }
 
-    #HideGameButtons() {
+    #HideGameButtons() { // replace with a loop
         document.querySelector('.turn-btns').classList.remove('hidden');
         document.querySelector('.cont-score').classList.remove('hidden');
         document.querySelector('.mode-btns').classList.add('hidden');
