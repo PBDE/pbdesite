@@ -92,8 +92,12 @@ class GameManager {
         rollScoreText.textContent = this.#rollScore;
         
         if (this.#scoringDiceAvailable.length === 0){
-            rollMessage.textContent = "No score. Turn Over";
+
+            const message = this.#scoreResult.combinations.fourVs ? this.#scoreResult.rollMessage : "No score. Turn Over";
+
+            rollMessage.textContent = message;
             this.#UpdateRollScore(0);
+            
         }
         else {
             console.log(this.#scoreResult.rollMessage);
