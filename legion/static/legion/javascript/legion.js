@@ -186,6 +186,7 @@ class Die {
 
     kept = false;
     keeping = false;
+    locked = false;
     value;
     #dieElementID;
     #element;
@@ -200,6 +201,9 @@ class Die {
     }
 
     Roll(){
+
+        if(this.locked){ this.locked = false; }
+
         if (!this.keeping && !this.kept) {
             this.value = this.#faces[Math.floor(Math.random() * this.#faces.length)];
             this.#element.textContent = this.value;
@@ -213,6 +217,7 @@ class Die {
     }
 
     Reset(){
+        this.locked = true;
         this.kept = false;
         this.keeping = false;
         this.#element.style.backgroundColor = 'purple';
@@ -220,7 +225,7 @@ class Die {
 
     #DiePressed(){
 
-        console.clear();
+        if(this.locked === true){ return; }
 
         if(this.kept){
             console.log(`${this.#dieElementID} already kept`);
