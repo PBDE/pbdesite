@@ -91,17 +91,17 @@ class GameManager {
         endButton.disabled = false;
         rollScoreText.textContent = this.#rollScore;
         
-        if (this.#scoringDiceAvailable.length === 0){
-
+        if(this.#scoringDiceAvailable.length === 0){
             const message = this.#scoreResult.combinations.fourVs ? this.#scoreResult.rollMessage : "No score. Turn Over";
-
             rollMessage.textContent = message;
             this.#UpdateRollScore(0);
-            
         }
-        else {
-            console.log(this.#scoreResult.rollMessage);
+        else{
             rollMessage.textContent = this.#scoreResult.rollMessage;
+        }
+        if(this.#scoreResult.combinations.fourVs){
+            this.#activePlayer.SetTotalToZero();
+            totalScoreText.textContent = this.#activePlayer.GetTotalScore();
         }
     }
     
@@ -171,6 +171,10 @@ class Player {
 
     GetTotalScore(){
         return this.#totalScore;
+    }
+
+    SetTotalToZero(){
+        this.#totalScore = 0;
     }
 
     SetTotalScore(score){
