@@ -157,3 +157,6 @@ cython_debug/
 
 #docker
 docker-compose-prod.yml
+
+#webpack
+node_modules/

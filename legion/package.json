@@ -1,0 +1,17 @@
+{
+  "name": "legion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "legion.js",
+  "scripts": {
+    "test": "vitest",
+    "dev": "webpack --mode development --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  }
+}
