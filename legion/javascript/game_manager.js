@@ -2,6 +2,7 @@
 import { ScoreChecker } from "./score_checker.js";
 import { Player } from "./player.js";
 import { Die } from "./die.js";
+import { dieFaces } from "./support.js";
 
 const rollButton = document.querySelector('#roll-btn');
 const endButton = document.querySelector('#end-btn');
@@ -52,13 +53,31 @@ class GameManager {
 
     KeepingContainsScoringCombination(){
 
-        // must also check that keeping contains only full scoring combinations
-        // currently if three pairs are rolled a roll is allowed if one of the kept die is an x or v even if a single c is kept, rather than both c's that
-        // roll is also allowed if three of a kind and an x are rolled and the x is kept then one of the three of a kinds is kept
-
         const keeping = this.#KeepingDice();
         const keepingCombinations = this.#scoreChecker.CheckCombinations(keeping);
-        if(Object.values(keepingCombinations).includes(true)){
+
+        const CheckThreeMsDsCsLs = function(keeping, scoreChecker){
+            
+            let threekept = true;
+
+            if (keeping.includes(dieFaces.m)){
+                if (!scoreChecker.ThreeMs(keeping)) { threekept = false; }
+            }
+            if (keeping.includes(dieFaces.d)){
+                if (!scoreChecker.ThreeDs(keeping)) { threekept = false; }
+            }
+            if (keeping.includes(dieFaces.c)){
+                if (!scoreChecker.ThreeCs(keeping)) { threekept = false; }
+            }
+            if (keeping.includes(dieFaces.l)){
+                if (!scoreChecker.ThreeLs(keeping)) { threekept = false; }
+            }
+            return threekept;
+        }
+
+        console.log("Check three of a kinds: " + CheckThreeMsDsCsLs(keeping, this.#scoreChecker));
+
+        if(Object.values(keepingCombinations).includes(true) && CheckThreeMsDsCsLs(keeping, this.#scoreChecker)){
             rollButton.disabled = false; 
         }
         else {

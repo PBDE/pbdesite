@@ -26,8 +26,6 @@ class App {
 
     #StartGame(passAndPlay, versesAI) {
 
-        // could use a switch statement based on the id of the button clicked rather than passing the arguement in
-
         let playerCount = 1;
         if (passAndPlay) playerCount = this.#PlayerCount();
         if (versesAI) playerCount = 2;
@@ -35,7 +33,7 @@ class App {
         this.#HideGameButtons();
     }
 
-    #HideGameButtons() { // replace with a loop
+    #HideGameButtons() {
         document.querySelector('.turn-btns').classList.remove('hidden');
         document.querySelector('.cont-score').classList.remove('hidden');
         document.querySelector('.mode-btns').classList.add('hidden');

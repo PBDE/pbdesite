@@ -30,10 +30,10 @@ class ScoreChecker {
             'sixOfAKind': diceArray.length === 6 && diceArray.every(value => value === diceArray[0]),
             'oneOfEach': diceArray.length === 6 && Object.values(counts).every(value => value === 1),
             'threePairs': ThreePairs(counts),
-            'threeMs': diceArray.filter(value => value === dieFaces.m).length >= 3,
-            'threeDs': diceArray.filter(value => value === dieFaces.d).length >= 3,
-            'threeCs': diceArray.filter(value => value === dieFaces.c).length >= 3,
-            'threeLs': diceArray.filter(value => value === dieFaces.l).length >= 3,
+            'threeMs': this.ThreeMs(diceArray),
+            'threeDs': this.ThreeDs(diceArray),
+            'threeCs': this.ThreeCs(diceArray),
+            'threeLs': this.ThreeLs(diceArray),
             'fourVs': diceArray.filter(value => value === dieFaces.v).length >= 4,
             'xsOrVs': diceArray.includes(dieFaces.v) || diceArray.includes(dieFaces.x)
         }
@@ -44,18 +44,10 @@ class ScoreChecker {
 
         let score = 0;
 
-        if (diceArray.filter(value => value === dieFaces.m).length >= 3){
-            score = 1000;
-        }
-        if (diceArray.filter(value => value === dieFaces.d).length >= 3){
-            score += 500;
-        }
-        if (diceArray.filter(value => value === dieFaces.c).length >= 3){
-            score += 100;
-        }
-        if (diceArray.filter(value => value === dieFaces.l).length >= 3){
-            score += 50;
-        }
+        if (this.ThreeMs(diceArray)){ score = 1000; }
+        if (this.ThreeDs(diceArray)){ score += 500; }
+        if (this.ThreeCs(diceArray)){ score += 100; }
+        if (this.ThreeLs(diceArray)){ score += 50; }
         score += diceArray.filter(value => value === dieFaces.x).length * 10;
         score += diceArray.filter(value => value === dieFaces.v).length * 5;
         return score;
@@ -166,6 +158,22 @@ class ScoreChecker {
         };
         diceArray.forEach(value => counts[value]++) // what happens if the input array contains entries that are not in the counts object?
         return counts;
+    }
+
+    ThreeMs(diceArray){
+        return diceArray.filter(value => value === dieFaces.m).length >= 3
+    }
+
+    ThreeDs(diceArray){
+        return diceArray.filter(value => value === dieFaces.d).length >= 3
+    }
+
+    ThreeCs(diceArray){
+        return diceArray.filter(value => value === dieFaces.c).length >= 3
+    }
+
+    ThreeLs(diceArray){
+        return diceArray.filter(value => value === dieFaces.l).length >= 3
     }
 }
 
