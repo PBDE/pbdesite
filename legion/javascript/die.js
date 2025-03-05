@@ -57,8 +57,7 @@ class Die {
             console.log(`${this.#dieElementID} can't be kept`);
         }
         this.#gameManager.KeepingContainsScoringCombination();
-
-        // calculate keeping score
+        this.#gameManager.UpdateKeepingScore();
 
         // check if all dice have been kept - roll button should become unavailable
     }

@@ -9,7 +9,7 @@ const endButton = document.querySelector('#end-btn');
 const playerNumberText = document.querySelector('#player-number');
 const totalScoreText = document.querySelector('#total-score');
 const rollScoreText = document.querySelector('#roll-score');
-// const keepingScoreText = document.querySelector('#keeping-score');
+const keepingScoreText = document.querySelector('#keeping-score');
 const diceElements = document.querySelectorAll('.die');
 const rollMessage = document.querySelector('.roll-message');
 
@@ -57,9 +57,7 @@ class GameManager {
         const keepingCombinations = this.#scoreChecker.CheckCombinations(keeping);
 
         const CheckThreeMsDsCsLs = function(keeping, scoreChecker){
-            
             let threekept = true;
-
             if (keeping.includes(dieFaces.m)){
                 if (!scoreChecker.ThreeMs(keeping)) { threekept = false; }
             }
@@ -74,15 +72,20 @@ class GameManager {
             }
             return threekept;
         }
-
-        console.log("Check three of a kinds: " + CheckThreeMsDsCsLs(keeping, this.#scoreChecker));
-
         if(Object.values(keepingCombinations).includes(true) && CheckThreeMsDsCsLs(keeping, this.#scoreChecker)){
             rollButton.disabled = false; 
         }
         else {
             rollButton.disabled = true;
         }
+    }
+
+    UpdateKeepingScore(){
+
+        const keepingOrKept = [...this.#KeepingDice(), ...this.#KeptDice()];
+        console.log(keepingOrKept);
+        const keepingScore = this.#scoreChecker.CalculateScoreIncompleteArray(keepingOrKept);
+        keepingScoreText.textContent = keepingScore;
     }
 
     GetScoringDiceAvailable(){
@@ -104,6 +107,7 @@ class GameManager {
         if(this.#scoringDiceAvailable.length === 0){
             const message = this.#scoreResult.combinations.fourVs ? this.#scoreResult.rollMessage : "No score. Turn Over";
             rollMessage.textContent = message;
+            keepingScoreText.textContent = 0;
             this.#UpdateRollScore(0);
         }
         else{
@@ -121,6 +125,7 @@ class GameManager {
         Object.values(this.#dieInstances).forEach(die => die.Reset());
         rollButton.disabled = false;
         endButton.disabled = true;
+        keepingScoreText.textContent = 0;
     }
 
     #ScoringDiceAvailable(){

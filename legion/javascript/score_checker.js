@@ -156,7 +156,7 @@ class ScoreChecker {
             'd': 0,
             'm': 0
         };
-        diceArray.forEach(value => counts[value]++) // what happens if the input array contains entries that are not in the counts object?
+        diceArray.forEach(value => counts[value]++)
         return counts;
     }
 
