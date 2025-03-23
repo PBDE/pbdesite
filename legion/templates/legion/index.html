@@ -11,28 +11,27 @@
 </head>
 <body>
     <menu class="nav-menu-bar">
-        <div>
-            <a class="home-link nav-link" href="{% url 'home_page:index' %}">PBDE</a>
-         </div>
+        <a class="home-link nav-link" href="{% url 'home_page:index' %}">PBDE</a>
+        <a class="nav-link" id="rules-btn">Rules</a>
     </menu>
     <section class="section-main">
         <div class="container cont-main">
             <h1 class="header-main">Legion</h1>
-            <div class="container cont-score hidden">
-                <div class="player-number">
-                    <h3>Player</h3>
+            <div class="container cont-score invisible">
+                <!-- <div class="player-number score-box">
+                    <h3 class="score-box-text">Player</h3>
                     <p id="player-number">x</p>
-                </div>
+                </div> -->
                 <div class="score-box">
-                    <h3>Total Score</h3>
+                    <h3 class="score-box-text">Total Score</h3>
                     <p id="total-score">0</p>
                 </div>
                 <div class="score-box">
-                    <h3>Roll Score</h3>
+                    <h3 class="score-box-text">Roll Score</h3>
                     <p id="roll-score">0</p>
                 </div>
                 <div class="score-box">
-                    <h3>Keeping Score</h3>
+                    <h3 class="score-box-text">Keeping Score</h3>
                     <p id="keeping-score">0</p>
                 </div>
             </div>
@@ -44,19 +43,27 @@
                 <div class="die" id="die-5">x</div>
                 <div class="die" id="die-6">x</div>
             </div>
-            <div class="container cont-message">
-                <p class ="roll-message"></p>
+            <div class="container cont-message invisible">
+                <p class ="roll-message">x</p>
             </div>
             <div id="cont-turn-btns" class="container cont-btns turn-btns hidden">
-                <button id="roll-btn">Roll</button>
-                <button id="end-btn">End Turn</button>
+                <button class="game-btn" id="roll-btn">Roll</button>
+                <button class="game-btn" id="end-btn">End Turn</button>
             </div>
             <div id="cont-mode-btns" class="container cont-btns mode-btns">
-                <button id="solo-btn">Solo</button>
-                <!-- <button id="pandp-btn">Pass & Play</button>
-                <button id="ai-btn">Verses AI</button> -->
+                <button class="game-btn" id="solo-btn">Solo</button>
+                <!-- <button class="game-btn" id="pandp-btn">Pass & Play</button>
+                <button class="game-btn" id="ai-btn">Verses AI</button> -->
             </div>
         </div>
+        <modal class="hidden" id="rules-modal">
+            <button id="close-modal-btn">&times;</button>
+            <div>
+                <h2 class="rules-header">Rules</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </modal>
+        <div class="hidden" id="overlay"></div>
     </section>
 </body>
 </html>

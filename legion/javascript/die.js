@@ -11,12 +11,19 @@ class Die {
     #element;
     #gameManager;
     #faces = Object.values(dieFaces);
+    #baseColour;
+    #keepingColour;
+    #keptColour;
 
     constructor(dieElementID, gameManager){
         this.#dieElementID = dieElementID;
         this.#gameManager = gameManager;
         this.#element = document.getElementById(`${this.#dieElementID}`);
         this.#element.addEventListener('click', this.#DiePressed.bind(this));
+
+        this.#baseColour = getComputedStyle(document.documentElement).getPropertyValue('--dice-base-colour');
+        this.#keepingColour = getComputedStyle(document.documentElement).getPropertyValue('--dice-keeping-colour');
+        this.#keptColour = getComputedStyle(document.documentElement).getPropertyValue('--dice-kept-colour');
     }
 
     Roll(){
@@ -30,7 +37,7 @@ class Die {
         if (this.keeping){
             this.kept = true;
             this.keeping = false;
-            this.#element.style.backgroundColor = 'blue';
+            this.#element.style.backgroundColor = this.#keptColour;
         }
         return this.value;
     }
@@ -39,22 +46,16 @@ class Die {
         this.locked = true;
         this.kept = false;
         this.keeping = false;
-        this.#element.style.backgroundColor = 'purple';
+        this.#element.style.backgroundColor = this.#baseColour;
     }
 
     #DiePressed(){
 
         if(this.locked === true){ return; }
 
-        if(this.kept){
-            console.log(`${this.#dieElementID} already kept`);
-        }
-        else if(this.keeping || this.#gameManager.GetScoringDiceAvailable().includes(this.value)) {
+        if(this.keeping || this.#gameManager.GetScoringDiceAvailable().includes(this.value)) {
             this.keeping = !this.keeping;
-            this.#element.style.backgroundColor = this.keeping ? 'red' : 'purple';
-        }
-        else {
-            console.log(`${this.#dieElementID} can't be kept`);
+            this.#element.style.backgroundColor = this.keeping ? this.#keepingColour : this.#baseColour;
         }
         this.#gameManager.KeepingContainsScoringCombination();
         this.#gameManager.UpdateKeepingScore();
