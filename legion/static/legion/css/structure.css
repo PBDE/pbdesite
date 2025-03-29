@@ -40,10 +40,7 @@
     :root {
         --fs-header: 7rem;
         --fs-large: 5rem;
-        /* --fs-medium: 2rem;
-        --fs-small: 1.5rem;
-        --fs-nav: 1.5rem;
-        --fs-btn: 2rem; */
+        --fs-btn: 1.5rem;
     }
 }
 
@@ -81,14 +78,17 @@ a {
 }
 
 .nav-link {
+    border: none;
     font-size: var(--fs-nav);
-    color: var(--text-colour);
+    font-family: serif;
     text-transform: uppercase;
+    background-color: var(--background-colour);
     cursor: pointer;
+    color: var(--text-colour);
 }
 
 .nav-link:hover, .nav-link:focus {
-     text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* *** MAIN *** */
@@ -156,17 +156,27 @@ a {
 
 /* *** BUTTONS *** */
 
-.cont-btns {
+.btn-cont {
     display: flex;
     justify-content: space-evenly;
+    max-width: 50rem;
     width: 70%;
 }
 
 .game-btn {
-    width: 30%;
-    padding: 0.5rem 0.2rem;
+    width: 40%;
+    padding: 1rem 0.2rem;
+    border: solid;
+    border-radius: 10px;
+    font-family: serif;
     font-size: var(--fs-btn);
+    background-color: var(--background-colour);
     cursor: pointer;
+}
+
+.game-btn:hover:enabled, .game-btn:focus {
+    background-color: var(--text-colour);
+    color: var(--background-colour);
 }
 
 /* *** MODAL *** */

@@ -12,7 +12,7 @@
 <body>
     <menu class="nav-menu-bar">
         <a class="home-link nav-link" href="{% url 'home_page:index' %}">PBDE</a>
-        <a class="nav-link" id="rules-btn">Rules</a>
+        <button class="nav-link" id="rules-btn">Rules</button>
     </menu>
     <section class="section-main">
         <div class="container cont-main">
@@ -46,14 +46,14 @@
             <div class="container cont-message invisible">
                 <p class ="roll-message">x</p>
             </div>
-            <div id="cont-turn-btns" class="container cont-btns turn-btns hidden">
+            <div id="cont-turn-btns" class="container btn-cont turn-btns hidden">
                 <button class="game-btn" id="roll-btn">Roll</button>
                 <button class="game-btn" id="end-btn">End Turn</button>
             </div>
-            <div id="cont-mode-btns" class="container cont-btns mode-btns">
+            <div id="cont-mode-btns" class="container btn-cont mode-btns">
                 <button class="game-btn" id="solo-btn">Solo</button>
-                <!-- <button class="game-btn" id="pandp-btn">Pass & Play</button>
-                <button class="game-btn" id="ai-btn">Verses AI</button> -->
+                <!-- <button class="game-btn" id="pandp-btn" tabindex="0">Pass & Play</button>
+                <button class="game-btn" id="ai-btn" tabindex="0">Verses AI</button> -->
             </div>
         </div>
         <modal class="hidden" id="rules-modal">
