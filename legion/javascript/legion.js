@@ -5,11 +5,10 @@ import { GameManager } from "./game_manager.js";
 const soloButton = document.querySelector('#solo-btn');
 // const pandpButton = document.querySelector('#pandp-btn');
 // const aiButton = document.querySelector('#ai-btn');
-const rulesModalButton = document.querySelector('#rules-btn');
-const closeModalButton = document.querySelector('#close-modal-btn');
-const rulesModal = document.querySelector('#rules-modal');
-const rulesModalOverlay = document.querySelector('#overlay');
 
+const openRulesModalButton = document.querySelector('#rules-btn');
+const closeRulesModalButton = document.querySelector('#close-modal-btn');
+const rulesModal = document.querySelector('#rules-modal');
 
 class App {
 
@@ -22,11 +21,9 @@ class App {
         // pandpButton.addEventListener('click', this.#StartGame.bind(this, isPassAndPlay, !isVersesAI));
         // aiButton.addEventListener('click', this.#StartGame.bind(this, !isPassAndPlay, isVersesAI));
 
-        rulesModalButton.addEventListener('click', this.#OpenRulesModal);
-        closeModalButton.addEventListener('click', this.#CloseRulesModal);
-        rulesModalOverlay.addEventListener('click', this.#CloseRulesModal);
-
-        document.addEventListener('keydown', this.#EscapeModal.bind(this));
+        openRulesModalButton.addEventListener('click', this.#OpenRulesModal);
+        closeRulesModalButton.addEventListener('click', this.#CloseRulesModal);
+        rulesModal.addEventListener('click', this.#CloseAfterBackDropClick.bind(this));
     }
 
     #PlayerCount() {
@@ -51,22 +48,41 @@ class App {
     }
 
     #OpenRulesModal() {
-        rulesModal.classList.remove('hidden');
-        rulesModalOverlay.classList.remove('hidden');
+        // rulesModal.classList.remove('hidden');
+        // rulesModalOverlay.classList.remove('hidden');
+        rulesModal.showModal();
+    }
+    
+    #CloseRulesModal(){
+        // rulesModal.classList.add('hidden');
+        // rulesModalOverlay.classList.add('hidden');
+        rulesModal.close();
     }
 
-    #EscapeModal(event){
-        if (event.key === 'Escape' && !rulesModal.classList.contains('hidden'))
+    #CloseAfterBackDropClick(event){
+        let rect = event.target.getBoundingClientRect();
+      
+        // console.log(
+        //             `
+        //             ClientX: ${event.clientX}
+        //             rect.left: ${rect.left}
+        //             rect.right: ${rect.right}
+  
+        //             ClientY: ${event.clientY}
+        //             rect.top: ${rect.left}
+        //             rect.bottom: ${rect.bottom}
+        //             `
+        //            );
+
+          if (
+            rect.left > event.clientX || 
+            rect.right < event.clientX ||
+            rect.top > event.clientY ||
+            rect.bottom < event.clientY)
             {
-                this.#CloseRulesModal(); 
+                this.#CloseRulesModal();
             }
     }
-
-    #CloseRulesModal(){
-        rulesModal.classList.add('hidden');
-        rulesModalOverlay.classList.add('hidden');
-    }
-
 }
 
 const app = new App();
