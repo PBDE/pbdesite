@@ -34,10 +34,10 @@ class GameManager {
                 this.#players.push(player);
             }
         }
-        else {
-            // create one player and add it to #players
-            // create one ai player and add it to #players
-        }
+        // else {
+        //     create one player and add it to #players
+        //     create one ai player and add it to #players
+        // }
         this.#activePlayer = this.#players[0];
         // playerNumberText.textContent = this.#activePlayer.GetPlayerID();
 
@@ -82,10 +82,14 @@ class GameManager {
     }
 
     UpdateKeepingScore(){
-
-        const keepingOrKept = [...this.#KeepingDice(), ...this.#KeptDice()];
-        const keepingScore = this.#scoreChecker.CalculateScoreIncompleteArray(keepingOrKept);
-        keepingScoreText.textContent = keepingScore;
+        if(this.#KeepingDice().length === 0) {
+            keepingScoreText.textContent = this.#rollScore;
+        }
+        else{
+            const keepingOrKept = [...this.#KeepingDice(), ...this.#KeptDice()];
+            const keepingScore = this.#scoreChecker.CalculateScoreIncompleteArray(keepingOrKept);
+            keepingScoreText.textContent = keepingScore;
+        }
     }
 
     GetScoringDiceAvailable(){
@@ -101,7 +105,6 @@ class GameManager {
             this.#messageHidden = false;
         }
 
-
         Object.values(this.#dieInstances).forEach(die => currentRoll.push(die.Roll()));
         this.#scoreResult = this.#scoreChecker.CheckScore(currentRoll);
         this.#rollScore = this.#scoreResult.rollScore;
@@ -109,12 +112,14 @@ class GameManager {
 
         endButton.disabled = false;
         rollScoreText.textContent = this.#rollScore;
+        this.UpdateKeepingScore();
         
         if(this.#scoringDiceAvailable.length === 0){
             const message = this.#scoreResult.combinations.fourVs ? this.#scoreResult.rollMessage : "No score. Turn Over";
             rollMessage.textContent = message;
             keepingScoreText.textContent = 0;
             this.#UpdateRollScore(0);
+            Object.values(this.#dieInstances).forEach(die => die.Reset());
         }
         else{
             rollMessage.textContent = this.#scoreResult.rollMessage;

@@ -58,9 +58,56 @@
         </div>
         <dialog id="rules-modal">
             <button id="close-modal-btn">&times;</button>
-            <div>
+            <div class="dialog-content">
                 <h2 class="rules-header">Rules</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>The object of the game is to score as many points as possible. You score by rolling certain combinations of dice.</p>
+                <p>Begin by rolling the dice and then selecting at least one die to keep. The dice that are not kept can be rolled again. The dice that are selected to be kept must individually contribute to the score or form a scoring combination with other kept dice. If no scoring dice are rolled, zero points are awarded and a new attempt must begin i.e. all six dice must be rolled</p>
+                <table>
+                    <caption>Some dice score, and can be kept, individually</caption>
+                    <tr>
+                        <td>V’s</td>
+                        <td>5 points per die</td>
+                    </tr>
+                    <tr>
+                        <td>X’s</td>
+                        <td>10 points per die</td>
+                    </tr>
+                </table>
+                <p>Rolling four or more V’s results in the player’s entire score being reset to zero.</p>
+                <table>
+                    <caption>Some dice only score, and can only be kept, in groups of three</caption>
+                    <tr>
+                        <td>3 L’s</td>
+                        <td>50 points per group</td>
+                    </tr>
+                    <tr>
+                        <td>3 C’s</td>
+                        <td>100 points per group</td>
+                    </tr>
+                    <tr>
+                        <td>3 D’s</td>
+                        <td>500 points per group</td>
+                    </tr>
+                    <tr>
+                        <td>3 M’s</td>
+                        <td>1000 points per group</td>
+                    </tr>
+                </table>
+                <table>
+                    <caption>Some scoring combinations require all six dice</caption>
+                    <tr>
+                        <td>Six of a kind</td>
+                        <td>5000 points</td>
+                    </tr>
+                    <tr>
+                        <td>One of each</td>
+                        <td>2000 points</td>
+                    </tr>
+                    <tr>
+                        <td>Three pairs</td>
+                        <td>1000 points</td>
+                    </tr>
+                </table>
             </div>
         </dialog>
     </section>

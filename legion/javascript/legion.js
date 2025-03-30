@@ -48,40 +48,24 @@ class App {
     }
 
     #OpenRulesModal() {
-        // rulesModal.classList.remove('hidden');
-        // rulesModalOverlay.classList.remove('hidden');
         rulesModal.showModal();
     }
     
     #CloseRulesModal(){
-        // rulesModal.classList.add('hidden');
-        // rulesModalOverlay.classList.add('hidden');
         rulesModal.close();
     }
 
     #CloseAfterBackDropClick(event){
         let rect = event.target.getBoundingClientRect();
-      
-        // console.log(
-        //             `
-        //             ClientX: ${event.clientX}
-        //             rect.left: ${rect.left}
-        //             rect.right: ${rect.right}
-  
-        //             ClientY: ${event.clientY}
-        //             rect.top: ${rect.left}
-        //             rect.bottom: ${rect.bottom}
-        //             `
-        //            );
-
-          if (
+        if (
             rect.left > event.clientX || 
             rect.right < event.clientX ||
             rect.top > event.clientY ||
-            rect.bottom < event.clientY)
-            {
-                this.#CloseRulesModal();
-            }
+            rect.bottom < event.clientY
+        )
+        {
+            this.#CloseRulesModal();
+        }
     }
 }
 

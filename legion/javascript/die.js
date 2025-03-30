@@ -5,7 +5,7 @@ class Die {
 
     kept = false;
     keeping = false;
-    locked = false;
+    locked = true;
     value;
     #dieElementID;
     #element;

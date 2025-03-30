@@ -8,6 +8,10 @@
     outline: none;
 }
 
+body {
+    font-family: serif;
+}
+
 :root {
     --background-colour: white;
     --text-colour: black;
@@ -154,6 +158,12 @@ a {
     font-size: var(--fs-large);
 }
 
+
+
+.die:hover, .die.focus {
+    border: none;
+}
+
 /* *** BUTTONS *** */
 
 .btn-cont {
@@ -221,6 +231,30 @@ body:has(dialog[open]) {
 .rules-header {
     padding-bottom: 2rem;
     font-size: var(--fs-medium);
+}
+
+.dialog-content > p {
+    padding-bottom: 2rem;
+    font-size: var(--fs-small);
+}
+
+/* *** TABLE *** */
+
+table {
+    width: 100%;
+    margin-bottom: 2rem;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+caption, td {
+    text-align: left;
+    font-size: var(--fs-small);
+}
+
+td {
+    padding-left: 2px;
+    border: solid 2px
 }
 
  /* *** VISIBILITY *** */
