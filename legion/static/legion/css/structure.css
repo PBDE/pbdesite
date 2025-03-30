@@ -16,8 +16,8 @@ body {
     --background-colour: white;
     --text-colour: black;
     --dice-base-colour: white;
-    --dice-keeping-colour: purple;
-    --dice-kept-colour: blue;
+    --dice-keeping-colour: silver;
+    --dice-kept-colour: goldenrod;
 
     --fs-header: 10rem;
     --fs-large: 8rem;
@@ -154,15 +154,17 @@ a {
     height: 8rem;
     border: solid;
     border-radius: 10px;
+    font-family: serif;
     text-transform: uppercase;
     font-size: var(--fs-large);
+    background-color: var(--background-colour);
 }
 
-
-
-.die:hover, .die.focus {
-    border: none;
+.die:hover:enabled, .die:focus {
+    border-width: 5px;
 }
+
+/* .die */
 
 /* *** BUTTONS *** */
 

@@ -29,6 +29,7 @@ class Die {
     Roll(){
 
         if(this.locked){ this.locked = false; }
+        this.#EnableDie();
 
         if (!this.keeping && !this.kept) {
             this.value = this.#faces[Math.floor(Math.random() * this.#faces.length)];
@@ -47,6 +48,15 @@ class Die {
         this.kept = false;
         this.keeping = false;
         this.#element.style.backgroundColor = this.#baseColour;
+        this.#DisableDie();
+    }
+
+    #DisableDie(){
+        this.#element.disabled = true;
+    }
+
+    #EnableDie(){
+        this.#element.disabled = false;
     }
 
     #DiePressed(){

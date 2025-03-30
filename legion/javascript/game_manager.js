@@ -82,7 +82,7 @@ class GameManager {
     }
 
     UpdateKeepingScore(){
-        if(this.#KeepingDice().length === 0) {
+        if(this.#KeepingDice().length === 0 ||  [...this.#KeepingDice(), ...this.#KeptDice()].length === 6){
             keepingScoreText.textContent = this.#rollScore;
         }
         else{
