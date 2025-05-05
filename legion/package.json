@@ -5,7 +5,8 @@
   "main": "legion.js",
   "scripts": {
     "test": "vitest",
-    "dev": "webpack --mode development --watch"
+    "dev": "webpack --mode development --watch",
+    "prod": "webpack"
   },
   "keywords": [],
   "author": "",

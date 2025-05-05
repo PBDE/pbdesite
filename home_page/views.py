@@ -19,6 +19,9 @@ def index(request):
     return render(request, INDEX_TEMPLATE)
 
 def register(request):
+
+    # return render(request, INDEX_TEMPLATE)
+
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home_page:account', 
                                             kwargs={"user": request.user.username})

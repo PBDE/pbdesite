@@ -13,6 +13,8 @@ btnNavEl.addEventListener('click', function(){
     mainBlockEl.classList.toggle('behind-nav');
 });
 
+// smooth scrolling
+
 // const allLinks = document.querySelectorAll('a:link');
 
 // allLinks.forEach(function(link) {
@@ -21,3 +23,22 @@ btnNavEl.addEventListener('click', function(){
 //         const href = link.getAttribute('href');
 //     })
 // })
+
+
+// svg line animation
+
+var paths = document.querySelectorAll("svg path"), i=0;
+
+paths.forEach(function(path, index){
+    
+    i++;
+
+    var pathLength = path.getTotalLength();
+
+    path.setAttribute("stroke-dasharray", pathLength);
+    path.setAttribute("stroke-offset", pathLength);
+
+    path.innerHTML = "<animate attributeName='stroke-dashoffset' begin='0s' dur='3s' to='0' fill='freeze' />"
+    
+    console.log(index, pathLength, path.innerHTML);
+});
