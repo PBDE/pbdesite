@@ -3,32 +3,36 @@
 {% block body %}
 
 <main>
-    <div class="cont-times">
-        <div class="box-time-pair">
-            <div class="box-time">10:00 AM</div>
-            <p class="label-time">Hours over/under (inc)</p>
-        </div>
-        <div class="box-time-pair">
-            <div class="box-time">10:00 AM</div>
-            <p class="label-time">Hours over/under (exc)</p>
-        </div>
-        <div class="box-time-pair">
-            <div class="box-time">10:00 AM</div>
-            <p class="label-time">Finish time</p>
-        </div>
-        <div class="box-time-pair">
-            <div class="box-time">10:00 AM</div>
+    <div class="cont-timers">
+        <div class="cont-time-pair">
+            <p class="time">17:00</p>
             <p class="label-time">Start time</p>
         </div>
-        <div class="box-time-pair">
-            <div class="box-time">10:00 AM</div>
+        <div class="cont-time-pair">
+            <p class="time">17:00</p>
+            <p class="label-time">Finish time</p>
+        </div>
+        <div class="cont-time-pair">
+            <p class="time">17:00</p>
+            <p class="label-time">Day length</p>
+        </div>
+        <div class="cont-time-pair">
+            <p class="time">17:00</p>
             <p class="label-time">Breaks length</p>
         </div>
-        <div class="box-time-pair">
-            <div class="box-time">10:00 AM</div>
-            <p class="label-time">Target time</p>
+        <div class="cont-time-pair">
+            <p class="time">17:00</p>
+            <p class="label-time">Hours over/under (inc)</p>
+        </div>
+        <div class="cont-time-pair">
+            <p class="time">17:00</p>
+            <p class="label-time">Hours over/under (exc)</p>
         </div>
     </div>
+    <div class="cont-buttons">
+
+    </div>
+
     <div class="cont-buttons">
         <form>
             {% csrf_token %}

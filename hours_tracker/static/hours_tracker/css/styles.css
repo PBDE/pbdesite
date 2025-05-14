@@ -1,0 +1,108 @@
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+
+    --fs-timers: 20rem;
+    --fs-labels: 1.5rem;
+    --fs-nav: 2rem;
+
+    --background-color: black;
+    --text-color: white;
+    --gradient: linear-gradient(
+        45deg,
+        rgba(155, 42, 142, 1) 0%, 
+        rgba(59, 152, 146, 1) 25%, 
+        rgba(87, 199, 133, 1) 50%, 
+        rgba(163, 210, 108, 1) 75%, 
+        rgba(83, 237, 219, 1) 100%
+    );
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+.nav-menu-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--background-color);
+}
+
+.nav-link {
+    font-size: var(--fs-nav);
+}
+
+/* *** MAIN ***  */
+
+main {
+    height: 100vh;
+    background-color: black;
+}
+
+.cont-timers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 70%;
+    padding: 5rem 0;
+    margin: auto;
+    /* background-color: tomato; */
+}
+
+.cont-time-pair {
+    /* background-color: goldenrod; */
+}
+
+.time {
+    font-size: var(--fs-timers);
+    font-family: 'seven-segment';
+    background-image: var(--gradient);
+    background-size: 300%;
+    animation: background-animation 5s infinite alternate;
+    background-clip: text;
+    color: transparent;
+}
+
+.label-time {
+    font-size: var(--fs-labels);
+    color: var(--text-color);
+}
+
+/* *** BUTTONS *** */
+
+.cont-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 70%;
+    margin: auto;
+}
+
+/* *** ANIMATIONS *** */
+
+@keyframes background-animation {
+    0% {
+        background-position: left; 
+    }
+    100% {
+        background-position: right;
+    }
+}
+
+/* *** FONTS ***  */
+
+@font-face {
+    font-family: 'seven-segment';
+    src: url('../fonts/seven_segment.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
